@@ -3,11 +3,11 @@ const express = require('express');
 require('dotenv').config()
 
 const app = express();
-const { router } = require("./routes/routes");
+const { router } = require('./routes/routes');
 
 app.use(express.static(path.resolve(__dirname, 'static')));
 
-app.use("/api", router);
+app.use('/api', router);
 
 // app.use((req, res) => {
 //   res.status(404);
