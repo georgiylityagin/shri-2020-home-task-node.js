@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const buildControllers = require("../controllers/build");
-const settingsControllers = require("../controllers/settings");
+const controllers = require('../controllers/controllers');
 
-router.get("/builds", buildControllers.getBuilds);
-router.post("/builds/:commitHash", express.json(), buildControllers.postCommitHash);
-router.get("/builds/:buildId", buildControllers.getBuildId);
-router.get("/builds/:buildId/logs", buildControllers.getLogs);
+router.get('/builds', controllers.getBuilds);
+router.post('/builds/:commitHash', express.json(), controllers.postCommitHash);
+router.get('/builds/:buildId', controllers.getBuildId);
+router.get('/builds/:buildId/logs', controllers.getLogs);
 
-router.get("/settings", settingsControllers.getSetting);
-router.post("/settings", express.json(), settingsControllers.postSetting);
+router.get('/settings', controllers.getSettings);
+router.post('/settings', express.json(), controllers.postSettings);
 
 exports.router = router;
