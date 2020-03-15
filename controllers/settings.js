@@ -1,14 +1,20 @@
 const axios = require("axios");
+const fse = require("fs-extra");
 const { Agent } = require("https");
-const httpsAgent = new Agent({
-  rejectUnauthorized: false
-})
+const Git = require("nodegit");
 
 const axiosInstance = axios.create({
   baseURL: 'https://hw.shri.yandex/api',
-  timeout: 1000,
-  headers: { 'Authorization': `Bearer ${process.env.TOKEN}` },
-  httpsAgent
+  timeout: 3000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': `Bearer ${process.env.TOKEN}`
+  },
+  httpsAgent: new Agent({
+    rejectUnauthorized: false,
+    keepAlive: true
+  })
 });
 
 
@@ -42,6 +48,12 @@ exports.postSetting = (req, res) => {
       }
     })
     .then(setConf => {
+      // Удаление старого репозитория
+      fse.remove('./tmp').then(function () {
+        // Клонирование нового репозитория
+        Git.Clone(req.body.repoName, "./tmp");
+      });
+
       return res.json({
         status: setConf.status,
         statusText: setConf.statusText,
