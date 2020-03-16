@@ -1,6 +1,13 @@
 const axios = require('axios');
 const { Agent } = require('https');
 const Git = require('../git-helper/git-helper');
+const nodeCach = require('node-cache');
+
+const logCach = new nodeCach({
+  stdTTL: 60 * 60 * 12, // 12 часов
+  checkperiod: 60 * 60,
+  maxKeys: 1000
+});
 
 const axiosInstance = axios.create({
   baseURL: 'https://hw.shri.yandex/api',
@@ -162,7 +169,29 @@ exports.getBuildId = async (req, res) => {
 exports.getLogs = async (req, res) => {
 
   try {
-    const log = await axiosInstance.get(`/build/log?buildId=${req.params.buildId}`);
+    let log;
+    if (logCach.has(req.params.buildId)) {
+      log = {};
+      log.data = logCach.get(req.params.buildId);
+
+      console.info('Получили данные из кеша');
+    } else {
+      log = await axiosInstance.get(`/build/log?buildId=${req.params.buildId}`);
+      try {
+        logCach.set(req.params.buildId, log.data);
+        console.info('Записали данные в кеш');
+      } catch (error) {
+        if (error.errorcode === 'ECACHEFULL') {
+          console.info('Кэш переполнен');
+          logCach.flushAll();
+          console.info('Очистили кэш');
+          logCach.set(req.params.buildId, log.data);
+          console.info('Записали данные в кеш');
+        } else {
+          console.error('Unknown error:', error);
+        }
+      }
+    }
 
     res.status(200).json({
       data: log.data
