@@ -8,7 +8,7 @@ const axios = require('axios');
 const { Agent } = require('https');
 const axiosInstance = axios.create({
   baseURL: 'https://hw.shri.yandex/api',
-  timeout: 3000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -52,7 +52,7 @@ const getLastCommit = async () => {
 
 const showLog = async () => {
 
-  const newCommit = [];
+  const newCommits = [];
 
   const repo = await Git.Repository.open(repoPath);
   await repo.fetchAll();
@@ -60,21 +60,21 @@ const showLog = async () => {
     process.conf.mainBranch,
     `origin/${process.conf.mainBranch}`
   );
-  console.log('dsfashf23423____________');
-  const firstCommit = await repo.getBranchCommit(process.conf.mainBranch);
+  console.log('git pull выполнен');
+  const lastCommit = await repo.getBranchCommit(process.conf.mainBranch);
+  const lastCommitHash = process.conf.lastCommitHash;
+  console.log('найден последний коммит');
 
-  const lastCommitHash = process.conf.firstCommit;
-
-  return new Promise(res => {
-    const history = firstCommit.history(Git.Revwalk.SORT.TIME);
+  return new Promise(resolve => {
+    const history = lastCommit.history(Git.Revwalk.SORT.TIME);
     history.start();
 
     history.on('commit', commit => {
       if (commit.sha() === lastCommitHash) {
+        resolve(newCommits);
         history.removeAllListeners('commit');
-        res(newCommit);
       } else {
-        newCommit.push({
+        newCommits.push({
           commitMessage: commit.message(),
           commitHash: commit.sha(),
           branchName: process.conf.mainBranch,
@@ -86,18 +86,16 @@ const showLog = async () => {
 }
 
 
-const gitEvent = async () => {
+const newCommitsObserver = async () => {
   try {
-    console.log('Вызвали gitEvent');
     const commits = await showLog();
-    console.log('showLog закончился');
     console.log(commits);
 
     if (commits.length > 0) {
       await Promise.all(
         commits.map(commit => axiosInstance.post('/build/request', commit))
       );
-      process.conf.firstCommit = commits[0].commitHash;
+      process.conf.lastCommitHash = commits[0].commitHash;
     }
   } catch (error) {
     console.log(error);
@@ -108,6 +106,6 @@ const gitEvent = async () => {
 module.exports = {
   gitClone,
   getLastCommit,
-  gitEvent,
+  newCommitsObserver,
   showLog
 }

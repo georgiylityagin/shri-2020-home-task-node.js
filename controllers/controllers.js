@@ -4,7 +4,7 @@ const Git = require('../git-helper/git-helper');
 
 const axiosInstance = axios.create({
   baseURL: 'https://hw.shri.yandex/api',
-  timeout: 3000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -62,15 +62,15 @@ exports.postSettings = async (req, res) => {
 
     // Получаем последний коммит
     const lastCommit = await Git.getLastCommit();
-    process.conf.lastCommit = lastCommit.commitHash;
+    process.conf.lastCommitHash = lastCommit.commitHash;
 
     // Добавляем последний коммит в очередь
     await axiosInstance.post('/build/request', lastCommit);
 
     // Если указан период, ставим setInterval
     if (process.conf.period > 0) {
-      clearInterval(process.gitEvent);
-      process.gitEvent = setInterval(Git.gitEvent, process.conf.period * 60000);
+      clearInterval(process.newCommits);
+      process.newCommits = setInterval(Git.newCommitsObserver, process.conf.period * 60000);
     }
 
     res.status(200).json({
