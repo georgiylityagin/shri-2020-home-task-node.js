@@ -35,7 +35,7 @@ const gitClone = async () => {
   });
 }
 
-// Получить первый коммит
+// Получить последний коммит
 const getLastCommit = async () => {
 
   const repo = await Git.Repository.open(repoPath);
@@ -49,8 +49,8 @@ const getLastCommit = async () => {
   });
 }
 
-
-const showLog = async () => {
+// Проверяет репозиторий на появление новых коммитов и возвращает массив с ними
+const getNewCommits = async () => {
 
   const newCommits = [];
 
@@ -60,10 +60,9 @@ const showLog = async () => {
     process.conf.mainBranch,
     `origin/${process.conf.mainBranch}`
   );
-  console.log('git pull выполнен');
+
   const lastCommit = await repo.getBranchCommit(process.conf.mainBranch);
   const lastCommitHash = process.conf.lastCommitHash;
-  console.log('найден последний коммит');
 
   return new Promise(resolve => {
     const history = lastCommit.history(Git.Revwalk.SORT.TIME);
@@ -74,7 +73,7 @@ const showLog = async () => {
         resolve(newCommits);
         history.removeAllListeners('commit');
       } else {
-        newCommits.push({
+        newCommits.unshift({
           commitMessage: commit.message(),
           commitHash: commit.sha(),
           branchName: process.conf.mainBranch,
@@ -86,19 +85,19 @@ const showLog = async () => {
 }
 
 
+// Запускается через setInterval, добавляет новые коммиты в очередь на сборку
 const newCommitsObserver = async () => {
   try {
-    const commits = await showLog();
-    console.log(commits);
+    const commits = await getNewCommits();
 
     if (commits.length > 0) {
-      await Promise.all(
-        commits.map(commit => axiosInstance.post('/build/request', commit))
-      );
-      process.conf.lastCommitHash = commits[0].commitHash;
+      for (let i = 0; i < commits.length; i++) {
+        await axiosInstance.post('/build/request', commits[i]);
+      }
+      process.conf.lastCommitHash = commits[commits.length - 1].commitHash;
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -107,5 +106,4 @@ module.exports = {
   gitClone,
   getLastCommit,
   newCommitsObserver,
-  showLog
 }

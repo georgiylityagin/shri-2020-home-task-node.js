@@ -25,21 +25,31 @@ const axiosInstance = axios.create({
 
 process.conf = {};
 
+
 // Settings
 // Получение сохраненных настроек
 exports.getSettings = async (req, res) => {
 
-  const settings = await axiosInstance.get('/conf');
+  try {
+    const settings = await axiosInstance.get('/conf');
 
-  res.status(200).json({
-    data: settings.data.data
-  });
+    res.status(200).json({
+      data: settings.data.data
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(504).json({
+      data: 'Error',
+      error
+    })
+  }
+
 }
 
 // Сохранение настроек
 exports.postSettings = async (req, res) => {
 
-  // Сохраняем переменные
   process.conf.repoName = req.body.repoName;
   process.conf.buildCommand = req.body.buildCommand;
   process.conf.mainBranch = req.body.mainBranch;
@@ -54,7 +64,7 @@ exports.postSettings = async (req, res) => {
 
     if (!cloned) {
       return res.status(400).json({
-        status: 'Error',
+        data: 'Error',
         message: 'Repository not found'
       });
     }
@@ -81,16 +91,16 @@ exports.postSettings = async (req, res) => {
     }
 
     res.status(200).json({
-      status: 200,
-      message: 'Success'
+      data: 'Success'
     });
 
   } catch (error) {
     console.error(error);
 
     res.status(500).json({
-      message: 'Error',
-      error
+      data: 'Error',
+      message: error.message,
+      stack: error.stack
     });
   }
 
@@ -109,22 +119,24 @@ exports.getBuilds = async (req, res) => {
 
   try {
     buildList = await axiosInstance.get(`/build/list?offset=${offset}&limit=${limit}`);
+
+    res.status(200).json({
+      data: buildList.data.data
+    });
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
-      message: 'Error',
-      error
+    res.status(504).json({
+      data: 'Error',
+      message: error.message,
+      stack: error.stack
     })
   }
-
-  res.status(200).json({
-    data: buildList.data.data
-  });
 }
 
 // Добавление сборки в очередь
 exports.postCommitHash = async (req, res) => {
+
   try {
     await axiosInstance.post('/build/request', {
       commitMessage: req.body.commitMessage,
@@ -133,15 +145,16 @@ exports.postCommitHash = async (req, res) => {
       authorName: req.body.authorName
     });
 
-    return res.status(200).json({
+    res.status(200).json({
       data: 'Success'
     });
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
-      message: 'Error',
-      error
+    res.status(504).json({
+      data: 'Error',
+      message: error.message,
+      stack: error.stack
     });
   }
 };
@@ -159,8 +172,9 @@ exports.getBuildId = async (req, res) => {
     console.error(error);
 
     res.status(404).json({
-      message: 'Not Found',
-      error
+      data: 'Error',
+      message: error.message,
+      stack: error.stack
     })
   }
 }
@@ -170,6 +184,7 @@ exports.getLogs = async (req, res) => {
 
   try {
     let log;
+
     if (logCach.has(req.params.buildId)) {
       log = {};
       log.data = logCach.get(req.params.buildId);
@@ -200,8 +215,9 @@ exports.getLogs = async (req, res) => {
     console.error(error);
 
     res.status(404).json({
-      message: 'Not Found',
-      error
+      data: 'Error',
+      message: error.message,
+      stack: error.stack
     })
   }
 }
