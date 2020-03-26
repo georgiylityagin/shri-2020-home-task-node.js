@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Page } from '../Page/Page';
 import { Header } from '../Header/Header';
 import { Content } from '../Content/Content';
-import { Footer } from '../Footer/Footer';
+import { Footer, ConnectedFooter } from '../Footer/Footer';
 import { Button } from '../Button/Button';
 import { TextWithIcon } from '../TextWithIcon/TextWithIcon';
 import { ConfigInfo } from '../ConfigInfo/ConfigInfo';

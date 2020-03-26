@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
+import { mobileMaxWidth } from '../../breakpoints';
 
 const StyledFooter = styled.footer`
   background-color: var(--bg-footer);
@@ -9,16 +11,19 @@ const StyledFooter = styled.footer`
 const FooterContent = styled.div`
   max-width: var(--content-max-width);
   margin: auto;
-  padding: var(--space-xxxs) 0;
+  padding: ${props => props.isMobile ? 'var(--space-xs)' : 'var(--space-xxxs)'} 0;
   display: flex;
+  flex-direction: ${props => props.isMobile ? 'column' : 'row'};
   aling-items: center;
   justify-content: space-between;
 `;
 
+const FooterLinks = styled.div`
+  margin-bottom: ${props => props.isMobile ? 'var(--space-xxxs)' : 0};
+`;
 
 const FooterLink = styled.a`
   margin-right: var(--space-xs);
-  margin-bottom: var(--space-xxxs);
   font-size: var(--font-size-s);
   line-height: var(--line-height-xs);
   color: var(--text-color-muted);
@@ -42,13 +47,15 @@ const FooterText = styled.div`
 `;
 
 export const Footer = () => {
+  const isMobile = useMediaQuery({ maxWidth: mobileMaxWidth });
+
   return (
     <StyledFooter>
-      <FooterContent>
-        <div>
+      <FooterContent isMobile={isMobile}>
+        <FooterLinks isMobile={isMobile}>
           <FooterLink>Support</FooterLink>
           <FooterLink>Learning</FooterLink>
-        </div>
+        </FooterLinks>
         <FooterText>&copy; 2020 Georgiy Lityagin</FooterText>
       </FooterContent>
     </StyledFooter>

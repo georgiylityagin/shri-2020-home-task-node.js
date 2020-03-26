@@ -11,7 +11,7 @@ import { HistoryPage } from './components/HistoryPage/history-page.component';
 import { SettingsPage } from './components/SettingsPage/SettingsPage';
 import { DetailsPage } from './components/DetailsPage/DetailsPage';
 
-function App() {
+export const App = () => {
   return (
     <Router>
       <Switch>
@@ -22,5 +22,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

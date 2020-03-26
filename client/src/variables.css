@@ -1,5 +1,3 @@
-
-
 :root {
     /* Палитра */
   --black-100: #000000;
@@ -85,12 +83,3 @@
   --content-max-width: 826px;
   --content-mobile-indent: 16px;
 }
-
-
-
-
-/* $font-weights: (
-  "normal": 400,
-  "medium": 500,
-  "bold": 700
-); */
