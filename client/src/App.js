@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import { StartPage } from './components/StartPage/StartPage';
-import { HistoryPage } from './components/HistoryPage/HistoryPage';
+import { HistoryPage } from './components/HistoryPage/history-page.component';
 import { SettingsPage } from './components/SettingsPage/SettingsPage';
 import { DetailsPage } from './components/DetailsPage/DetailsPage';
 

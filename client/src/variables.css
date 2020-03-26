@@ -1,0 +1,96 @@
+
+
+:root {
+    /* Палитра */
+  --black-100: #000000;
+
+  --red-500: #FF3333;
+
+  --green-500: #00B341;
+
+  --orange-100: #FFCC00; /*action button*/
+  --orange-200: #F2C200; /*hovered action button*/
+  --orange-300: #B38F00;  /*action button outline*/
+  --orange-500: #FF9A00;  /*warning id*/
+
+  --grey-10: #F2F2F2;  /*Disabled button & log background*/
+  --grey-50: #F0F2F3;  /*Footer background*/
+  --grey-100: #E6E6E6;  /*Standart button & header button*/
+  --grey-200: #DBDBDB;  /*Hovered standart button*/
+  --grey-300: #B3B3B3;  /*Focused button outline & focused input outline*/
+  --grey-400: #D9D9D9;  /*Input border*/
+  --grey-500: #CCCCCC;  /*Placeholder text*/
+  --grey-1000: #7f8285;  /*Muted text*/
+  --grey-1100: #595959;  /*Text commit secondary & date-time*/
+
+  /* Размеры */
+  --font-size-xs: 10px;
+  --font-size-s: 13px;
+  --font-size-m: 15px;
+  --font-size-l: 18px;
+  --font-size-xl: 24px;
+
+  --line-height-xxs: 15px;
+  --line-height-xs: 16px;
+  --line-height-s: 18px;
+  --line-height-m: 20px;
+  --line-height-l: 22px;
+  --line-height-xl: 28px;
+  --line-height-xxl: 30px;
+  --line-height-xxxl: 36px;
+
+  --space-xxxxs: 6px;
+  --space-xxxs: 8px;
+  --space-xxs: 10px;
+  --space-xs: 12px;
+  --space-s: 13px;
+  --space-m: 16px;
+  --space-l: 18px;
+  --space-xl:20px;
+  --space-xxl: 22px;
+  --space-xxxl: 24px;
+  --space-xxxxl: 30px;
+  --space-xxxxxl: 32px;
+
+  --letter-spacing-s: 0.06px;
+  --letter-spacing-m: 0.25px;
+
+  --border-radius-s: 4px;
+  --border-radius-m: 6px;
+
+  /* Текст */
+  --text-color-default: var(--black-100);
+  --text-color-secondary: var(--grey-1100);
+  --text-color-muted: var(--grey-1000);
+  --text-color-success: var(--green-500);
+  --text-color-warning: var(--orange-500);
+  --text-color-danger: var(--red-500);
+
+  /* Кнопки */
+  --btn-control: var(--grey-100);
+  --btn-control-hovered: var(--grey-200);
+  --btn-control-outline: var(--grey-300);
+  --btn-action: var(--orange-100);
+  --btn-action-hovered: var(--orange-200);
+  --btn-action-outline: var(--orange-300);
+  --btn-disabled: var(--grey-10);
+
+  /* Footer */
+  --bg-footer: var(--grey-50);
+
+  /* Borders */
+  --border-color: var(--grey-400);
+  --border-color-focus: var(--grey-300);
+
+  --content-max-width: 826px;
+  --content-mobile-indent: 16px;
+}
+
+
+
+
+/* $font-weights: (
+  "normal": 400,
+  "medium": 500,
+  "bold": 700
+); */
