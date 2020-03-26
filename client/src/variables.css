@@ -2,7 +2,10 @@
     /* Палитра */
   --black-100: #000000;
 
+  --red-50: #FFC0BE;
+  --red-100: #FF6666;
   --red-500: #FF3333;
+  --red-600: #E00000;
 
   --green-500: #00B341;
 
@@ -63,6 +66,7 @@
   --text-color-success: var(--green-500);
   --text-color-warning: var(--orange-500);
   --text-color-danger: var(--red-500);
+  --placeholder-text: var(--grey-500);
 
   /* Кнопки */
   --btn-control: var(--grey-100);
@@ -79,6 +83,7 @@
   /* Borders */
   --border-color: var(--grey-400);
   --border-color-focus: var(--grey-300);
+  --border-color-invalid: var(--red-50);
 
   --content-max-width: 826px;
   --content-mobile-indent: 16px;

@@ -28,12 +28,14 @@ const StyledButton = styled.button`
 
   &:disabled {
     background-color: var(--btn-disabled);
+    border-color: var(--btn-disabled);
+    cursor: auto;
   }
 `;
 
-export const Button = ({size, color, children}) => {
+export const Button = ({size, color, children, type, disabled}) => {
   return (
-    <StyledButton size={size} color={color}>
+    <StyledButton type={type} size={size} color={color} disabled={disabled}>
       {children}
     </StyledButton>
   )

@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import { useMediaQuery } from 'react-responsive';
-import { mobileMaxWidth } from '../../breakpoints';
 
 const StyledFooter = styled.footer`
   background-color: var(--bg-footer);
@@ -46,9 +44,7 @@ const FooterText = styled.div`
   letter-spacing: var(--letter-spacing-s);
 `;
 
-export const Footer = () => {
-  const isMobile = useMediaQuery({ maxWidth: mobileMaxWidth });
-
+export const Footer = ({ isMobile }) => {
   return (
     <StyledFooter>
       <FooterContent isMobile={isMobile}>

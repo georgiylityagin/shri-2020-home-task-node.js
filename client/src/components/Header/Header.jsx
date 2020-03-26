@@ -1,11 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
-import { useMediaQuery } from 'react-responsive';
-import { Title } from '../Title/Title';
-import { mobileMaxWidth } from '../../breakpoints';
 
 const StyledHeader = styled.header`
   padding: 0 var(--content-mobile-indent);
+  margin-bottom: var(--space-xxxs);
 `;
 
 const HeaderContent = styled.div`
@@ -17,13 +15,10 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-export const Header = ({title, children}) => {
-  const isMobile = useMediaQuery({ maxWidth: mobileMaxWidth });
-
+export const Header = ({isMobile, children}) => {
   return (
     <StyledHeader>
       <HeaderContent isMobile={isMobile}>
-        <Title isMobile={isMobile}>{title}</Title>
         {children}
       </HeaderContent>
     </StyledHeader>
