@@ -15,8 +15,8 @@ const BuildContentStyled = styled.div`
 export const BuildContent = ({ data, isMobile, isDetails }) => {
   return (
     <BuildContentStyled isMobile={isMobile} isDetails={isDetails}>
-      <BuildDetails data={data} isMobile={isMobile}/>
-      <BuildTimeInfo  isMobile={isMobile} isDetails={isDetails}/>
+      <BuildDetails data={data} isMobile={isMobile} isDetails={isDetails}/>
+      <BuildTimeInfo  isMobile={isMobile} start={data.start} duration={data.duration} isDetails={isDetails}/>
     </BuildContentStyled>
   )
 }

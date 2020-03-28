@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getConfigThunk } from '../redux/settingsReducer';
+import { getConfigThunk } from '../redux/Settings/settings-reducer';
 
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
@@ -12,7 +12,9 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { ConfigInfo } from '../components/ConfigInfo/ConfigInfo';
 import { Title } from '../components/Title/Title';
 
-export const StartPage = ({ getConfigThunk, history, isMobile }) => {
+export const StartPage = ({ getConfigThunk, settings, isMobile }) => {
+  let history = useHistory();
+
   useEffect(() => getConfigThunk(history), [getConfigThunk, history]);
 
   return (
@@ -39,4 +41,4 @@ const mapStateToProps = ({ settings }) => ({
   settings
 });
 
-export const StartPageConnect = connect(mapStateToProps, { getConfigThunk })(StartPage)
+export const ConnectedStartPage = connect(mapStateToProps, { getConfigThunk })(StartPage)

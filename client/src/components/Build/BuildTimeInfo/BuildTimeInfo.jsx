@@ -45,14 +45,16 @@ function formatDuration(duration) {
 }
 
 export const BuildTimeInfo = ( {isMobile, isDetails, start = "2020-03-25T16:16:16.085Z", duration = 80} ) => {
+  let prefix = isDetails ? '../' : '';
+
   return (
     <BuildTimeInfoStyled isMobile={isMobile} isDetails={isDetails}>
       <BuildTime isMobile={isMobile} isDetails={isDetails}>
-        <img src='images/calendar_icon.svg' alt=''/>
+        <img src={`${prefix}images/calendar_icon.svg`} alt=''/>
         <div>{ format(new Date(start), 'd MMM HH:mm', {locale: ru}).replace('.', ',') }</div>
       </BuildTime>
       <BuildTime isMobile={isMobile} isDetails={isDetails}>
-        <img src='images/stopwatch_icon.svg' alt=''/>
+        <img src={`${prefix}images/stopwatch_icon.svg`} alt=''/>
         <div>{ formatDuration(duration) }</div>
       </BuildTime>
     </BuildTimeInfoStyled>

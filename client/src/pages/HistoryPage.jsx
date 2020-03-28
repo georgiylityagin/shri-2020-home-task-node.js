@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getBuildListThunk, postNewBuildQueue } from '../redux/historyReducer';
+import { getBuildListThunk, postNewBuildQueue } from '../redux/History/history-reducer';
 
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
@@ -48,16 +48,58 @@ const data = [
   }
 ];
 
-export const HistoryPage = ({isMobile, repoName}) => {
+export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, buildList, repoName, runNewBuild, isMobile}) => {
   const [toggle, setToggle] = useState(false);
-
-  useEffect(() => {
-
+  const [foundCommit, setFoundCommit] = useState(false);
+  const [showLimit, setShowLimit] = useState({
+    limit: 10
+  });
+  const [formValue, setFormValue] = useState({
+    hash: ''
   });
 
+  const handleChange = event => {
+    const { value } = event.currentTarget;
+    setFormValue(state => ({ ...state, hash: value }));
+  }
+
+  let history = useHistory();
+
+  const handleShowMore = () => {
+    const stepShow = 10;
+    setShowLimit((state) => ({ ...state, limit: state.limit + stepShow }));
+  }
+
+  
   const handleTogglePopUp = () => {
     setToggle(!toggle);
   }
+
+  const handleDetails = event => {
+    let buildId = event.currentTarget.id;
+    localStorage.setItem('detailsId', buildId);
+    history.push(`build/${buildId}`);
+  }
+
+  const handleRunBuild = (event) => {
+    event.preventDefault();
+
+    const searchedObj = buildList.find(({ commitHash }) => commitHash === formValue.hash);
+    if (searchedObj) {
+      postNewBuildQueue({
+        commitHash: searchedObj.commitHash,
+        commitMessage: searchedObj.commitMessage,
+        branchName: searchedObj.branchName,
+        authorName: searchedObj.authorName
+      }, history);
+    } else {
+      setFoundCommit(true);
+    }
+  }
+
+  useEffect(() => {
+    getBuildListThunk(showLimit.limit);
+  }, [getBuildListThunk, showLimit.limit])
 
   return (
     <Page>
@@ -77,11 +119,11 @@ export const HistoryPage = ({isMobile, repoName}) => {
         </ButtonGroup>
       </Header>
       <Content>
-        <BuildList data={data} isMobile={isMobile}/>
-        <Button size='s'>
+        <BuildList data={buildList} handleDetails={handleDetails} isMobile={isMobile}/>
+        <Button size='s' onClick={handleShowMore}>
           Show more
         </Button>
-        {toggle ? <PopUp handleClickCancel={handleTogglePopUp} isMobile={isMobile}/> : null}
+        {toggle ? <PopUp handleClickCancel={handleTogglePopUp} onChange={handleChange} onClickRunBuild={handleRunBuild} isMobile={isMobile}/> : null}
       </Content>
       <Footer isMobile={isMobile}/>
     </Page>
@@ -95,4 +137,4 @@ const mapStateToProps = ({ history }) => ({
   runNewBuild: history.runNewBuild
 });
 
-export const HistoryPageConnect = connect(mapStateToProps, { getBuildListThunk, postNewBuildQueue })(HistoryPage);
+export const ConnectedHistoryPage = connect(mapStateToProps, { getBuildListThunk, postNewBuildQueue })(HistoryPage);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { postSaveSettings } from '../redux/settingsReducer';
+import { postConfig } from '../redux/Settings/settings-reducer';
 import { connect } from 'react-redux';
 
 import { Page } from '../components/Page/Page';
@@ -12,6 +12,7 @@ import { Title } from '../components/Title/Title';
 import { Input } from '../components/Input/Input';
 import { Button } from '../components/Button/Button';
 import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
+
 
 const FormWrapper = styled.form`
   max-width: 474px;
@@ -33,19 +34,9 @@ const SettingsDescription = styled.div`
   margin-bottom: var(--space-xxl);
 `;
 
-const postSettings = async (url = '', data) => {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  });
 
-  return await response.json();
-}
 
-export const SettingsPage = ({ isMobile }) => {
+export const SettingsPage = ({ postConfig, isCloning, isMobile }) => {
   const [repoName, setRepoName] = useState('');
   const [buildCommand, setBuildCommand] = useState('');
   const [mainBranch, setMainBranch] = useState('master');
@@ -54,6 +45,8 @@ export const SettingsPage = ({ isMobile }) => {
   const [buildCommandValid, setBuildCommandValid] = useState(true);
   const [periodValid, setPeriodValid] = useState(true);
   const [formValid, setFormValid] = useState(false);
+
+  let history = useHistory();
 
   const handleInputChange = (e) => {
     switch (e.target.id) {
@@ -67,7 +60,7 @@ export const SettingsPage = ({ isMobile }) => {
         setMainBranch(e.target.value);
         break;
       case 'period':
-        setPeriod(e.target.value);
+        setPeriod(+e.target.value);
         break
     }
   }
@@ -82,10 +75,7 @@ export const SettingsPage = ({ isMobile }) => {
       period
     }
 
-    // POST запрос на сервер
-    postSettings('http://127.0.0.1:3000/api/settings', settingsData)
-    .then(result => console.log(result))
-    .catch(error => console.error(error))
+    postConfig(settingsData, history);
   }
 
   const handleFocusOut = (e) => {
@@ -104,8 +94,6 @@ export const SettingsPage = ({ isMobile }) => {
 
   useEffect(() => {
     repoName && buildCommand && periodValid ? setFormValid(true) : setFormValid(false);
-
-    // console.log(settingsData);
   });
 
 
@@ -158,8 +146,8 @@ export const SettingsPage = ({ isMobile }) => {
             valid={periodValid}
           />
           <ButtonGroup isMobile={isMobile}>
-            <Button type='submit' disabled={!formValid} color='accent'>Save</Button>
-            <Button type='button'>
+            <Button type='submit' disabled={!formValid || isCloning} color='accent'>Save</Button>
+            <Button type='button' disabled={isCloning}>
               <Link to='/'>
                 Cancel
               </Link>
@@ -177,4 +165,4 @@ const mapStateToProps = ({ settings }) => ({
   cloningWithError: settings.cloningWithError
 });
 
-export const SettingsPageConnect = connect(mapStateToProps, { postSaveSettings })(SettingsPage);
+export const ConnectedSettingsPage = connect(mapStateToProps, { postConfig })(SettingsPage);

@@ -48,16 +48,17 @@ const PopUpMessage = styled.p`
   margin-bottom: var(--space-xs);
 `;
 
-export const PopUp = ({ handleClickCancel, isMobile }) => {
+export const PopUp = ({ handleClickCancel, isMobile, onChange, onClickRunBuild }) => {
   return (
     <PopUpWrapper>
       <PopUpStyled isMobile={isMobile}>
-        <form>
+        <form onSubmit={onClickRunBuild}>
           <PopUpTitle>New build</PopUpTitle>
           <PopUpMessage>Enter the commit hash which you want to build.</PopUpMessage>
           <Input id='branch'
             type='search'
             placeholder='Commit hash'
+            onChange={onChange}
             valid={true}
           />
           <ButtonGroup>

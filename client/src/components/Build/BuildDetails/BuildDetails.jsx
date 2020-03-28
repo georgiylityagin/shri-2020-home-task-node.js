@@ -25,17 +25,17 @@ const MetaInfo = styled.div`
   ${props => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 `;
 
-export const BuildDetails = ({ data, isMobile }) => {
+export const BuildDetails = ({ data, isMobile, isDetails }) => {
   return (
     <BuildDetailsStyled isMobile={isMobile}>
       <BuildNumber buildNumber={data.buildNumber} status={data.status} isMobile={isMobile}/>
       <CommitMessage commitMessage={data.commitMessage}/>
       <Break/>
       <MetaInfo isMobile={isMobile}>
-        <BranchName branchName={data.branchName}/>
+        <BranchName branchName={data.branchName} isDetails={isDetails}/>
         <CommitHash commitHash={data.commitHash}/>
       </MetaInfo>
-      <AuthorName authorName={data.authorName} isMobile={isMobile}/>
+      <AuthorName authorName={data.authorName} isDetails={isDetails} isMobile={isMobile}/>
     </BuildDetailsStyled>
   )
 }

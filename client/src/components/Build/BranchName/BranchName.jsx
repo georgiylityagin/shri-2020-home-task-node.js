@@ -24,10 +24,12 @@ const BranchNameStyled = styled.div`
   }
 `;
 
-export const BranchName = ({ branchName }) => {
+export const BranchName = ({ branchName, isDetails }) => {
+  let prefix = isDetails ? '../' : '';
+
   return (
     <BranchNameStyled>
-      <img src='images/code-commit_icon.svg'/>
+      <img src={`${prefix}images/code-commit_icon.svg`}/>
       <div>{branchName}</div>
     </BranchNameStyled>
   )

@@ -1,42 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 import { useMediaQuery } from 'react-responsive';
 import { mobileMaxWidth } from './breakpoints';
 
-import { StartPage } from './components/StartPage/StartPage';
-import { HistoryPage } from './components/HistoryPage/HistoryPage';
-import { SettingsPage } from './components/SettingsPage/SettingsPage';
-import { DetailsPage } from './components/DetailsPage/DetailsPage';
-
-const getData = async (url = '') => {
-  const response = await fetch(url);
-  return await response.json();
-}
+import { ConnectedStartPage } from './pages/StartPage';
+import { ConnectedHistoryPage } from './pages/HistoryPage';
+import { ConnectedSettingsPage } from './pages/SettingsPage';
+import { ConnectedDetailsPage } from './pages/DetailsPage';
 
 export const App = () => {
   const isMobile = useMediaQuery({ maxWidth: mobileMaxWidth });
 
-  const [settingsData, setSettingsData] = useState(null);
-  
-  useEffect(() => {
-    getData('http://127.0.0.1:3000/api/settings')
-    .then(res => {
-      setSettingsData(res.data);
-    });
-  });
-
   return (
     <Router>
-      <Switch>
-        <Route path='/' exact><StartPage isMobile={isMobile}/></Route>
-        <Route path='/settings'><SettingsPage isMobile={isMobile}/></Route>
-        <Route path='/history'><HistoryPage isMobile={isMobile} repoName={'georgiylityagin/my-repo'}/></Route>
-        <Route path='/build'><DetailsPage isMobile={isMobile} repoName={'georgiylityagin/my-repo'}/></Route>
-      </Switch>
+      <Provider store={store}>
+        <Switch>
+          <Route path='/' exact><ConnectedStartPage isMobile={isMobile}/></Route>
+          <Route path='/settings' exact><ConnectedSettingsPage isMobile={isMobile}/></Route>
+          <Route path='/history' exact><ConnectedHistoryPage isMobile={isMobile}/></Route>
+          <Route path='/build/:id'><ConnectedDetailsPage isMobile={isMobile}/></Route>
+        </Switch>
+      </Provider>
     </Router>
   );
 }
+
+
+
+
+    // api.getConfig().then(config => console.log('Config:', config.data));
+
+    // api.getBuildsList().then(list => console.log('Build list:', list));
+
+    // api.getBuildDetails('38e3b0c9-2aae-4911-b9f8-d5311a958e70').then(build => console.log('Build details: ', build));
+
+    // api.getBuildLogs('38e3b0c9-2aae-4911-b9f8-d5311a958e70').then(logs => console.log('logs: ', logs));
+
+    // let config = {
+    //   repoName: "georgiylityagin/github-finder",
+    //   buildCommand: "npm run build",
+    //   mainBranch: "master",
+    //   period: 0
+    // };
+
+    // let buildDetails = {
+    //   commitMessage: "New commit",
+    //   commitHash: "dskjklhasdfhadsf",
+    //   branchName: "master",
+    //   authorName: "SuperUser"
+    // }
+
+    // api.postConfig(config)
+    //   .then(res => console.log('Config saved', res))
+    //   .catch(err => console.error('Something got wrong', err))
+
+    // api.postAddBuild(buildDetails)
+    //   .then(res => console.log('Добавлено в очередь', res))
+    //   .catch(err => console.error('Не добавлено в очередь', err))

@@ -25,10 +25,10 @@ const BuildItemStyled = styled.div`
   ${props => props.isMobile && 'padding: var(-space-xs) var(--space-m)'};
 `;
 
-export const BuildItem = ({ data, isMobile, isDetails }) => {
+export const BuildItem = ({ data, isMobile, isDetails, handleDetails }) => {
   return (
-    <BuildItemStyled isDetails={isDetails}>
-      <BuildStatus status={data.status} isMobile={isMobile}/>
+    <BuildItemStyled id={data.id} isDetails={isDetails} onClick={handleDetails}>
+      <BuildStatus status={data.status} isDetails={isDetails} isMobile={isMobile}/>
       <BuildContent data={data} isMobile={isMobile} isDetails={isDetails}/>
     </BuildItemStyled>
   )

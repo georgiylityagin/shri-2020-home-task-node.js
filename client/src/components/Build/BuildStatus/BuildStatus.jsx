@@ -8,12 +8,14 @@ const Icon = styled.img`
   flex-shrink: 1;
 `;
 
-export const BuildStatus = ({ status, isMobile }) => {
+export const BuildStatus = ({ status, isMobile, isDetails }) => {
+  let prefix = isDetails ? '../' : '';
+
   return (
     <>
-      {status === 'Success' && <Icon src='images/done_icon.svg' isMobile={isMobile}/>}
-      {status === 'Fail' && <Icon src='images/fail_icon.svg' isMobile={isMobile}/>}
-      {status === 'Waiting' && <Icon src='images/clock_icon.svg' isMobile={isMobile}/>}
+      {status === 'Success' && <Icon src={`${prefix}images/done_icon.svg`} alt='' isMobile={isMobile}/>}
+      {status === 'Fail' && <Icon src={`${prefix}images/fail_icon.svg`} alt='' isMobile={isMobile}/>}
+      {status === 'Waiting' && <Icon src={`${prefix}images/clock_icon.svg`} alt='' isMobile={isMobile}/>}
     </>
   )
 }

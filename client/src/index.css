@@ -1,3 +1,6 @@
+@import './font.css';
+@import './variables.css';
+
 body {
   margin: 0;
   padding: 0;

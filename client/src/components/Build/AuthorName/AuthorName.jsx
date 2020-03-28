@@ -25,10 +25,12 @@ const AuthorNameStyled = styled.div`
   }
 `;
 
-export const AuthorName = ({ authorName, isMobile }) => {
+export const AuthorName = ({ authorName, isMobile, isDetails }) => {
+  let prefix = isDetails ? '../' : '';
+
   return (
     <AuthorNameStyled isMobile={isMobile}>
-      <img src='images/user_icon.svg'/>
+      <img src={`${prefix}images/user_icon.svg`}/>
       <div>{ authorName }</div>
     </AuthorNameStyled>
   )
