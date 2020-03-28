@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { getBuildListThunk, postNewBuildQueue } from '../redux/historyReducer';
 
-import { Page } from '../Page/Page';
-import { Header } from '../Header/Header';
-import { Content } from '../Content/Content';
-import { Footer } from '../Footer/Footer';
-import { Title } from '../Title/Title';
-import { Button } from '../Button/Button';
-import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
-import { TextWithIcon } from '../TextWithIcon/TextWithIcon';
-import { PopUp } from '../PopUp/PopUp';
-
-import { BuildList } from '../Build/BuildList/BuildList';
+import { Page } from '../components/Page/Page';
+import { Header } from '../components/Header/Header';
+import { Content } from '../components/Content/Content';
+import { Footer } from '../components/Footer/Footer';
+import { Title } from '../components/Title/Title';
+import { Button } from '../components/Button/Button';
+import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
+import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
+import { PopUp } from '../components/PopUp/PopUp';
+import { BuildList } from '../components/Build/BuildList/BuildList';
 
 const data = [
   {
@@ -86,3 +87,12 @@ export const HistoryPage = ({isMobile, repoName}) => {
     </Page>
   )
 }
+
+const mapStateToProps = ({ history }) => ({
+  isLoading: history.isLoading,
+  buildList: history.buildList,
+  repoName: history.repoName,
+  runNewBuild: history.runNewBuild
+});
+
+export const HistoryPageConnect = connect(mapStateToProps, { getBuildListThunk, postNewBuildQueue })(HistoryPage);

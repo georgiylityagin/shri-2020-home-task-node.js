@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Page } from '../Page/Page';
-import { Header } from '../Header/Header';
-import { Content } from '../Content/Content';
-import { Footer } from '../Footer/Footer';
-import { Title } from '../Title/Title';
-import { Button } from '../Button/Button';
-import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
-import { TextWithIcon } from '../TextWithIcon/TextWithIcon';
-import { BuildItem } from '../Build/BuildItem/BuildItem';
-import { Log } from '../Log/Log';
+import { Page } from '../components/Page/Page';
+import { Header } from '../components/Header/Header';
+import { Content } from '../components/Content/Content';
+import { Footer } from '../components/Footer/Footer';
+import { Title } from '../components/Title/Title';
+import { Button } from '../components/Button/Button';
+import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
+import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
+import { BuildItem } from '../components/Build/BuildItem/BuildItem';
+import { Log } from '../components/Log/Log';
 
 
 const data = {
@@ -24,9 +24,6 @@ const data = {
     "status": "Success"
 }
 
-const Convert = require('ansi-to-html');
-const convert = new Convert();
-console.log(convert.toHtml('\x1b[32mbla-bla')); //'\x1b[30mblack\x1b[37mwhite'
 
 const logs = `
 Starting type checking and linting service...

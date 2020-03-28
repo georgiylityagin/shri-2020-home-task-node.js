@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { postSaveSettings } from '../redux/settingsReducer';
+import { connect } from 'react-redux';
 
-import { Page } from '../Page/Page';
-import { Header } from '../Header/Header';
-import { Content } from '../Content/Content';
-import { Footer } from '../Footer/Footer';
-import { Title } from '../Title/Title';
-import { Input } from '../Input/Input';
-import { Button } from '../Button/Button';
-import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
+import { Page } from '../components/Page/Page';
+import { Header } from '../components/Header/Header';
+import { Content } from '../components/Content/Content';
+import { Footer } from '../components/Footer/Footer';
+import { Title } from '../components/Title/Title';
+import { Input } from '../components/Input/Input';
+import { Button } from '../components/Button/Button';
+import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
 
 const FormWrapper = styled.form`
   max-width: 474px;
@@ -29,10 +31,6 @@ const SettingsDescription = styled.div`
   letter-spacing: var(--letter-spacing-s);
   color: var(--text-color-muted);
   margin-bottom: var(--space-xxl);
-`;
-
-const InlineInput = styled.div`
-  display: flex;
 `;
 
 const postSettings = async (url = '', data) => {
@@ -173,3 +171,10 @@ export const SettingsPage = ({ isMobile }) => {
     </Page>
   )
 }
+
+const mapStateToProps = ({ settings }) => ({
+  isCloning: settings.isCloning,
+  cloningWithError: settings.cloningWithError
+});
+
+export const SettingsPageConnect = connect(mapStateToProps, { postSaveSettings })(SettingsPage);
