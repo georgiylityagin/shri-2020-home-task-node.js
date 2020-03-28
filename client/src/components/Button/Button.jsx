@@ -2,15 +2,23 @@ import React from 'react'
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
-  --btn-color: ${props => props.color === 'accent' ? 'var(--btn-action)' : 'var(--btn-control)'};
-  --btn-color-hovered: ${props => props.color === 'accent' ? 'var(--btn-action-hovered)' : 'var(--btn-control-hovered)'};
-  --btn-color-focused: ${props => props.color === 'accent' ? 'var(--btn-action-outline)' : 'var(--btn-control-outline)'};
+  --btn-color: var(--btn-control);
+  --btn-color-hovered: var(--btn-control-hovered);
+  --btn-color-focused: var(--btn-control-outline);
+
+  ${props => props.color === 'accent' && '--btn-color: var(--btn-action);'}
+  ${props => props.color === 'accent' && '--btn-color-hovered: var(--btn-action-hovered);'}
+  ${props => props.color === 'accent' && '--btn-color-focused: var(--btn-action-outline);'}
+
+  ${props => props.color === 'white' && '--btn-color: var(--btn-white);'}
+  ${props => props.color === 'white' && '--btn-color-hovered: var(--btn-white-hovered);'}
+
 
   display: inline-block;
   cursor: pointer;
   padding: 0 ${props => props.size === 's' ? '13px' : '18px'};
   background-color: var(--btn-color);
-  border: 2px solid var(--btn-color);
+  border: 2px solid ${props => props.color === 'white' ? 'var(--btn-color-hovered);' : 'var(--btn-color);'};
   border-radius: var(--border-radius-s);
   color: var(--text-color-default);
   font-size: var(--font-size-s);
@@ -33,9 +41,9 @@ const StyledButton = styled.button`
   }
 `;
 
-export const Button = ({size, color, children, type, disabled}) => {
+export const Button = ({size, color, children, type, disabled, onClick}) => {
   return (
-    <StyledButton type={type} size={size} color={color} disabled={disabled}>
+    <StyledButton type={type} size={size} color={color} disabled={disabled} onClick={onClick}>
       {children}
     </StyledButton>
   )

@@ -34,7 +34,7 @@ const StyledInput = styled.input`
   color: var(--text-color-default);
 
   &::placeholder {
-    color: var(--placeholder-text);
+    color: ${props => props.valid === true ? 'var(--placeholder-text)' : 'var(--border-color-invalid)'};
   }
 
   &:focus {
@@ -49,7 +49,9 @@ const StyledInput = styled.input`
 export const Input = ({ id, type, placeholder, labelText, required, inline, additionalLabel, onChange, onBlur, valid }) => {
   return (
     <InputWrapper inline={inline}>
-      <StyledLabel htmlFor={id} inline={inline}>{labelText} {required ? <span style={{color: 'var(--text-color-danger)'}}>*</span> : null}</StyledLabel>
+      {labelText ? 
+      <StyledLabel htmlFor={id} inline={inline}>{labelText} {required ? <span style={{color: 'var(--text-color-danger)'}}>*</span> : null}</StyledLabel> :
+      null}
       <StyledInput type={type} id={id} placeholder={placeholder} inline={inline} onChange={onChange} onBlur={onBlur} valid={valid} />
       {additionalLabel ? <StyledLabel htmlFor={id} inline={inline}>{additionalLabel}</StyledLabel> : null}
     </InputWrapper>

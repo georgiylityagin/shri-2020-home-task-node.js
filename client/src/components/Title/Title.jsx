@@ -7,13 +7,13 @@ const StyledTitle = styled.h1`
   font-weight: 500;
   line-height: ${props => props.isMobile ? 'var(--line-height-l)' : 'var(--line-height-xl)'};
   letter-spacing: var(--letter-spacing-m);
-  color: var(--text-color-muted);
+  color: ${props => props.isRepoName ? 'var(--text-color-default)' : 'var(--text-color-muted)'};
 `;
 
-export const Title = ({isMobile, children}) => {
+export const Title = ({isMobile, isRepoName, children}) => {
   return (
-    <StyledTitle isMobile={isMobile}>
-      {children}
-    </StyledTitle>
+      <StyledTitle isMobile={isMobile} isRepoName={isRepoName}>
+        {children}
+      </StyledTitle>
   )
 }

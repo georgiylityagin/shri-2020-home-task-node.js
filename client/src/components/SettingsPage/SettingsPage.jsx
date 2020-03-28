@@ -35,6 +35,18 @@ const InlineInput = styled.div`
   display: flex;
 `;
 
+const postSettings = async (url = '', data) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+
+  return await response.json();
+}
+
 export const SettingsPage = ({ isMobile }) => {
   const [repoName, setRepoName] = useState('');
   const [buildCommand, setBuildCommand] = useState('');
@@ -44,7 +56,6 @@ export const SettingsPage = ({ isMobile }) => {
   const [buildCommandValid, setBuildCommandValid] = useState(true);
   const [periodValid, setPeriodValid] = useState(true);
   const [formValid, setFormValid] = useState(false);
-
 
   const handleInputChange = (e) => {
     switch (e.target.id) {
@@ -65,6 +76,18 @@ export const SettingsPage = ({ isMobile }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const settingsData = {
+      repoName,
+      buildCommand,
+      mainBranch,
+      period
+    }
+
+    // POST запрос на сервер
+    postSettings('http://127.0.0.1:3000/api/settings', settingsData)
+    .then(result => console.log(result))
+    .catch(error => console.error(error))
   }
 
   const handleFocusOut = (e) => {
@@ -83,6 +106,8 @@ export const SettingsPage = ({ isMobile }) => {
 
   useEffect(() => {
     repoName && buildCommand && periodValid ? setFormValid(true) : setFormValid(false);
+
+    // console.log(settingsData);
   });
 
 
@@ -136,9 +161,11 @@ export const SettingsPage = ({ isMobile }) => {
           />
           <ButtonGroup isMobile={isMobile}>
             <Button type='submit' disabled={!formValid} color='accent'>Save</Button>
-            <Link to='/'>
-              <Button type='button'>Cancel</Button>
-            </Link>
+            <Button type='button'>
+              <Link to='/'>
+                Cancel
+              </Link>
+            </Button>
           </ButtonGroup>
         </FormWrapper>
       </Content>
