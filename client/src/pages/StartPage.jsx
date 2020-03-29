@@ -12,12 +12,14 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { ConfigInfo } from '../components/ConfigInfo/ConfigInfo';
 import { Title } from '../components/Title/Title';
 
-export const StartPage = ({ getConfigThunk, settings, isMobile }) => {
+export const StartPage = ({ getConfigThunk, isConfig, isMobile }) => {
   let history = useHistory();
 
   useEffect(() => getConfigThunk(history), [getConfigThunk, history]);
 
   return (
+    <>
+    {isConfig ? null :
     <Page>
       <Header isMobile={isMobile}>
         <Link to='/'>
@@ -33,12 +35,13 @@ export const StartPage = ({ getConfigThunk, settings, isMobile }) => {
         <ConfigInfo />
       </Content>
       <Footer isMobile={isMobile}/>
-    </Page>
+    </Page>}
+    </>
   )
 }
 
 const mapStateToProps = ({ settings }) => ({
-  settings
+  isConfig: settings.isConfig
 });
 
 export const ConnectedStartPage = connect(mapStateToProps, { getConfigThunk })(StartPage)

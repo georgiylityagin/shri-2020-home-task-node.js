@@ -44,7 +44,7 @@ function formatDuration(duration) {
   return `${hours ? hours + ' ч' : ''} ${minutes} мин`;
 }
 
-export const BuildTimeInfo = ( {isMobile, isDetails, start = "2020-03-25T16:16:16.085Z", duration = 80} ) => {
+export const BuildTimeInfo = ( {isMobile, isDetails, start, duration} ) => {
   let prefix = isDetails ? '../' : '';
 
   return (

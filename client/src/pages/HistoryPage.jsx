@@ -52,7 +52,7 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
   const [toggle, setToggle] = useState(false);
   const [foundCommit, setFoundCommit] = useState(false);
   const [showLimit, setShowLimit] = useState({
-    limit: 10
+    limit: isMobile ? 3 : 10
   });
   const [formValue, setFormValue] = useState({
     hash: ''
@@ -66,7 +66,7 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
   let history = useHistory();
 
   const handleShowMore = () => {
-    const stepShow = 10;
+    const stepShow = isMobile ? 3 : 5;
     setShowLimit((state) => ({ ...state, limit: state.limit + stepShow }));
   }
 
@@ -81,8 +81,8 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
     history.push(`build/${buildId}`);
   }
 
-  const handleRunBuild = (event) => {
-    event.preventDefault();
+  const handleRunBuild = (e) => {
+    e.preventDefault();
 
     const searchedObj = buildList.find(({ commitHash }) => commitHash === formValue.hash);
     if (searchedObj) {
@@ -120,7 +120,7 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
       </Header>
       <Content>
         <BuildList data={buildList} handleDetails={handleDetails} isMobile={isMobile}/>
-        <Button size='s' onClick={handleShowMore}>
+        <Button size='s' onClick={handleShowMore} isMobile={isMobile}>
           Show more
         </Button>
         {toggle ? <PopUp handleClickCancel={handleTogglePopUp} onChange={handleChange} onClickRunBuild={handleRunBuild} isMobile={isMobile}/> : null}

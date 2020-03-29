@@ -7,6 +7,7 @@ const ContentWrapper = styled.main`
   display: ${props => props.centeredV || props.centeredH ? 'flex' : 'block'};;
   align-items: ${props => props.centeredV ? 'center' : 'initial'};
   justify-content: ${props => props.centeredH ? 'center' : 'initial'};
+  margin-bottom: var(--space-m);
 `;
 
 const Container = styled.div`

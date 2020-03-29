@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getBuildDetails, postBuildInQueue } from '../redux/Details/details-reducer';
 
@@ -29,17 +29,15 @@ const data = {
 
 export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isMobile, repoName, logs} ) => {
   let history = useHistory();
-  let buildId = localStorage.getItem('detailsId');
+  let { id } = useParams();
+
+  const handleRebuild = () => {
+    postBuildInQueue(buildInfo, history);
+  }
 
   useEffect(() => {
-    getBuildDetails(buildId, history);
-  }, [getBuildDetails, buildId, history]);
-
-  // const handleRebuild = () => {
-  //   postBuildInQueue({
-  //     commitHash
-  //   }, history);
-  // }
+    getBuildDetails(id, history);
+  }, [getBuildDetails, id, history]);
 
   return (
     <Page>
@@ -48,7 +46,7 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
           {repoName}
         </Title>
         <ButtonGroup isMobile={isMobile} headerButtons>
-            <Button size='s'>
+            <Button size='s' onClick={handleRebuild}>
               <TextWithIcon img='../images/rebuild_icon.svg' text='Rebuild' />
             </Button>
             <Link to='/settings'>
@@ -60,7 +58,7 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
       </Header>
       <Content>
         {buildInfo.id ? <BuildItem data={buildInfo} isMobile={isMobile} isDetails={true}/> : null}
-        <Log isMobile={isMobile}>{logs}</Log>
+        {logs ? <Log isMobile={isMobile}>{logs}</Log> : null}
       </Content>
       <Footer isMobile={isMobile}/>
     </Page>

@@ -1,11 +1,12 @@
 import { api } from '../../requests-helper/requests-helper';
-import { GET_CONFIG, LOADING, CLONING, ERROR_CLONING, addConfig, loadSettings, cloningRepo, errorWithCloning } from './settings-actions';
+import { GET_CONFIG, LOADING, CLONING, ERROR_CLONING, ISCONFIG, addConfig, loadSettings, cloningRepo, isConfig, errorWithCloning } from './settings-actions';
 
 const initialState = {
   repoName: '',
   buildCommand: '',
   mainBranch: '',
   period: '',
+  isConfig: true,
   isLoading: false,
   isCloning: false,
   cloningWithError: false,
@@ -19,6 +20,8 @@ export function settingsReducer(state = initialState, action) {
       return { ...state, isLoading: action.payload };
     case CLONING:
       return { ...state, isCloning: action.payload };
+    case ISCONFIG:
+      return { ...state, isConfig: action.payload };
     case ERROR_CLONING:
       return { ...state, cloningWithError: action.payload };
     default:
@@ -33,10 +36,12 @@ export const getConfigThunk = (history) => (dispatch) => {
     .then(response => {
       if (response.data) {
         history.push('/history');
+        dispatch(isConfig(true));
         dispatch(loadSettings(false));
         dispatch(addConfig(response.data));
       } else {
         history.push('/');
+        dispatch(isConfig(false));
         dispatch(loadSettings(false));
       }
     })

@@ -7,6 +7,8 @@ export const LOADING = 'LOADING';
 
 export const CLONING = 'CLONING';
 
+export const ISCONFIG = 'ISCONFIG';
+
 export const ERROR_CLONING = 'ERROR_CLONING';
 
 
@@ -27,6 +29,11 @@ export const cloningRepo = (status) => ({
   type: CLONING,
   payload: status
 });
+
+export const isConfig = (status) => ({
+  type: ISCONFIG,
+  payload: status
+})
 
 export const errorWithCloning = (status) => ({
   type: ERROR_CLONING,

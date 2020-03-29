@@ -63,7 +63,6 @@ export const postBuildInQueue = (data, history) => (dispatch) => {
 
   api.postAddBuild(data)
     .then(res => {
-      console.log(res)
       dispatch(getRebuildInfo(res.data));
       history.push(`${res.data.id}`);
       dispatch(loading(false));

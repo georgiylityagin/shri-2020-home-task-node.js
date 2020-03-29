@@ -22,7 +22,8 @@ const StyledButton = styled.button`
   border-radius: var(--border-radius-s);
   color: var(--text-color-default);
   font-size: var(--font-size-s);
-  line-height: ${props => props.size === 's' ? '24px' : '32px'};
+  line-height: ${props => props.size === 's' && !props.isMobile ? '24px' : '32px'};
+  width: ${props => props.isMobile ? '100%' : 'initial'};
 
   &:hover {
     background-color: var(--btn-color-hovered);
@@ -41,9 +42,9 @@ const StyledButton = styled.button`
   }
 `;
 
-export const Button = ({size, color, children, type, disabled, onClick}) => {
+export const Button = ({size, color, children, type, disabled, onClick, isMobile}) => {
   return (
-    <StyledButton type={type} size={size} color={color} disabled={disabled} onClick={onClick}>
+    <StyledButton type={type} size={size} color={color} disabled={disabled} onClick={onClick} isMobile={isMobile}>
       {children}
     </StyledButton>
   )
