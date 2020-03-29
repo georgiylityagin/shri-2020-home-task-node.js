@@ -16,8 +16,7 @@ const BranchNameStyled = styled.div`
     letter-spacing: var(--letter-spacing-s);
     color: var(--text-color-default);
     
-    flex-shrink: 1;
-    max-width: 250px;
+    max-width: 190px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

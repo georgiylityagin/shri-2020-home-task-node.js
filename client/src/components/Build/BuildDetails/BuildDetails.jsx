@@ -21,6 +21,7 @@ const Break = styled.div`
 
 const MetaInfo = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   ${props => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 `;

@@ -6,7 +6,6 @@ const CommitMessageStyled = styled.div`
   line-height: var(--line-height-m);
   color: var(--text-color-default);
   margin-bottom: var(--space-xxxs);
-
 `;
 
 export const CommitMessage = ({ commitMessage }) => {

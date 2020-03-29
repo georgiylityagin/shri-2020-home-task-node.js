@@ -17,8 +17,7 @@ const AuthorNameStyled = styled.div`
     letter-spacing: var(--letter-spacing-s);
     color: var(--text-color-default);
 
-    max-width: 250px;
-    flex-shrink: 1;
+    max-width: 200px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

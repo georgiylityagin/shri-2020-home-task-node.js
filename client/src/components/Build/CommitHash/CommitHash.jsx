@@ -7,18 +7,12 @@ const CommitHashStyled = styled.div`
   letter-spacing: var(--letter-spacing-s);
   color: var(--text-color-secondary);
   margin-right: var(--space-xxs);
-  
-  flex-shrink: 1;
-  max-width: 300px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 `;
 
 export const CommitHash = ({ commitHash }) => {
   return (
     <CommitHashStyled>
-      { commitHash.slice(0, 9) }
+      { commitHash ? `${commitHash.slice(0, 9)}...` : null }
     </CommitHashStyled>
   )
 }
