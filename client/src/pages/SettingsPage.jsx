@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { postConfig } from '../redux/Settings/settings-reducer';
+import { postConfig, switchErrorWithCloning } from '../redux/actions/settings-actions';
 import { connect } from 'react-redux';
 
 import { Page } from '../components/Page/Page';
@@ -12,6 +12,7 @@ import { Title } from '../components/Title/Title';
 import { Input } from '../components/Input/Input';
 import { Button } from '../components/Button/Button';
 import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
+import { Alert } from '../components/Alert/Alert';
 
 
 const FormWrapper = styled.form`
@@ -36,7 +37,7 @@ const SettingsDescription = styled.div`
 
 
 
-export const SettingsPage = ({ postConfig, isCloning, isMobile }) => {
+export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cloningWithError, isMobile }) => {
   const [repoName, setRepoName] = useState('');
   const [buildCommand, setBuildCommand] = useState('');
   const [mainBranch, setMainBranch] = useState('master');
@@ -92,10 +93,21 @@ export const SettingsPage = ({ postConfig, isCloning, isMobile }) => {
     }
   }
 
+  const disableAlert = () => {
+    setTimeout(() => {
+      switchErrorWithCloning(false);
+    }, 5000)    
+  }
+
+  const handleRedirect = (e) => {
+    e.preventDefault();
+    history.push('/');
+  }
+
   useEffect(() => {
     repoName && buildCommand && periodValid ? setFormValid(true) : setFormValid(false);
+    cloningWithError && disableAlert();
   });
-
 
   return (
     <Page>
@@ -106,6 +118,7 @@ export const SettingsPage = ({ postConfig, isCloning, isMobile }) => {
       </Header>
       <Content>
         <FormWrapper isMobile={isMobile} onSubmit={handleSubmit}>
+          {cloningWithError ? <Alert>Error with cloning repo</Alert> : null}
           <SettingsHeader>Settings</SettingsHeader>
           <SettingsDescription>
             Configure repository connection and synchronization settings.
@@ -147,11 +160,7 @@ export const SettingsPage = ({ postConfig, isCloning, isMobile }) => {
           />
           <ButtonGroup isMobile={isMobile}>
             <Button type='submit' disabled={!formValid || isCloning} color='accent'>Save</Button>
-            <Button type='button' disabled={isCloning}>
-              <Link to='/'>
-                Cancel
-              </Link>
-            </Button>
+            <Button type='button' disabled={isCloning} onClick={handleRedirect}>Cancel</Button>
           </ButtonGroup>
         </FormWrapper>
       </Content>
@@ -165,4 +174,7 @@ const mapStateToProps = ({ settings }) => ({
   cloningWithError: settings.cloningWithError
 });
 
-export const ConnectedSettingsPage = connect(mapStateToProps, { postConfig })(SettingsPage);
+export const ConnectedSettingsPage = connect(
+  mapStateToProps,
+  { postConfig, switchErrorWithCloning }
+)(SettingsPage);

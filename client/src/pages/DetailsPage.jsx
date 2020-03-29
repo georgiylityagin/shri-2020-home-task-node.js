@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getBuildDetails, postBuildInQueue } from '../redux/Details/details-reducer';
+import { getBuildDetails, postBuildInQueue } from '../redux/actions/details-actions';
 
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
@@ -15,19 +15,7 @@ import { BuildItem } from '../components/Build/BuildItem/BuildItem';
 import { Log } from '../components/Log/Log';
 
 
-const data = {
-    "id": "6a75b785",
-    "configurationId": "a7cec7c0-4d65-4809-ae1b-f7ed7e6a31a2",
-    "buildNumber": 1,
-    "commitMessage": "обновлён readme",
-    "commitHash": "f9bb5f0b469541aecfcb58d1ab220cffc4079ac7",
-    "branchName": "master",
-    "authorName": "SuperUser",
-    "status": "Success"
-}
-
-
-export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isMobile, repoName, logs} ) => {
+export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isMobile, repoName, logs } ) => {
   let history = useHistory();
   let { id } = useParams();
 
@@ -66,10 +54,12 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
 }
 
 const mapStateToProps = ({ details }) => ({
-  isLoading: details.isLoading,
   repoName: details.repoName,
   buildInfo: details.buildInfo,
   logs: details.logs
 });
 
-export const ConnectedDetailsPage = connect(mapStateToProps, { getBuildDetails, postBuildInQueue })(DetailsPage);
+export const ConnectedDetailsPage = connect(
+  mapStateToProps,
+  { getBuildDetails, postBuildInQueue }
+)(DetailsPage);

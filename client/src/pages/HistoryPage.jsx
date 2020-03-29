@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getBuildListThunk, postNewBuildQueue } from '../redux/History/history-reducer';
+import { getBuildListThunk, postNewBuildQueue } from '../redux/actions/history-actions';
 
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
@@ -15,40 +14,8 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { PopUp } from '../components/PopUp/PopUp';
 import { BuildList } from '../components/Build/BuildList/BuildList';
 
-const data = [
-  {
-    "id": "1a26b772",
-    "configurationId": "a7cec7c0-ddf3-4809-ae1b-f7ed7e6a31a2",
-    "buildNumber": 3,
-    "commitMessage": "И ещё что-то",
-    "commitHash": "3klhjkaha83h2jkhh2348hskjfdaasdfasdf3",
-    "branchName": "hot-fix",
-    "authorName": "John Doe",
-    "status": "Waiting"
-  },
-  {
-    "id": "6a75j789",
-    "configurationId": "a7cec7c0-jdh2-4809-ae1b-f7ed7e6a31a2",
-    "buildNumber": 2,
-    "commitMessage": "Сделано ещё что-то",
-    "commitHash": "dj38sldf2349dslkahdfjh1248sfdhkasfadf",
-    "branchName": "feature",
-    "authorName": "Georgiy Lityagin",
-    "status": "Fail"
-  },
-  {
-    "id": "6a75b785",
-    "configurationId": "a7cec7c0-4d65-4809-ae1b-f7ed7e6a31a2",
-    "buildNumber": 1,
-    "commitMessage": "обновлён readme",
-    "commitHash": "f9bb5f0b469541aecfcb58d1ab220cffc4079ac7",
-    "branchName": "master",
-    "authorName": "SuperUser",
-    "status": "Success"
-  }
-];
 
-export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, buildList, repoName, runNewBuild, isMobile}) => {
+export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, buildList, repoName, isMobile }) => {
   const [toggle, setToggle] = useState(false);
   const [foundCommit, setFoundCommit] = useState(false);
   const [showLimit, setShowLimit] = useState({
@@ -64,6 +31,7 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
   }
 
   let history = useHistory();
+
 
   const handleShowMore = () => {
     const stepShow = isMobile ? 3 : 5;
@@ -131,10 +99,12 @@ export const HistoryPage = ({ getBuildListThunk, postNewBuildQueue, isLoading, b
 }
 
 const mapStateToProps = ({ history }) => ({
-  isLoading: history.isLoading,
   buildList: history.buildList,
   repoName: history.repoName,
-  runNewBuild: history.runNewBuild
+  runNewBuild: history.runNewBuild,
 });
 
-export const ConnectedHistoryPage = connect(mapStateToProps, { getBuildListThunk, postNewBuildQueue })(HistoryPage);
+export const ConnectedHistoryPage = connect(
+  mapStateToProps, 
+  { getBuildListThunk, postNewBuildQueue }
+)(HistoryPage);

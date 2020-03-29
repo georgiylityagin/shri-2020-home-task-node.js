@@ -1,35 +1,49 @@
 import { api } from '../../requests-helper/requests-helper';
-import { GET_CONFIG, LOADING, CLONING, ERROR_CLONING, ISCONFIG, addConfig, loadSettings, cloningRepo, isConfig, errorWithCloning } from './settings-actions';
 
-const initialState = {
-  repoName: '',
-  buildCommand: '',
-  mainBranch: '',
-  period: '',
-  isConfig: true,
-  isLoading: false,
-  isCloning: false,
-  cloningWithError: false,
-};
+/*
+ * action types
+*/
 
-export function settingsReducer(state = initialState, action) {
-  switch (action.type) {
-    case GET_CONFIG:
-      return { ...state, ...action.payload };
-    case LOADING:
-      return { ...state, isLoading: action.payload };
-    case CLONING:
-      return { ...state, isCloning: action.payload };
-    case ISCONFIG:
-      return { ...state, isConfig: action.payload };
-    case ERROR_CLONING:
-      return { ...state, cloningWithError: action.payload };
-    default:
-      return state;
-  }
-}
+export const GET_CONFIG = 'GET_CONFIG';
 
-export const getConfigThunk = (history) => (dispatch) => {
+export const LOADING = 'LOADING';
+
+export const CLONING = 'CLONING';
+
+export const ISCONFIG = 'ISCONFIG';
+
+export const ERROR_CLONING = 'ERROR_CLONING';
+
+
+/*
+ * action creators
+*/
+export const addConfig = (config) => ({
+  type: GET_CONFIG,
+  payload: config
+});
+
+export const loadSettings = (status) => ({
+  type: LOADING,
+  payload: status
+});
+
+export const cloningRepo = (status) => ({
+  type: CLONING,
+  payload: status
+});
+
+export const isConfig = (status) => ({
+  type: ISCONFIG,
+  payload: status
+})
+
+export const errorWithCloning = (status) => ({
+  type: ERROR_CLONING,
+  payload: status
+});
+
+export const getConfig = (history) => (dispatch) => {
   dispatch(loadSettings(true));
 
   api.getConfig()
@@ -54,7 +68,7 @@ export const postConfig = (data, history) => (dispatch) => {
   api.postConfig(data)
     .then(res => {
       console.log(res)
-      if (!res.data) {
+      if (!res.data && res.reason === 'repoCloningErr') {
         dispatch(errorWithCloning(true));
         dispatch(cloningRepo(false));
       } else {
@@ -67,4 +81,8 @@ export const postConfig = (data, history) => (dispatch) => {
       dispatch(errorWithCloning(true));
       console.log(err);
     });
+}
+
+export const switchErrorWithCloning = (data) => (dispatch) => {
+  dispatch(errorWithCloning(data));
 }

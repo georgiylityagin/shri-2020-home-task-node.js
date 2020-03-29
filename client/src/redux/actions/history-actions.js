@@ -1,27 +1,40 @@
 import { api } from '../../requests-helper/requests-helper';
-import { GET_BUILD_LIST, LOAD_TOGGLE, GET_REPONAME, RUN_NEW_BUILD, actionGetBuilds, loading, getRepoName, addBuildInQueue } from './history-actions';
 
-const initialState = {
-  isLoading: false,
-  buildList: [],
-  repoName: '',
-  runNewBuild: false
-}
+/*
+ * action types
+*/
 
-export function historyReducer(state = initialState, action) {
-  switch (action.type) {
-    case GET_BUILD_LIST:
-      return { ...state, buildList: [...action.payload] };
-    case LOAD_TOGGLE:
-      return { ...state, isLoading: action.payload };
-    case GET_REPONAME:
-      return { ...state, repoName: action.payload };
-      case RUN_NEW_BUILD:
-      return { ...state, runNewBuild: action.payload };
-    default:
-      return state;
-  }
-}
+export const GET_BUILD_LIST = 'GET_BUILD_LIST';
+
+export const LOAD_TOGGLE = 'LOAD_TOGGLE';
+
+export const GET_REPONAME = 'GET_REPONAME';
+
+export const RUN_NEW_BUILD = 'RUN_NEW_BUILD';
+
+
+/*
+ * action creators
+*/
+export const actionGetBuilds = (data) => ({
+  type: GET_BUILD_LIST,
+  payload: data
+});
+
+export const loading = (data) => ({
+  type: LOAD_TOGGLE,
+  payload: data
+});
+
+export const getRepoName = (data) => ({
+  type: GET_REPONAME,
+  payload: data
+});
+
+export const addBuildInQueue = (status) => ({
+  type: RUN_NEW_BUILD,
+  payload: status
+});
 
 export const getBuildListThunk = (limit) => (dispatch) => {
   dispatch(loading(true));

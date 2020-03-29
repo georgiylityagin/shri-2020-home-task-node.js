@@ -85,8 +85,9 @@
 
   /* Footer */
   --bg-footer: var(--grey-50);
-
   --bg-log: var(--grey-10);
+
+  --bg-alert: var(--red-50);
 
   /* Borders */
   --border-color: var(--grey-400);
