@@ -89,7 +89,7 @@ exports.postSettings = async (req, res) => {
 
   try {
     // Клонируем репозиторий
-    const cloned = await Git.gitClone();
+    await Git.gitClone();
 
     // Получаем последний коммит
     const lastCommit = await Git.getLastCommit();
@@ -108,8 +108,8 @@ exports.postSettings = async (req, res) => {
 
 
     res.status(500).json({
-      data: 'Error',
       message: 'Ошибка при клонировании репозитория',
+      reason: 'repoCloningErr',
       details: error
     });
   }
