@@ -5,7 +5,11 @@ require('dotenv').config()
 const app = express();
 const { router } = require('./routes/routes');
 
-app.use(express.static(path.resolve(__dirname, 'static')));
+var cors = require('cors')
+
+app.use(cors())
+
+// app.use(express.static(path.resolve(__dirname, 'static')));
 
 app.use('/api', router);
 

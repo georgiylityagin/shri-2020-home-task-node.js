@@ -1,7 +1,7 @@
 const fse = require('fs-extra');
 const Git = require('nodegit');
 
-const acc = 'https://github.com/georgiylityagin/';
+const baseURL = 'https://github.com/';
 const repoPath = './tmp/repository';
 
 const axios = require('axios');
@@ -31,7 +31,7 @@ const gitClone = async () => {
   }
 
   return new Promise((resolve) => {
-    resolve(Git.Clone(acc + repoName, repoPath));
+    resolve(Git.Clone(baseURL + repoName, repoPath));
   });
 }
 
