@@ -27,7 +27,7 @@ export const StartPage = ({ getConfig, isConfig, isMobile }) => {
         </Link>
         <Link to='/settings'>
           <Button size='s'>
-            <TextWithIcon img='images/settings_icon.svg' text='Settings' />
+            <TextWithIcon img='images/settings_icon.svg' text='Settings' isMobile={isMobile}/>
           </Button>
         </Link>
       </Header>

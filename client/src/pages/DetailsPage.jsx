@@ -35,11 +35,11 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
         </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
             <Button size='s' onClick={handleRebuild}>
-              <TextWithIcon img='../images/rebuild_icon.svg' text='Rebuild' />
+              <TextWithIcon img='../images/rebuild_icon.svg' text='Rebuild' isMobile={isMobile} />
             </Button>
             <Link to='/settings'>
               <Button size='s'>
-                <TextWithIcon img='../images/settings_icon.svg'/>
+                <TextWithIcon img='../images/settings_icon.svg' isMobile={isMobile}/>
               </Button>
             </Link>
         </ButtonGroup>

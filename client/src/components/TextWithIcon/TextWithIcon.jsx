@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components';
-import { useMediaQuery } from 'react-responsive';
-import { mobileMaxWidth } from '../../breakpoints';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,9 +14,7 @@ const Text = styled.div`
   margin-left: 10px;
 `;
 
-export const TextWithIcon = ({img, text}) => {
-  const isMobile = useMediaQuery({ maxWidth: mobileMaxWidth });
-
+export const TextWithIcon = ({img, text, isMobile}) => {
   return (
     <Wrapper text={text}>
       <Icon src={img} alt="settings"/>

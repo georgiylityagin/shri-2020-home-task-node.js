@@ -64,11 +64,11 @@ export const HistoryPage = ({ getBuildsList, postNewBuildQueue, buildList, repoN
         </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
             <Button size='s' onClick={handleTogglePopUp}>
-              <TextWithIcon img='images/play_icon.svg' text='Run build' />
+              <TextWithIcon img='images/play_icon.svg' text='Run build' isMobile={isMobile}/>
             </Button>
             <Link to='/settings'>
               <Button size='s'>
-                <TextWithIcon img='images/settings_icon.svg'/>
+                <TextWithIcon img='images/settings_icon.svg' isMobile={isMobile}/>
               </Button>
             </Link>
         </ButtonGroup>

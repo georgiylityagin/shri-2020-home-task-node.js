@@ -18,8 +18,6 @@ const convert = new Convert({ fg: '#000', bg: '#000' });
 
 export const Log = ({ children, isMobile }) => {
   return (
-    <LogStyled isMobile={isMobile}>
-        { convert.toHtml(children) }
-    </LogStyled>
+    <LogStyled isMobile={isMobile} dangerouslySetInnerHTML={{ __html: convert.toHtml(children) }}/>
   )
 }
