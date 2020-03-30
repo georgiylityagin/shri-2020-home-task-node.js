@@ -20,7 +20,7 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
   let { id } = useParams();
 
   const handleRebuild = () => {
-    postBuildInQueue(buildInfo, history);
+    postBuildInQueue(buildInfo.commitHash, history);
   }
 
   useEffect(() => {
@@ -30,9 +30,9 @@ export const DetailsPage = ( { getBuildDetails, postBuildInQueue, buildInfo, isM
   return (
     <Page>
       <Header isMobile={isMobile}>
-        <Title isMobile={isMobile} isRepoName={true}>
-          {repoName}
-        </Title>
+        <Link to='/history'>
+          <Title isMobile={isMobile} isRepoName={true}>{repoName}</Title>
+        </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
             <Button size='s' onClick={handleRebuild}>
               <TextWithIcon img='../images/rebuild_icon.svg' text='Rebuild' />

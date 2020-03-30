@@ -150,27 +150,41 @@ exports.getBuilds = async (req, res) => {
 // Добавление сборки в очередь
 exports.postCommitHash = async (req, res) => {
 
-  try {
-    const response = await axiosInstance.post('/build/request', {
-      commitMessage: req.body.commitMessage,
-      commitHash: req.params.commitHash,
-      branchName: req.body.branchName,
-      authorName: req.body.authorName
-    });
+  const lookingHash = req.params.commitHash;
 
-    res.status(200).json({
-      data: response.data.data
-    });
-  } catch (error) {
-    console.log(error);
+  const allCommits = await Git.getAllCommits();
 
-    res.status(504).json({
+  let searchedCommit = allCommits.find(({ commitHash }) => commitHash === lookingHash);
+
+  if (!searchedCommit) {
+    return res.status(404).json({
       data: 'Error',
-      message: error.message,
-      stack: error.stack
-    });
+      message: 'There is no commit with such hash'
+    })
+  } else {
+    try {
+      const response = await axiosInstance.post('/build/request', {
+        commitHash: req.params.commitHash,
+        commitMessage: searchedCommit.commitMessage,
+        branchName: searchedCommit.branchName,
+        authorName: searchedCommit.authorName
+      });
+  
+      res.status(200).json({
+        data: response.data.data
+      });
+    } catch (error) {
+      console.log(error);
+  
+      res.status(504).json({
+        data: 'Error',
+        message: error.message,
+        stack: error.stack
+      });
+    }
   }
-};
+  }
+
 
 // Получение информации о конкретной сборке
 exports.getBuildId = async (req, res) => {

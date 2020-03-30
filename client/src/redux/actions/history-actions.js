@@ -36,7 +36,7 @@ export const addBuildInQueue = (status) => ({
   payload: status
 });
 
-export const getBuildListThunk = (limit) => (dispatch) => {
+export const getBuildsList = (limit) => (dispatch) => {
   dispatch(loading(true));
 
   api.getBuildsList(0, limit)
@@ -63,7 +63,9 @@ export const postNewBuildQueue = (data, history) => (dispatch) => {
 
   api.postAddBuild(data)
     .then(res => {
-      history.push(`/build/${res.data.id}`);
+      if (res.data !== 'Error') {
+        history.push(`/build/${res.data.id}`);
+      }
       dispatch(addBuildInQueue(false));
     })
     .catch(err => {

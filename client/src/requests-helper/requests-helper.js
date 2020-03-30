@@ -43,16 +43,16 @@ export const api = {
     .catch(err => console.error(err))
   },
 
-  postAddBuild(buildData) {
-    const bodyData = JSON.stringify(buildData);
+  postAddBuild(commitHash) {
+    // const bodyData = JSON.stringify(buildData);
 
-    return fetch(`http://127.0.0.1:3000/api/builds/${buildData.commitHash}`, {
+    return fetch(`http://127.0.0.1:3000/api/builds/${commitHash}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': bodyData.length.toString()
+        'Content-Length': commitHash.length.toString()
       },
-      body: bodyData
+      // body: bodyData
     })
     .then(res => res.json())
     .then(resBody => resBody)

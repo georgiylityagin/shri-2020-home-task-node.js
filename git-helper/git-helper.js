@@ -102,8 +102,32 @@ const newCommitsObserver = async () => {
 };
 
 
+const getAllCommits = async () => {
+
+  let globalCommits = [];
+
+  await Git.Repository.open(repoPath).then(async function(repo) {
+      let currentBranch = await (await repo.getCurrentBranch()).shorthand();
+      var walker = Git.Revwalk.create(repo);
+      walker.pushGlob('refs/heads/*');
+      return walker.getCommitsUntil(c => true).then(function (commits) {
+          var cmts = commits.map(x => ({
+              commitHash:  x.sha(),
+              commitMessage: x.message(),
+              branchName: currentBranch,
+              authorName: x.author().name()
+          }));
+          globalCommits = globalCommits.concat(cmts);
+      });
+  });
+
+  return Promise.resolve(globalCommits);  
+};
+
+
 module.exports = {
   gitClone,
   getLastCommit,
   newCommitsObserver,
+  getAllCommits
 }
