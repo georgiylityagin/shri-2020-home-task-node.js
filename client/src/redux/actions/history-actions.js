@@ -36,13 +36,14 @@ export const addBuildInQueue = (status) => ({
 });
 
 export const getBuildsList = () => (dispatch) => {
-  dispatch(loading(true));
-
   api
     .getBuildsList()
     .then((res) => {
-      dispatch(actionGetBuilds(res.data));
-      dispatch(loading(false));
+      if (res.data) {
+        dispatch(actionGetBuilds(res.data));
+      } else if (res.error) {
+        console.error(res.message)
+      }
     })
     .catch((error) => console.error(error));
 
@@ -64,8 +65,10 @@ export const postNewBuildQueue = (data, history) => (dispatch) => {
   api
     .postAddBuild(data)
     .then((res) => {
-      if (res.data !== 'Error') {
+      if (res.data) {
         history.push(`/build/${res.data.id}`);
+      } else if (res.error) {
+        console.error(res.message);
       }
       dispatch(addBuildInQueue(false));
     })

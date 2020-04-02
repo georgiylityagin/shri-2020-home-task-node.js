@@ -39,7 +39,7 @@ export const DetailsPage = ({
   return (
     <Page>
       <Header isMobile={isMobile}>
-        <Link to="/history">
+        <Link to="/">
           <Title isMobile={isMobile} isRepoName={true}>
             {repoName}
           </Title>

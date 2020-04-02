@@ -57,7 +57,8 @@ export const getConfig = () => (dispatch) => {
           mainBranch: response.data.mainBranch,
           period: response.data.period,
         }));
-      } else {
+      } else if (response.error) {
+        console.error(response.message)
         dispatch(isConfig(false));
       }
     })
@@ -76,9 +77,14 @@ export const postConfig = (data, history) => (dispatch) => {
   api
     .postConfig(data)
     .then((response) => {
-      console.log(response);
-      dispatch(cloningRepo(false));
-      history.push('/');
+      if (response.result === 'success') {
+        dispatch(cloningRepo(false));
+        history.push('/');
+      } else if (response.error) {
+        console.error(response.message);
+        dispatch(cloningRepo(false));
+        dispatch(errorWithCloning(true));
+      }
     })
     .catch((error) => {
       console.error(error);

@@ -27,12 +27,22 @@ const gitClone = async () => {
   const repoName = process.conf.repoName;
 
   if (exists) {
-    await fse.remove(repoPath);
+    const timeout = new Promise(function(resolve, reject) { 
+      setTimeout(reject, 3000, new Error('Папка не удаляется'));
+    });
+
+    try {
+      await await Promise.race([fse.remove(repoPath), timeout]);
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
-  return new Promise((resolve) => {
-    resolve(Git.Clone(baseURL + repoName, repoPath));
-  });
+  try {
+    await Git.Clone(baseURL + repoName, repoPath);
+  } catch (error) {
+    console.error(error.message);
+  }
 }
 
 // Получить последний коммит

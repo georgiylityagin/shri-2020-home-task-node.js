@@ -38,9 +38,8 @@ exports.getSettings = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-
     res.status(504).json({
-      data: 'Error',
+      error: error,
       message: error.message,
       stack: error.stack
     })
@@ -59,13 +58,13 @@ exports.postSettings = async (req, res) => {
   try {
     // Удаляем предыдущие настройки
     await axiosInstance.delete('/conf');
-  } catch(err) {
+  } catch(error) {
     console.error('Не удалось удалить предыдущие настройки');
 
     res.status(500).json({
-      data: 'Error',
+      error: error,
       message: 'Не удалось удалить предыдущие настройки',
-      details: err
+      stack: error.stack
     });
   }
 
@@ -77,20 +76,30 @@ exports.postSettings = async (req, res) => {
       mainBranch: req.body.mainBranch,
       period: req.body.period
     });
-  } catch(err) {
+  } catch(error) {
     console.error('Не удалось сохранить новые настройки');
 
     res.status(500).json({
-      data: 'Error',
+      error: error,
       message: 'Не удалось сохранить новые настройки',
-      details: err
+      stack: error.stack
+    });
+  }
+
+  // Клонируем репозиторий
+  try {
+    await Git.gitClone();
+  } catch (error) {
+    console.error(error.message);
+
+    res.status(500).json({
+      error: error,
+      message: 'Ошибка при клонировании репозитория',
+      stack: error.stack
     });
   }
 
   try {
-    // Клонируем репозиторий
-    await Git.gitClone();
-
     // Получаем последний коммит
     const lastCommit = await Git.getLastCommit();
     process.conf.lastCommitHash = lastCommit.commitHash;
@@ -103,20 +112,19 @@ exports.postSettings = async (req, res) => {
       clearInterval(process.newCommits);
       process.newCommits = setInterval(Git.newCommitsObserver, process.conf.period * 60000);
     }
+
+    res.status(200).json({
+      result: 'success'
+    });
   } catch (error) {
     console.log('Ошибка при клонировании репозитория');
-    throw error;
 
-    // res.status(500).json({
-    //   message: 'Ошибка при клонировании репозитория',
-    //   reason: 'repoCloningErr',
-    //   details: error
-    // });
+    res.status(500).json({
+      error: error,
+      message: error.message,
+      stack: error.stack
+    });
   }
-
-  res.status(200).json({
-    data: 'Success'
-  })
 }
 
 
@@ -138,9 +146,8 @@ exports.getBuilds = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-
     res.status(504).json({
-      data: 'Error',
+      error: error,
       message: error.message,
       stack: error.stack
     })
@@ -158,7 +165,7 @@ exports.postCommitHash = async (req, res) => {
 
   if (!searchedCommit) {
     return res.status(404).json({
-      data: 'Error',
+      error: 'Error',
       message: 'There is no commit with such hash'
     })
   } else {
@@ -177,7 +184,7 @@ exports.postCommitHash = async (req, res) => {
       console.log(error);
   
       res.status(504).json({
-        data: 'Error',
+        error: error,
         message: error.message,
         stack: error.stack
       });
@@ -199,7 +206,7 @@ exports.getBuildId = async (req, res) => {
     console.error(error);
 
     res.status(404).json({
-      data: 'Error',
+      error: error,
       message: error.message,
       stack: error.stack
     })
@@ -242,7 +249,7 @@ exports.getLogs = async (req, res) => {
     console.error(error);
 
     res.status(404).json({
-      data: 'Error',
+      error: error,
       message: error.message,
       stack: error.stack
     })

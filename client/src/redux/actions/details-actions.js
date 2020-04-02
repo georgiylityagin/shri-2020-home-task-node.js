@@ -44,30 +44,26 @@ export const getLogs = (data) => ({
 });
 
 export const getBuildDetails = (buildId, history) => (dispatch) => {
-  dispatch(loading(true));
-
-  api
-    .getBuildDetails(buildId)
+  api.getBuildDetails(buildId)
     .then((res) => {
-      dispatch(getInfo(res.data));
-      if (res.data.status === 'Success') {
-        return api
-          .getBuildLogs(res.data.id)
+      if (res.data) {
+        dispatch(getInfo(res.data));
+
+        return api.getBuildLogs(res.data.id)
           .then((res) => {
             dispatch(getLogs(res.data));
-            dispatch(loading(false));
           })
           .catch((error) => console.error(error));
+      } else if (res.error) {
+        console.error(res.message);
+        dispatch(getInfo({}));
       }
-      dispatch(loading(false));
     })
     .catch((error) => {
-      dispatch(loading(false));
       console.error(error);
     });
 
-  api
-    .getConfig()
+  api.getConfig()
     .then((res) => {
       if (res.data) {
         dispatch(getRepoName(res.data.repoName));
@@ -82,8 +78,7 @@ export const getBuildDetails = (buildId, history) => (dispatch) => {
 export const postBuildInQueue = (data, history) => (dispatch) => {
   dispatch(loading(true));
 
-  api
-    .postAddBuild(data)
+  api.postAddBuild(data)
     .then((res) => {
       if (res.data !== 'Error') {
         dispatch(getRebuildInfo(res.data));
