@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const AuthorNameStyled = styled.div`
   display: flex;
   align-items: center;
-  
-  ${props => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
+
+  ${(props) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 
   & > img {
     margin-right: var(--space-xxxxs);
@@ -29,8 +29,8 @@ export const AuthorName = ({ authorName, isMobile, isDetails }) => {
 
   return (
     <AuthorNameStyled isMobile={isMobile}>
-      <img src={`${prefix}images/user_icon.svg`}/>
-      <div>{ authorName }</div>
+      <img src={`${prefix}images/user_icon.svg`} />
+      <div>{authorName}</div>
     </AuthorNameStyled>
-  )
-}
+  );
+};

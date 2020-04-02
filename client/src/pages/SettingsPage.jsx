@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { postConfig, switchErrorWithCloning } from '../redux/actions/settings-actions';
+import {
+  postConfig,
+  switchErrorWithCloning,
+} from '../redux/actions/settings-actions';
 import { connect } from 'react-redux';
 
 import { Page } from '../components/Page/Page';
@@ -14,30 +17,33 @@ import { Button } from '../components/Button/Button';
 import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
 import { Alert } from '../components/Alert/Alert';
 
-
 const FormWrapper = styled.form`
   max-width: 474px;
-  margin: ${props => props.isMobile ? 'auto' : 0};
+  margin: ${(props) => (props.isMobile ? 'auto' : 0)};
 `;
 
 const SettingsHeader = styled.h4`
   font-size: var(--font-size-m);
   font-weight: bold;
-  line-height:  var(--line-height-m);
+  line-height: var(--line-height-m);
   margin-bottom: var(--space-xxxs);
 `;
 
 const SettingsDescription = styled.div`
   font-size: var(--font-size-s);
-  line-height:  var(--line-height-s);
+  line-height: var(--line-height-s);
   letter-spacing: var(--letter-spacing-s);
   color: var(--text-color-muted);
   margin-bottom: var(--space-xxl);
 `;
 
-
-
-export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cloningWithError, isMobile }) => {
+export const SettingsPage = ({
+  postConfig,
+  switchErrorWithCloning,
+  isCloning,
+  cloningWithError,
+  isMobile,
+}) => {
   const [repoName, setRepoName] = useState('');
   const [buildCommand, setBuildCommand] = useState('');
   const [mainBranch, setMainBranch] = useState('master');
@@ -62,9 +68,9 @@ export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cl
         break;
       case 'period':
         setPeriod(+e.target.value);
-        break
+        break;
     }
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,11 +79,11 @@ export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cl
       repoName,
       buildCommand,
       mainBranch,
-      period
-    }
+      period,
+    };
 
     postConfig(settingsData, history);
-  }
+  };
 
   const handleFocusOut = (e) => {
     switch (e.target.id) {
@@ -88,31 +94,35 @@ export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cl
         buildCommand ? setBuildCommandValid(true) : setBuildCommandValid(false);
         break;
       case 'period':
-        Number.isInteger(+period) ? setPeriodValid(true) : setPeriodValid(false);
-        break
+        Number.isInteger(+period)
+          ? setPeriodValid(true)
+          : setPeriodValid(false);
+        break;
     }
-  }
+  };
 
   const disableAlert = () => {
     setTimeout(() => {
       switchErrorWithCloning(false);
-    }, 5000)    
-  }
+    }, 5000);
+  };
 
   const handleRedirect = (e) => {
     e.preventDefault();
     history.push('/');
-  }
+  };
 
   useEffect(() => {
-    repoName && buildCommand && periodValid ? setFormValid(true) : setFormValid(false);
+    repoName && buildCommand && periodValid
+      ? setFormValid(true)
+      : setFormValid(false);
     cloningWithError && disableAlert();
   });
 
   return (
     <Page>
       <Header isMobile={isMobile}>
-        <Link to='/'>
+        <Link to="/">
           <Title isMobile={isMobile}>School CI server</Title>
         </Link>
       </Header>
@@ -123,58 +133,70 @@ export const SettingsPage = ({ postConfig, switchErrorWithCloning, isCloning, cl
           <SettingsDescription>
             Configure repository connection and synchronization settings.
           </SettingsDescription>
-          <Input id='repository'
-            type='search'
-            labelText='GitHub repository'
-            placeholder='user-name/repo-name'
+          <Input
+            id="repository"
+            type="search"
+            labelText="GitHub repository"
+            placeholder="user-name/repo-name"
             required
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={repoNameValid}
           />
-          <Input id='build'
-            type='search'
-            labelText='Build command'
-            placeholder='example: npm run build'
+          <Input
+            id="build"
+            type="search"
+            labelText="Build command"
+            placeholder="example: npm run build"
             required
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={buildCommandValid}
           />
-          <Input id='branch'
-            type='search'
-            labelText='Main branch'
-            placeholder='master'
+          <Input
+            id="branch"
+            type="search"
+            labelText="Main branch"
+            placeholder="master"
             onChange={handleInputChange}
             valid={true}
           />
-          <Input id='period'
-            type='text'
-            labelText='Synchronize every'
-            placeholder='0'
+          <Input
+            id="period"
+            type="text"
+            labelText="Synchronize every"
+            placeholder="0"
             inline
-            additionalLabel='minutes'
+            additionalLabel="minutes"
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={periodValid}
           />
           <ButtonGroup isMobile={isMobile}>
-            <Button type='submit' disabled={!formValid || isCloning} color='accent'>Save</Button>
-            <Button type='button' disabled={isCloning} onClick={handleRedirect}>Cancel</Button>
+            <Button
+              type="submit"
+              disabled={!formValid || isCloning}
+              color="accent"
+            >
+              Save
+            </Button>
+            <Button type="button" disabled={isCloning} onClick={handleRedirect}>
+              Cancel
+            </Button>
           </ButtonGroup>
         </FormWrapper>
       </Content>
-      <Footer isMobile={isMobile}/>
+      <Footer isMobile={isMobile} />
     </Page>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ settings }) => ({
   isCloning: settings.isCloning,
-  cloningWithError: settings.cloningWithError
+  cloningWithError: settings.cloningWithError,
 });
 
-export const ConnectedSettingsPage = connect(
-  mapStateToProps,
-  { postConfig, switchErrorWithCloning }
-)(SettingsPage);
+export const ConnectedSettingsPage = connect(mapStateToProps, {
+  postConfig,
+  switchErrorWithCloning,
+})(SettingsPage);

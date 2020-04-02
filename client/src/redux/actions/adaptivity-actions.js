@@ -2,33 +2,32 @@ export const breakpoint = 767;
 
 /*
  * action types
-*/
+ */
 
 export const RESIZE = 'RESIZE';
 
 export const ISMOBILE = 'ISMOBILE';
 
-
 /*
  * action creators
-*/
+ */
 
 export const resizeWindow = (width) => ({
   type: RESIZE,
-  payload: width
-})
+  payload: width,
+});
 
 export const isMobile = (status) => ({
   type: ISMOBILE,
-  payload: status
-})
+  payload: status,
+});
 
 export const detectDevice = (width) => (dispatch) => {
   dispatch(resizeWindow(width));
 
   if (width <= breakpoint) {
-    dispatch(isMobile(true))
+    dispatch(isMobile(true));
   } else {
-    dispatch(isMobile(false))
+    dispatch(isMobile(false));
   }
-}
+};

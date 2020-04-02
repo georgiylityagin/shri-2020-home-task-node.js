@@ -1,30 +1,32 @@
 export const api = {
   getConfig() {
     return fetch('http://127.0.0.1:3000/api/settings')
-      .then(res => res.json())
-      .then(resBody => resBody)
-      .catch(err => console.error(err));
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
   },
 
   getBuildsList(offset = 0, limit = 25) {
-    return fetch(`http://127.0.0.1:3000/api/builds?offset=${offset}&limit=${limit}`)
-      .then(res => res.json())
-      .then(resBody => resBody)
-      .catch(err => console.error(err))
+    return fetch(
+      `http://127.0.0.1:3000/api/builds?offset=${offset}&limit=${limit}`
+    )
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
   },
 
   getBuildDetails(buildId) {
     return fetch(`http://127.0.0.1:3000/api/builds/${buildId}`)
-      .then(res => res.json())
-      .then(resBody => resBody)
-      .catch(err => console.error(err))
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
   },
 
   getBuildLogs(buildId) {
     return fetch(`http://127.0.0.1:3000/api/builds/${buildId}/logs`)
-      .then(res => res.json())
-      .then(resBody => resBody)
-      .catch(err => console.error(err))
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
   },
 
   postConfig(config) {
@@ -34,28 +36,26 @@ export const api = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': bodyData.length.toString()
+        'Content-Length': bodyData.length.toString(),
       },
-      body: bodyData
+      body: bodyData,
     })
-    .then(res => res.json())
-    .then(resBody => resBody)
-    .catch(err => console.error(err))
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
   },
 
   postAddBuild(commitHash) {
-    // const bodyData = JSON.stringify(buildData);
-
     return fetch(`http://127.0.0.1:3000/api/builds/${commitHash}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Content-Length': commitHash.length.toString()
+        'Content-Length': commitHash.length.toString(),
       },
       // body: bodyData
     })
-    .then(res => res.json())
-    .then(resBody => resBody)
-    .catch(err => console.error(err))
-  }
-}
+      .then((res) => res.json())
+      .then((resBody) => resBody)
+      .catch((err) => console.error(err));
+  },
+};

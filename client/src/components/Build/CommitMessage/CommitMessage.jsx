@@ -9,9 +9,5 @@ const CommitMessageStyled = styled.div`
 `;
 
 export const CommitMessage = ({ commitMessage }) => {
-  return (
-    <CommitMessageStyled>
-      { commitMessage }
-    </CommitMessageStyled>
-  )
-}
+  return <CommitMessageStyled>{commitMessage}</CommitMessageStyled>;
+};

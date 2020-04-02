@@ -15,7 +15,7 @@ const BranchNameStyled = styled.div`
     line-height: var(--line-height-xs);
     letter-spacing: var(--letter-spacing-s);
     color: var(--text-color-default);
-    
+
     max-width: 190px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -28,8 +28,8 @@ export const BranchName = ({ branchName, isDetails }) => {
 
   return (
     <BranchNameStyled>
-      <img src={`${prefix}images/code-commit_icon.svg`}/>
+      <img src={`${prefix}images/code-commit_icon.svg`} />
       <div>{branchName}</div>
     </BranchNameStyled>
-  )
-}
+  );
+};

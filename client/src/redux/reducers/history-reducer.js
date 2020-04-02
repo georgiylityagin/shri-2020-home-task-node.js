@@ -1,11 +1,16 @@
-import { GET_BUILD_LIST, LOAD_TOGGLE, GET_REPONAME, RUN_NEW_BUILD } from '../actions/history-actions';
+import {
+  GET_BUILD_LIST,
+  LOAD_TOGGLE,
+  GET_REPONAME,
+  RUN_NEW_BUILD,
+} from '../actions/history-actions';
 
 const initialState = {
   isLoading: false,
   buildList: [],
   repoName: '',
-  runNewBuild: false
-}
+  runNewBuild: false,
+};
 
 export function historyReducer(state = initialState, action) {
   switch (action.type) {

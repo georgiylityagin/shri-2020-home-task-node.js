@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -7,18 +7,18 @@ const Wrapper = styled.div`
 `;
 
 const Icon = styled.img`
-  margin: 6px -5px
+  margin: 6px -5px;
 `;
 
 const Text = styled.div`
   margin-left: 10px;
 `;
 
-export const TextWithIcon = ({img, text, isMobile}) => {
+export const TextWithIcon = ({ img, text, isMobile }) => {
   return (
     <Wrapper text={text}>
-      <Icon src={img} alt="settings"/>
+      <Icon src={img} alt="settings" />
       {text && !isMobile ? <Text>{text}</Text> : null}
     </Wrapper>
-  )
-}
+  );
+};

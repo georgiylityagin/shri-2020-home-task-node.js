@@ -1,28 +1,28 @@
 :root {
-    /* Палитра */
+  /* Палитра */
   --black-100: #000000;
 
-  --red-50: #FFC0BE;
-  --red-100: #FF6666;
-  --red-500: #FF3333;
-  --red-600: #E00000;
+  --red-50: #ffc0be;
+  --red-100: #ff6666;
+  --red-500: #ff3333;
+  --red-600: #e00000;
 
-  --green-500: #00B341;
+  --green-500: #00b341;
 
-  --orange-100: #FFCC00; /*action button*/
-  --orange-200: #F2C200; /*hovered action button*/
-  --orange-300: #B38F00;  /*action button outline*/
-  --orange-500: #FF9A00;  /*warning id*/
+  --orange-100: #ffcc00; /*action button*/
+  --orange-200: #f2c200; /*hovered action button*/
+  --orange-300: #b38f00; /*action button outline*/
+  --orange-500: #ff9a00; /*warning id*/
 
-  --grey-10: #F2F2F2;  /*Disabled button & log background*/
-  --grey-50: #F0F2F3;  /*Footer background*/
-  --grey-100: #E6E6E6;  /*Standart button & header button*/
-  --grey-200: #DBDBDB;  /*Hovered standart button*/
-  --grey-300: #B3B3B3;  /*Focused button outline & focused input outline*/
-  --grey-400: #D9D9D9;  /*Input border*/
-  --grey-500: #CCCCCC;  /*Placeholder text*/
-  --grey-1000: #7f8285;  /*Muted text*/
-  --grey-1100: #595959;  /*Text commit secondary & date-time*/
+  --grey-10: #f2f2f2; /*Disabled button & log background*/
+  --grey-50: #f0f2f3; /*Footer background*/
+  --grey-100: #e6e6e6; /*Standart button & header button*/
+  --grey-200: #dbdbdb; /*Hovered standart button*/
+  --grey-300: #b3b3b3; /*Focused button outline & focused input outline*/
+  --grey-400: #d9d9d9; /*Input border*/
+  --grey-500: #cccccc; /*Placeholder text*/
+  --grey-1000: #7f8285; /*Muted text*/
+  --grey-1100: #595959; /*Text commit secondary & date-time*/
 
   /* Размеры */
   --font-size-xs: 10px;

@@ -11,13 +11,17 @@ const LogStyled = styled.pre`
   font-size: var(--font-size-xs);
   line-height: var(--line-height-m);
 
-  ${props => props.isMobile && 'margin-left: calc(0px - var(--content-mobile-indent));'}
+  ${(props) =>
+    props.isMobile && 'margin-left: calc(0px - var(--content-mobile-indent));'}
 `;
 
 const convert = new Convert({ fg: '#000', bg: '#000' });
 
 export const Log = ({ children, isMobile }) => {
   return (
-    <LogStyled isMobile={isMobile} dangerouslySetInnerHTML={{ __html: convert.toHtml(children) }}/>
-  )
-}
+    <LogStyled
+      isMobile={isMobile}
+      dangerouslySetInnerHTML={{ __html: convert.toHtml(children) }}
+    />
+  );
+};

@@ -1,11 +1,17 @@
-import { LOAD_TOGGLE, GET_BUILD_INFO, GET_REPONAME, GET_REBUILD_INFO, GET_LOGS } from '../actions/details-actions';
+import {
+  LOAD_TOGGLE,
+  GET_BUILD_INFO,
+  GET_REPONAME,
+  GET_REBUILD_INFO,
+  GET_LOGS,
+} from '../actions/details-actions';
 
 const initianState = {
   isLoading: false,
   repoName: '',
   buildInfo: {},
   rebuildInfo: {},
-  logs: ''
+  logs: '',
 };
 
 export function detailsReducer(state = initianState, action) {

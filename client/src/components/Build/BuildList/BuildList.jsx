@@ -12,9 +12,14 @@ const BuildListStyled = styled.div`
 export const BuildList = ({ isMobile, data, handleDetails }) => {
   return (
     <BuildListStyled>
-      {data.map( buildItem => (
-          <BuildItem key={buildItem.id} data={buildItem} handleDetails={handleDetails} isMobile={isMobile}/>
-        ))}
+      {data.map((buildItem) => (
+        <BuildItem
+          key={buildItem.id}
+          data={buildItem}
+          handleDetails={handleDetails}
+          isMobile={isMobile}
+        />
+      ))}
     </BuildListStyled>
-  )
-}
+  );
+};

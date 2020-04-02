@@ -2,7 +2,7 @@ import { api } from '../../requests-helper/requests-helper';
 
 /*
  * action types
-*/
+ */
 
 export const GET_CONFIG = 'GET_CONFIG';
 
@@ -14,40 +14,40 @@ export const ISCONFIG = 'ISCONFIG';
 
 export const ERROR_CLONING = 'ERROR_CLONING';
 
-
 /*
  * action creators
-*/
+ */
 export const addConfig = (config) => ({
   type: GET_CONFIG,
-  payload: config
+  payload: config,
 });
 
 export const loadSettings = (status) => ({
   type: LOADING,
-  payload: status
+  payload: status,
 });
 
 export const cloningRepo = (status) => ({
   type: CLONING,
-  payload: status
+  payload: status,
 });
 
 export const isConfig = (status) => ({
   type: ISCONFIG,
-  payload: status
-})
+  payload: status,
+});
 
 export const errorWithCloning = (status) => ({
   type: ERROR_CLONING,
-  payload: status
+  payload: status,
 });
 
 export const getConfig = (history) => (dispatch) => {
   dispatch(loadSettings(true));
 
-  api.getConfig()
-    .then(response => {
+  api
+    .getConfig()
+    .then((response) => {
       if (response.data) {
         history.push('/history');
         dispatch(isConfig(true));
@@ -59,15 +59,16 @@ export const getConfig = (history) => (dispatch) => {
         dispatch(loadSettings(false));
       }
     })
-    .catch(err => console.log(err));
-}
+    .catch((err) => console.log(err));
+};
 
 export const postConfig = (data, history) => (dispatch) => {
   dispatch(cloningRepo(true));
 
-  api.postConfig(data)
-    .then(res => {
-      console.log(res)
+  api
+    .postConfig(data)
+    .then((res) => {
+      console.log(res);
       if (!res.data && res.reason === 'repoCloningErr') {
         dispatch(errorWithCloning(true));
         dispatch(cloningRepo(false));
@@ -76,13 +77,13 @@ export const postConfig = (data, history) => (dispatch) => {
         history.push('/history');
       }
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(cloningRepo(false));
       dispatch(errorWithCloning(true));
       console.log(err);
     });
-}
+};
 
 export const switchErrorWithCloning = (data) => (dispatch) => {
   dispatch(errorWithCloning(data));
-}
+};

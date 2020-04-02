@@ -2,7 +2,7 @@ import { RESIZE, ISMOBILE, breakpoint } from '../actions/adaptivity-actions';
 
 const initialState = {
   width: window.innerWidth,
-  isMobile: window.innerWidth <= breakpoint
+  isMobile: window.innerWidth <= breakpoint,
 };
 
 export const adaptivityReducer = (state = initialState, action) => {
@@ -10,7 +10,7 @@ export const adaptivityReducer = (state = initialState, action) => {
     case RESIZE:
       return { ...state, width: action.payload };
     case ISMOBILE:
-      return { ...state, isMobile: action.payload }
+      return { ...state, isMobile: action.payload };
     default:
       return state;
   }

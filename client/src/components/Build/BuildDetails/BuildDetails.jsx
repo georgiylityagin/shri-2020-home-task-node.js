@@ -10,7 +10,7 @@ import { AuthorName } from '../AuthorName/AuthorName';
 const BuildDetailsStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: ${props => props.isMobile ? 'column' : 'row'};
+  flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
   flex-shrink: 1;
 `;
 
@@ -23,20 +23,28 @@ const MetaInfo = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  ${props => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
+  ${(props) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 `;
 
 export const BuildDetails = ({ data, isMobile, isDetails }) => {
   return (
     <BuildDetailsStyled isMobile={isMobile}>
-      <BuildNumber buildNumber={data.buildNumber} status={data.status} isMobile={isMobile}/>
-      <CommitMessage commitMessage={data.commitMessage}/>
-      <Break/>
+      <BuildNumber
+        buildNumber={data.buildNumber}
+        status={data.status}
+        isMobile={isMobile}
+      />
+      <CommitMessage commitMessage={data.commitMessage} />
+      <Break />
       <MetaInfo isMobile={isMobile}>
-        <BranchName branchName={data.branchName} isDetails={isDetails}/>
-        <CommitHash commitHash={data.commitHash}/>
+        <BranchName branchName={data.branchName} isDetails={isDetails} />
+        <CommitHash commitHash={data.commitHash} />
       </MetaInfo>
-      <AuthorName authorName={data.authorName} isDetails={isDetails} isMobile={isMobile}/>
+      <AuthorName
+        authorName={data.authorName}
+        isDetails={isDetails}
+        isMobile={isMobile}
+      />
     </BuildDetailsStyled>
-  )
-}
+  );
+};

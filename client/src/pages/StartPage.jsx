@@ -19,32 +19,36 @@ export const StartPage = ({ getConfig, isConfig, isMobile }) => {
 
   return (
     <>
-    {isConfig ? null :
-    <Page>
-      <Header isMobile={isMobile}>
-        <Link to='/'>
-          <Title isMobile={isMobile}>School CI server</Title>
-        </Link>
-        <Link to='/settings'>
-          <Button size='s'>
-            <TextWithIcon img='images/settings_icon.svg' text='Settings' isMobile={isMobile}/>
-          </Button>
-        </Link>
-      </Header>
-      <Content centeredV centeredH>
-        <ConfigInfo />
-      </Content>
-      <Footer isMobile={isMobile}/>
-    </Page>}
+      {isConfig ? null : (
+        <Page>
+          <Header isMobile={isMobile}>
+            <Link to="/">
+              <Title isMobile={isMobile}>School CI server</Title>
+            </Link>
+            <Link to="/settings">
+              <Button size="s">
+                <TextWithIcon
+                  img="images/settings_icon.svg"
+                  text="Settings"
+                  isMobile={isMobile}
+                />
+              </Button>
+            </Link>
+          </Header>
+          <Content centeredV centeredH>
+            <ConfigInfo />
+          </Content>
+          <Footer isMobile={isMobile} />
+        </Page>
+      )}
     </>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ settings }) => ({
-  isConfig: settings.isConfig
+  isConfig: settings.isConfig,
 });
 
-export const ConnectedStartPage = connect(
-  mapStateToProps,
-  { getConfig }
-)(StartPage)
+export const ConnectedStartPage = connect(mapStateToProps, { getConfig })(
+  StartPage
+);

@@ -12,7 +12,7 @@ const CommitHashStyled = styled.div`
 export const CommitHash = ({ commitHash }) => {
   return (
     <CommitHashStyled>
-      { commitHash ? `${commitHash.slice(0, 9)}...` : null }
+      {commitHash ? `${commitHash.slice(0, 9)}...` : null}
     </CommitHashStyled>
-  )
-}
+  );
+};

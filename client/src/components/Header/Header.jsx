@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledHeader = styled.header`
@@ -9,18 +9,18 @@ const StyledHeader = styled.header`
 const HeaderContent = styled.div`
   max-width: var(--content-max-width);
   margin: auto;
-  padding: ${props => props.isMobile ? 'var(--space-xs)' : 'var(--space-xxs)'} 0;
+  padding: ${(props) =>
+      props.isMobile ? 'var(--space-xs)' : 'var(--space-xxs)'}
+    0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const Header = ({isMobile, children}) => {
+export const Header = ({ isMobile, children }) => {
   return (
     <StyledHeader>
-      <HeaderContent isMobile={isMobile}>
-        {children}
-      </HeaderContent>
+      <HeaderContent isMobile={isMobile}>{children}</HeaderContent>
     </StyledHeader>
-  )
-}
+  );
+};

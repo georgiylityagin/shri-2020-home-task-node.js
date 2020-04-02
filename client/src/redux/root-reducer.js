@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   settings: settingsReducer,
   history: historyReducer,
   details: detailsReducer,
-  adaptivity: adaptivityReducer
+  adaptivity: adaptivityReducer,
 });
 
 export default rootReducer;

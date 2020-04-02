@@ -1,4 +1,10 @@
-import { GET_CONFIG, LOADING, CLONING, ERROR_CLONING, ISCONFIG } from '../actions/settings-actions';
+import {
+  GET_CONFIG,
+  LOADING,
+  CLONING,
+  ERROR_CLONING,
+  ISCONFIG,
+} from '../actions/settings-actions';
 
 const initialState = {
   repoName: '',

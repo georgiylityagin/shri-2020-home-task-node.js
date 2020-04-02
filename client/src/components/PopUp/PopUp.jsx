@@ -14,18 +14,19 @@ const PopUpWrapper = styled.div`
   width: 100%;
   height: 100%;
   margin: auto;
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const PopUpStyled = styled.div`
-  ${props => props.isMobile ? 'width: 100%;' : 'min-width: 485px;'}
+  ${(props) => (props.isMobile ? 'width: 100%;' : 'min-width: 485px;')}
   background-color: #fff;
   padding: var(--space-xl);
   border-radius: var(--border-radius-s);
-  box-shadow: 0px 6px 16px rgba(67, 68, 69, 0.3), 0px 0px 1px rgba(67, 68, 69, 0.3);
+  box-shadow: 0px 6px 16px rgba(67, 68, 69, 0.3),
+    0px 0px 1px rgba(67, 68, 69, 0.3);
 
   & > input {
     margin-bottom: var(--space-xs);
@@ -48,29 +49,37 @@ const PopUpMessage = styled.p`
   margin-bottom: var(--space-xs);
 `;
 
-export const PopUp = ({ handleClickCancel, isMobile, onChange, onClickRunBuild }) => {
+export const PopUp = ({
+  handleClickCancel,
+  isMobile,
+  onChange,
+  onClickRunBuild,
+}) => {
   return (
     <PopUpWrapper>
       <PopUpStyled isMobile={isMobile}>
         <form onSubmit={onClickRunBuild}>
           <PopUpTitle>New build</PopUpTitle>
-          <PopUpMessage>Enter the commit hash which you want to build.</PopUpMessage>
-          <Input id='branch'
-            type='search'
-            placeholder='Commit hash'
+          <PopUpMessage>
+            Enter the commit hash which you want to build.
+          </PopUpMessage>
+          <Input
+            id="branch"
+            type="search"
+            placeholder="Commit hash"
             onChange={onChange}
             valid={true}
           />
           <ButtonGroup>
-            <Button type='submit' color='accent'>
+            <Button type="submit" color="accent">
               Save
             </Button>
-            <Button type='button' color='white' onClick={handleClickCancel}>
+            <Button type="button" color="white" onClick={handleClickCancel}>
               Cancel
             </Button>
           </ButtonGroup>
         </form>
       </PopUpStyled>
     </PopUpWrapper>
-  )
-}
+  );
+};
