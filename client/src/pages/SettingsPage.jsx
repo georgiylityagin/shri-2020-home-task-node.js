@@ -2,8 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+  getConfig,
+  addConfig,
   postConfig,
-  switchErrorWithCloning,
+  switchErrorWithCloning
 } from '../redux/actions/settings-actions';
 import { connect } from 'react-redux';
 
@@ -19,7 +21,7 @@ import { Alert } from '../components/Alert/Alert';
 
 const FormWrapper = styled.form`
   max-width: 474px;
-  margin: ${(props) => (props.isMobile ? 'auto' : 0)};
+  margin: ${props => (props.isMobile ? 'auto' : 0)};
 `;
 
 const SettingsHeader = styled.h4`
@@ -38,16 +40,16 @@ const SettingsDescription = styled.div`
 `;
 
 export const SettingsPage = ({
+  getConfig,
+  addConfig,
   postConfig,
   switchErrorWithCloning,
+  config,
+  isConfig,
   isCloning,
   cloningWithError,
-  isMobile,
+  isMobile
 }) => {
-  const [repoName, setRepoName] = useState('');
-  const [buildCommand, setBuildCommand] = useState('');
-  const [mainBranch, setMainBranch] = useState('master');
-  const [period, setPeriod] = useState(0);
   const [repoNameValid, setRepoNameValid] = useState(true);
   const [buildCommandValid, setBuildCommandValid] = useState(true);
   const [periodValid, setPeriodValid] = useState(true);
@@ -55,48 +57,52 @@ export const SettingsPage = ({
 
   let history = useHistory();
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     switch (e.target.id) {
       case 'repository':
-        setRepoName(e.target.value);
+        addConfig({ ...config, repoName: e.target.value });
         break;
       case 'build':
-        setBuildCommand(e.target.value);
+        addConfig({ ...config, buildCommand: e.target.value });
         break;
       case 'branch':
-        setMainBranch(e.target.value);
+        addConfig({ ...config, mainBranch: e.target.value });
         break;
       case 'period':
-        setPeriod(+e.target.value);
+        addConfig({ ...config, period: +e.target.value });
         break;
       default:
         break;
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const settingsData = {
-      repoName,
-      buildCommand,
-      mainBranch,
-      period,
+      repoName: config.repoName,
+      buildCommand: config.buildCommand,
+      mainBranch: config.mainBranch,
+      period: config.period
     };
 
     postConfig(settingsData, history);
   };
 
-  const handleFocusOut = (e) => {
+  const handleFocusOut = e => {
     switch (e.target.id) {
       case 'repository':
-        repoName ? setRepoNameValid(true) : setRepoNameValid(false);
+        config.repoName 
+          ? setRepoNameValid(true) 
+          : setRepoNameValid(false);
         break;
       case 'build':
-        buildCommand ? setBuildCommandValid(true) : setBuildCommandValid(false);
+        config.buildCommand
+          ? setBuildCommandValid(true)
+          : setBuildCommandValid(false);
         break;
       case 'period':
-        Number.isInteger(+period)
+        Number.isInteger(+config.period)
           ? setPeriodValid(true)
           : setPeriodValid(false);
         break;
@@ -105,31 +111,33 @@ export const SettingsPage = ({
     }
   };
 
-  const disableAlert = useCallback(
-    () => {
-      setTimeout(() => {
-        switchErrorWithCloning(false);
-      }, 5000);
-    },
-    [switchErrorWithCloning]
-  );
+  const disableAlert = useCallback(() => {
+    setTimeout(() => {
+      switchErrorWithCloning(false);
+    }, 5000);
+  }, [switchErrorWithCloning]);
 
-  const handleRedirect = (e) => {
+  const handleRedirect = e => {
     e.preventDefault();
     history.push('/');
   };
 
   useEffect(() => {
-    repoName && buildCommand && periodValid
+    if (!isConfig) {
+      getConfig();
+    }
+
+    config.repoName && config.buildCommand && periodValid
       ? setFormValid(true)
       : setFormValid(false);
+
     cloningWithError && disableAlert();
-  }, [repoName, buildCommand, periodValid, cloningWithError, disableAlert]);
+  }, [getConfig, config, isConfig, periodValid, cloningWithError, disableAlert]);
 
   return (
     <Page>
       <Header isMobile={isMobile}>
-        <Link to="/">
+        <Link to='/'>
           <Title isMobile={isMobile}>School CI server</Title>
         </Link>
       </Header>
@@ -141,53 +149,57 @@ export const SettingsPage = ({
             Configure repository connection and synchronization settings.
           </SettingsDescription>
           <Input
-            id="repository"
-            type="search"
-            labelText="GitHub repository"
-            placeholder="user-name/repo-name"
+            id='repository'
+            type='search'
+            labelText='GitHub repository'
+            placeholder='user-name/repo-name'
+            value={config.repoName}
             required
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={repoNameValid}
           />
           <Input
-            id="build"
-            type="search"
-            labelText="Build command"
-            placeholder="example: npm run build"
+            id='build'
+            type='search'
+            labelText='Build command'
+            placeholder='example: npm run build'
+            value={config.buildCommand}
             required
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={buildCommandValid}
           />
           <Input
-            id="branch"
-            type="search"
-            labelText="Main branch"
-            placeholder="master"
+            id='branch'
+            type='search'
+            labelText='Main branch'
+            placeholder='master'
+            value={config.mainBranch}
             onChange={handleInputChange}
             valid={true}
           />
           <Input
-            id="period"
-            type="text"
-            labelText="Synchronize every"
-            placeholder="0"
+            id='period'
+            type='text'
+            labelText='Synchronize every'
+            value={config.period}
+            placeholder='0'
             inline
-            additionalLabel="minutes"
+            additionalLabel='minutes'
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={periodValid}
           />
           <ButtonGroup isMobile={isMobile}>
             <Button
-              type="submit"
+              type='submit'
               disabled={!formValid || isCloning}
-              color="accent"
+              color='accent'
             >
               Save
             </Button>
-            <Button type="button" disabled={isCloning} onClick={handleRedirect}>
+            <Button type='button' disabled={isCloning} onClick={handleRedirect}>
               Cancel
             </Button>
           </ButtonGroup>
@@ -199,11 +211,15 @@ export const SettingsPage = ({
 };
 
 const mapStateToProps = ({ settings }) => ({
+  config: settings.config,
+  isConfig: settings.isConfig,
   isCloning: settings.isCloning,
-  cloningWithError: settings.cloningWithError,
+  cloningWithError: settings.cloningWithError
 });
 
 export const ConnectedSettingsPage = connect(mapStateToProps, {
+  getConfig,
+  addConfig,
   postConfig,
-  switchErrorWithCloning,
+  switchErrorWithCloning
 })(SettingsPage);

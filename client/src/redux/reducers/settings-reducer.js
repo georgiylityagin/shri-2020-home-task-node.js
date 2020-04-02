@@ -6,12 +6,25 @@ import {
   ISCONFIG,
 } from '../actions/settings-actions';
 
+// const initialState = {
+//   repoName: '',
+//   buildCommand: '',
+//   mainBranch: '',
+//   period: '',
+//   isConfig: true,
+//   isLoading: false,
+//   isCloning: false,
+//   cloningWithError: false,
+// };
+
 const initialState = {
-  repoName: '',
-  buildCommand: '',
-  mainBranch: '',
-  period: '',
-  isConfig: true,
+  config: {
+    repoName: '',
+    buildCommand: '',
+    mainBranch: '',
+    period: '',
+  },
+  isConfig: false,
   isLoading: false,
   isCloning: false,
   cloningWithError: false,
@@ -20,7 +33,7 @@ const initialState = {
 export function settingsReducer(state = initialState, action) {
   switch (action.type) {
     case GET_CONFIG:
-      return { ...state, ...action.payload };
+      return { ...state, config: action.payload };
     case LOADING:
       return { ...state, isLoading: action.payload };
     case CLONING:

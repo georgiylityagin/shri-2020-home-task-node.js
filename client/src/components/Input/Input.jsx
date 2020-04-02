@@ -57,6 +57,7 @@ export const Input = ({
   id,
   type,
   placeholder,
+  value,
   labelText,
   required,
   inline,
@@ -79,6 +80,7 @@ export const Input = ({
         type={type}
         id={id}
         placeholder={placeholder}
+        value={value}
         inline={inline}
         onChange={onChange}
         onBlur={onBlur}

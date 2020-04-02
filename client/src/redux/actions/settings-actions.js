@@ -42,21 +42,40 @@ export const errorWithCloning = (status) => ({
   payload: status,
 });
 
-export const getConfig = (history) => (dispatch) => {
-  dispatch(loadSettings(true));
+// export const getConfig = (history) => (dispatch) => {
+//   dispatch(loadSettings(true));
 
+//   api
+//     .getConfig()
+//     .then((response) => {
+//       if (response.data) {
+//         history.push('/history');
+//         dispatch(isConfig(true));
+//         dispatch(loadSettings(false));
+//         dispatch(addConfig(response.data));
+//       } else {
+//         history.push('/');
+//         dispatch(isConfig(false));
+//         dispatch(loadSettings(false));
+//       }
+//     })
+//     .catch((err) => console.log(err));
+// };
+
+export const getConfig = () => (dispatch) => {
   api
     .getConfig()
     .then((response) => {
       if (response.data) {
-        history.push('/history');
         dispatch(isConfig(true));
-        dispatch(loadSettings(false));
-        dispatch(addConfig(response.data));
+        dispatch(addConfig({
+          repoName: response.data.repoName,
+          buildCommand: response.data.buildCommand,
+          mainBranch: response.data.mainBranch,
+          period: response.data.period,
+        }));
       } else {
-        history.push('/');
         dispatch(isConfig(false));
-        dispatch(loadSettings(false));
       }
     })
     .catch((err) => console.log(err));
