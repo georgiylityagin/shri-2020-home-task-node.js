@@ -105,13 +105,13 @@ exports.postSettings = async (req, res) => {
     }
   } catch (error) {
     console.log('Ошибка при клонировании репозитория');
+    throw error;
 
-
-    res.status(500).json({
-      message: 'Ошибка при клонировании репозитория',
-      reason: 'repoCloningErr',
-      details: error
-    });
+    // res.status(500).json({
+    //   message: 'Ошибка при клонировании репозитория',
+    //   reason: 'repoCloningErr',
+    //   details: error
+    // });
   }
 
   res.status(200).json({
