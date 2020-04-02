@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { detectDevice } from './redux/actions/adaptivity-actions';
 import { getConfig } from './redux/actions/settings-actions';
 
+import { LoadingPage } from './pages/LoadingPage';
 import { StartPage } from './pages/StartPage';
 import { ConnectedHistoryPage } from './pages/HistoryPage';
 import { ConnectedSettingsPage } from './pages/SettingsPage';
@@ -28,11 +29,9 @@ export const App = ({ detectDevice, getConfig, isConfig, isMobile }) => {
     <Router>
       <Switch>
         <Route path='/' exact>
-          {isConfig ? (
-            <ConnectedHistoryPage isMobile={isMobile} />
-          ) : (
-            <StartPage isMobile={isMobile} />
-          )}
+          { isConfig === undefined && <LoadingPage /> }
+          { isConfig === false && <StartPage isMobile={isMobile} /> }
+          { isConfig === true &&  <ConnectedHistoryPage isMobile={isMobile} />}
         </Route>
         <Route path='/settings' exact>
           <ConnectedSettingsPage isMobile={isMobile} />

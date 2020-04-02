@@ -24,7 +24,7 @@ const initialState = {
     mainBranch: '',
     period: '',
   },
-  isConfig: false,
+  isConfig: undefined,
   isLoading: false,
   isCloning: false,
   cloningWithError: false,
