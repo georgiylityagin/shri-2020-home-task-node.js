@@ -35,11 +35,11 @@ export const addBuildInQueue = (status) => ({
   payload: status,
 });
 
-export const getBuildsList = (limit) => (dispatch) => {
+export const getBuildsList = () => (dispatch) => {
   dispatch(loading(true));
 
   api
-    .getBuildsList(0, limit)
+    .getBuildsList()
     .then((res) => {
       dispatch(actionGetBuilds(res.data));
       dispatch(loading(false));

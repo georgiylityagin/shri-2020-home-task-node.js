@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   getBuildsList,
-  postNewBuildQueue,
+  postNewBuildQueue
 } from '../redux/actions/history-actions';
 
 import { Page } from '../components/Page/Page';
@@ -22,39 +22,39 @@ export const HistoryPage = ({
   postNewBuildQueue,
   buildList,
   repoName,
-  isMobile,
+  isMobile
 }) => {
   const [toggle, setToggle] = useState(false);
   const [showLimit, setShowLimit] = useState({
-    limit: isMobile ? 3 : 10,
+    limit: isMobile ? 3 : 10
   });
   const [formValue, setFormValue] = useState({
-    hash: '',
+    hash: ''
   });
 
   let history = useHistory();
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { value } = event.currentTarget;
-    setFormValue((state) => ({ ...state, hash: value }));
+    setFormValue(state => ({ ...state, hash: value }));
   };
 
   const handleShowMore = () => {
     const stepShow = isMobile ? 3 : 5;
-    setShowLimit((state) => ({ ...state, limit: state.limit + stepShow }));
+    setShowLimit(state => ({ ...state, limit: state.limit + stepShow }));
   };
 
   const handleTogglePopUp = () => {
     setToggle(!toggle);
   };
 
-  const handleDetails = (event) => {
+  const handleDetails = event => {
     let buildId = event.currentTarget.id;
     localStorage.setItem('detailsId', buildId);
     history.push(`build/${buildId}`);
   };
 
-  const handleRunBuild = (e) => {
+  const handleRunBuild = e => {
     e.preventDefault();
 
     postNewBuildQueue(formValue.hash, history);
@@ -67,23 +67,23 @@ export const HistoryPage = ({
   return (
     <Page>
       <Header isMobile={isMobile}>
-        <Link to="/history">
+        <Link to='/history'>
           <Title isMobile={isMobile} isRepoName={true}>
             {repoName}
           </Title>
         </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
-          <Button size="s" onClick={handleTogglePopUp}>
+          <Button size='s' onClick={handleTogglePopUp}>
             <TextWithIcon
-              img="images/play_icon.svg"
-              text="Run build"
+              img='images/play_icon.svg'
+              text='Run build'
               isMobile={isMobile}
             />
           </Button>
-          <Link to="/settings">
-            <Button size="s">
+          <Link to='/settings'>
+            <Button size='s'>
               <TextWithIcon
-                img="images/settings_icon.svg"
+                img='images/settings_icon.svg'
                 isMobile={isMobile}
               />
             </Button>
@@ -93,12 +93,15 @@ export const HistoryPage = ({
       <Content>
         <BuildList
           data={buildList}
+          limit={showLimit.limit}
           handleDetails={handleDetails}
           isMobile={isMobile}
         />
-        <Button size="s" onClick={handleShowMore} isMobile={isMobile}>
-          Show more
-        </Button>
+        {showLimit.limit < buildList.length ? (
+          <Button size='s' onClick={handleShowMore} isMobile={isMobile}>
+            Show more
+          </Button>
+        ) : null}
         {toggle ? (
           <PopUp
             handleClickCancel={handleTogglePopUp}
@@ -116,10 +119,10 @@ export const HistoryPage = ({
 const mapStateToProps = ({ history }) => ({
   buildList: history.buildList,
   repoName: history.repoName,
-  runNewBuild: history.runNewBuild,
+  runNewBuild: history.runNewBuild
 });
 
 export const ConnectedHistoryPage = connect(mapStateToProps, {
   getBuildsList,
-  postNewBuildQueue,
+  postNewBuildQueue
 })(HistoryPage);

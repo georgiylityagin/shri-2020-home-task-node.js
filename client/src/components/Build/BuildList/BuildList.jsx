@@ -9,7 +9,7 @@ const BuildListStyled = styled.div`
   flex-direction: column;
 `;
 
-export const BuildList = ({ isMobile, data, handleDetails }) => {
+export const BuildList = ({ isMobile, data, handleDetails, limit }) => {
   return (
     <BuildListStyled>
       {data.map((buildItem) => (
@@ -19,7 +19,7 @@ export const BuildList = ({ isMobile, data, handleDetails }) => {
           handleDetails={handleDetails}
           isMobile={isMobile}
         />
-      ))}
+      )).slice(0, limit)}
     </BuildListStyled>
   );
 };
