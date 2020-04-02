@@ -42,27 +42,10 @@ export const errorWithCloning = (status) => ({
   payload: status,
 });
 
-// export const getConfig = (history) => (dispatch) => {
-//   dispatch(loadSettings(true));
-
-//   api
-//     .getConfig()
-//     .then((response) => {
-//       if (response.data) {
-//         history.push('/history');
-//         dispatch(isConfig(true));
-//         dispatch(loadSettings(false));
-//         dispatch(addConfig(response.data));
-//       } else {
-//         history.push('/');
-//         dispatch(isConfig(false));
-//         dispatch(loadSettings(false));
-//       }
-//     })
-//     .catch((err) => console.log(err));
-// };
 
 export const getConfig = () => (dispatch) => {
+  dispatch(loadSettings(true));
+
   api
     .getConfig()
     .then((response) => {
@@ -81,6 +64,9 @@ export const getConfig = () => (dispatch) => {
     .catch((error) => {
       console.error(error);
       dispatch(isConfig(false));
+    })
+    .finally(() => {
+      dispatch(loadSettings(false));
     });
 };
 

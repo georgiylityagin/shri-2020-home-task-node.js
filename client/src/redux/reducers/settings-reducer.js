@@ -6,17 +6,6 @@ import {
   ISCONFIG,
 } from '../actions/settings-actions';
 
-// const initialState = {
-//   repoName: '',
-//   buildCommand: '',
-//   mainBranch: '',
-//   period: '',
-//   isConfig: true,
-//   isLoading: false,
-//   isCloning: false,
-//   cloningWithError: false,
-// };
-
 const initialState = {
   config: {
     repoName: '',
@@ -24,7 +13,7 @@ const initialState = {
     mainBranch: '',
     period: '',
   },
-  isConfig: undefined,
+  isConfig: false,
   isLoading: false,
   isCloning: false,
   cloningWithError: false,

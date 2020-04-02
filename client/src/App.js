@@ -10,7 +10,7 @@ import { ConnectedHistoryPage } from './pages/HistoryPage';
 import { ConnectedSettingsPage } from './pages/SettingsPage';
 import { ConnectedDetailsPage } from './pages/DetailsPage';
 
-export const App = ({ detectDevice, getConfig, isConfig, isMobile }) => {
+export const App = ({ detectDevice, getConfig, isConfig, isLoading, isMobile }) => {
   const handlePageResize = useCallback(() => {
     detectDevice(window.innerWidth);
   }, [detectDevice]);
@@ -29,9 +29,9 @@ export const App = ({ detectDevice, getConfig, isConfig, isMobile }) => {
     <Router>
       <Switch>
         <Route path='/' exact>
-          { isConfig === undefined && <LoadingPage /> }
-          { isConfig === false && <StartPage isMobile={isMobile} /> }
-          { isConfig === true &&  <ConnectedHistoryPage isMobile={isMobile} />}
+          {isLoading ? <LoadingPage /> :
+            (isConfig ? <ConnectedHistoryPage isMobile={isMobile} /> :
+            <StartPage isMobile={isMobile} />)}
         </Route>
         <Route path='/settings' exact>
           <ConnectedSettingsPage isMobile={isMobile} />
@@ -49,7 +49,8 @@ export const App = ({ detectDevice, getConfig, isConfig, isMobile }) => {
 
 const mapStateToProps = ({ adaptivity, settings }) => ({
   isMobile: adaptivity.isMobile,
-  isConfig: settings.isConfig
+  isConfig: settings.isConfig,
+  isLoading: settings.isLoading,
 });
 
 export const ConnectedApp = connect(mapStateToProps, {
