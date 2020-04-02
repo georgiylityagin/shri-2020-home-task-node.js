@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -69,6 +69,8 @@ export const SettingsPage = ({
       case 'period':
         setPeriod(+e.target.value);
         break;
+      default:
+        break;
     }
   };
 
@@ -98,14 +100,19 @@ export const SettingsPage = ({
           ? setPeriodValid(true)
           : setPeriodValid(false);
         break;
+      default:
+        break;
     }
   };
 
-  const disableAlert = () => {
-    setTimeout(() => {
-      switchErrorWithCloning(false);
-    }, 5000);
-  };
+  const disableAlert = useCallback(
+    () => {
+      setTimeout(() => {
+        switchErrorWithCloning(false);
+      }, 5000);
+    },
+    [switchErrorWithCloning]
+  );
 
   const handleRedirect = (e) => {
     e.preventDefault();
@@ -117,7 +124,7 @@ export const SettingsPage = ({
       ? setFormValid(true)
       : setFormValid(false);
     cloningWithError && disableAlert();
-  });
+  }, [repoName, buildCommand, periodValid, cloningWithError, disableAlert]);
 
   return (
     <Page>

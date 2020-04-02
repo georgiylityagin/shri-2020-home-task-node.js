@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { detectDevice } from './redux/actions/adaptivity-actions';
@@ -9,9 +9,12 @@ import { ConnectedSettingsPage } from './pages/SettingsPage';
 import { ConnectedDetailsPage } from './pages/DetailsPage';
 
 export const App = ({ detectDevice, isMobile }) => {
-  const handlePageResize = () => {
-    detectDevice(window.innerWidth);
-  };
+  const handlePageResize = useCallback(
+    () => {
+      detectDevice(window.innerWidth);
+    },
+    [detectDevice]
+  );
 
   useEffect(() => {
     window.addEventListener('resize', handlePageResize);
@@ -19,7 +22,7 @@ export const App = ({ detectDevice, isMobile }) => {
     return () => {
       window.removeEventListener('resize', handlePageResize);
     };
-  }, [window.innerWidth]);
+  }, [handlePageResize]);
 
   return (
     <Router>

@@ -29,7 +29,7 @@ export const AuthorName = ({ authorName, isMobile, isDetails }) => {
 
   return (
     <AuthorNameStyled isMobile={isMobile}>
-      <img src={`${prefix}images/user_icon.svg`} />
+      <img src={`${prefix}images/user_icon.svg`} alt='' />
       <div>{authorName}</div>
     </AuthorNameStyled>
   );

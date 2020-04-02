@@ -28,7 +28,7 @@ export const BranchName = ({ branchName, isDetails }) => {
 
   return (
     <BranchNameStyled>
-      <img src={`${prefix}images/code-commit_icon.svg`} />
+      <img src={`${prefix}images/code-commit_icon.svg`} alt='' />
       <div>{branchName}</div>
     </BranchNameStyled>
   );
