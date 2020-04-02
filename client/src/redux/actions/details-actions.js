@@ -57,13 +57,13 @@ export const getBuildDetails = (buildId, history) => (dispatch) => {
             dispatch(getLogs(res.data));
             dispatch(loading(false));
           })
-          .catch((err) => console.log(err));
+          .catch((error) => console.error(error));
       }
       dispatch(loading(false));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(loading(false));
-      console.error(err);
+      console.error(error);
     });
 
   api
@@ -76,7 +76,7 @@ export const getBuildDetails = (buildId, history) => (dispatch) => {
         dispatch(getRepoName('No settings in the config'));
       }
     })
-    .catch((err) => console.log(err));
+    .catch((error) => console.error(error));
 };
 
 export const postBuildInQueue = (data, history) => (dispatch) => {
@@ -91,8 +91,8 @@ export const postBuildInQueue = (data, history) => (dispatch) => {
       }
       dispatch(loading(false));
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((error) => {
+      console.error(error);
       dispatch(loading(false));
     });
 };

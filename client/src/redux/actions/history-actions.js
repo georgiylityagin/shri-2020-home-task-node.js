@@ -44,7 +44,7 @@ export const getBuildsList = () => (dispatch) => {
       dispatch(actionGetBuilds(res.data));
       dispatch(loading(false));
     })
-    .catch((err) => console.log(err));
+    .catch((error) => console.error(error));
 
   api
     .getConfig()
@@ -55,7 +55,7 @@ export const getBuildsList = () => (dispatch) => {
         dispatch(getRepoName('No settings in the config'));
       }
     })
-    .catch((err) => console.log(err));
+    .catch((error) => console.error(error));
 };
 
 export const postNewBuildQueue = (data, history) => (dispatch) => {
@@ -69,8 +69,8 @@ export const postNewBuildQueue = (data, history) => (dispatch) => {
       }
       dispatch(addBuildInQueue(false));
     })
-    .catch((err) => {
+    .catch((error) => {
       dispatch(addBuildInQueue(false));
-      console.log(err);
+      console.error(error);
     });
 };

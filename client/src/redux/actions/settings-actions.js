@@ -78,7 +78,10 @@ export const getConfig = () => (dispatch) => {
         dispatch(isConfig(false));
       }
     })
-    .catch((err) => console.log(err));
+    .catch((error) => {
+      console.error(error);
+      dispatch(isConfig(false));
+    });
 };
 
 export const postConfig = (data, history) => (dispatch) => {
@@ -86,20 +89,15 @@ export const postConfig = (data, history) => (dispatch) => {
 
   api
     .postConfig(data)
-    .then((res) => {
-      console.log(res);
-      if (!res.data && res.reason === 'repoCloningErr') {
-        dispatch(errorWithCloning(true));
-        dispatch(cloningRepo(false));
-      } else {
-        dispatch(cloningRepo(false));
-        history.push('/history');
-      }
+    .then((response) => {
+      console.log(response);
+      dispatch(cloningRepo(false));
+      history.push('/');
     })
-    .catch((err) => {
+    .catch((error) => {
+      console.error(error);
       dispatch(cloningRepo(false));
       dispatch(errorWithCloning(true));
-      console.log(err);
     });
 };
 
