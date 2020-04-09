@@ -1,0 +1,27 @@
+{
+  "name": "ci-tests",
+  "version": "1.0.0",
+  "description": "module and integration testing",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgiylityagin/shri-2020-home-task-node.js.git"
+  },
+  "keywords": [
+    "jest",
+    "module",
+    "tests"
+  ],
+  "author": "Georgiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgiylityagin/shri-2020-home-task-node.js/issues"
+  },
+  "homepage": "https://github.com/georgiylityagin/shri-2020-home-task-node.js#readme",
+  "dependencies": {
+    "fs-extra": "^9.0.0"
+  }
+}
