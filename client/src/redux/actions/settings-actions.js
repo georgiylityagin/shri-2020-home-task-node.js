@@ -58,7 +58,10 @@ export const getConfig = () => (dispatch) => {
           period: response.data.period,
         }));
       } else if (response.error) {
-        console.error(response.message)
+        response.message ? 
+        console.error(response.message) :
+        console.error(response.error.message);
+        
         dispatch(isConfig(false));
       }
     })
@@ -81,7 +84,10 @@ export const postConfig = (data, history) => (dispatch) => {
         dispatch(cloningRepo(false));
         history.push('/');
       } else if (response.error) {
-        console.error(response.message);
+        response.message ? 
+        console.error(response.message) :
+        console.error(response.error.message);
+
         dispatch(cloningRepo(false));
         dispatch(errorWithCloning(true));
       }

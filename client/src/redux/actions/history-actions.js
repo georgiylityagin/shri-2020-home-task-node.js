@@ -42,7 +42,9 @@ export const getBuildsList = () => (dispatch) => {
       if (res.data) {
         dispatch(actionGetBuilds(res.data));
       } else if (res.error) {
-        console.error(res.message)
+        res.message ? 
+        console.error(res.message) :
+        console.error(res.error.message);
       }
     })
     .catch((error) => console.error(error));
@@ -68,7 +70,9 @@ export const postNewBuildQueue = (data, history) => (dispatch) => {
       if (res.data) {
         history.push(`/build/${res.data.id}`);
       } else if (res.error) {
-        console.error(res.message);
+        res.message ? 
+        console.error(res.message) :
+        console.error(res.error.message);
       }
       dispatch(addBuildInQueue(false));
     })

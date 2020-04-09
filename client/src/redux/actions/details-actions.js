@@ -55,7 +55,10 @@ export const getBuildDetails = (buildId, history) => (dispatch) => {
           })
           .catch((error) => console.error(error));
       } else if (res.error) {
-        console.error(res.message);
+        res.message ? 
+        console.error(res.message) :
+        console.error(res.error.message);
+
         dispatch(getInfo({}));
       }
     })
@@ -80,9 +83,11 @@ export const postBuildInQueue = (data, history) => (dispatch) => {
 
   api.postAddBuild(data)
     .then((res) => {
-      if (res.data !== 'Error') {
+      if (res.data) {
         dispatch(getRebuildInfo(res.data));
         history.push(`${res.data.id}`);
+      } else if (res.error) {
+        console.error(res.message);
       }
       dispatch(loading(false));
     })
