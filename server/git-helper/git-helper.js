@@ -1,78 +1,68 @@
 const fse = require('fs-extra');
 const Git = require('nodegit');
+const axiosInstance = require('../controllers/axiosInstance');
 
 const baseURL = 'https://github.com/';
-const repoPath = './tmp/repository';
-
-const axios = require('axios');
-const { Agent } = require('https');
-const axiosInstance = axios.create({
-  baseURL: 'https://hw.shri.yandex/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': `Bearer ${process.env.TOKEN}`
-  },
-  httpsAgent: new Agent({
-    rejectUnauthorized: false,
-    keepAlive: true
-  })
-});
+const repoPathBase = './tmp/';
 
 
 // Клонировать репозиторий
-const gitClone = async () => {
-  const exists = await fse.pathExists(repoPath);
-  const repoName = process.conf.repoName;
+const gitClone = async (repoName, mainBranch) => {
+  const path = repoPathBase + repoName;
+  const exists = await fse.pathExists(path);
 
-  if (exists) {
-    const timeout = new Promise(function(resolve, reject) { 
-      setTimeout(reject, 3000, new Error('Папка не удаляется'));
-    });
+  if (!exists) {
+    // Клонируем
+    try {
+      await Git.Clone(baseURL + repoName, path, {checkoutBranch: mainBranch});
+      return {result: 'success', message: 'Репозиторий успешно клонирован'};
+    } catch (error) {
+      return {result: 'fail', error};
+    }
+  } else {
+    // Делаем git pull
+    const repo = await Git.Repository.open(path);
 
     try {
-      await await Promise.race([fse.remove(repoPath), timeout]);
-    } catch (error) {
-      console.error(error.message);
+      await repo.fetchAll();
+      await repo.mergeBranches(mainBranch,`origin/${mainBranch}`);
+    } catch(error) {
+      return {result: 'fail', error};
     }
-  }
 
-  try {
-    await Git.Clone(baseURL + repoName, repoPath);
-  } catch (error) {
-    console.error(error.message);
+    return {result: 'success', message: 'Локальный репозиторий уже сущестует, выполнен git pull'};
   }
 }
 
 // Получить последний коммит
-const getLastCommit = async () => {
+const getLastCommit = async (repoName, mainBranch) => {
+  const path = repoPathBase + repoName;
+  let lastCommit;
 
-  const repo = await Git.Repository.open(repoPath);
-  const lastCommit = await repo.getBranchCommit(process.conf.mainBranch);
+  try {
+    const repo = await Git.Repository.open(path);
+    lastCommit = await repo.getBranchCommit(mainBranch);
+  } catch(error) {
+    return {result: 'fail', error};
+  }
 
   return Promise.resolve({
     commitMessage: lastCommit.message(),
     commitHash: lastCommit.sha(),
-    branchName: process.conf.mainBranch,
+    branchName: mainBranch,
     authorName: lastCommit.author().name()
   });
 }
 
 // Проверяет репозиторий на появление новых коммитов и возвращает массив с ними
-const getNewCommits = async () => {
-
+const getNewCommits = async (repoName, mainBranch, lastCommitHash) => {
+  const path = repoPathBase + repoName;
   const newCommits = [];
 
-  const repo = await Git.Repository.open(repoPath);
+  const repo = await Git.Repository.open(path);
   await repo.fetchAll();
-  await repo.mergeBranches(
-    process.conf.mainBranch,
-    `origin/${process.conf.mainBranch}`
-  );
-
-  const lastCommit = await repo.getBranchCommit(process.conf.mainBranch);
-  const lastCommitHash = process.conf.lastCommitHash;
+  await repo.mergeBranches(mainBranch,`origin/${mainBranch}`);
+  const lastCommit = await repo.getBranchCommit(mainBranch);
 
   return new Promise(resolve => {
     const history = lastCommit.history(Git.Revwalk.SORT.TIME);
@@ -96,9 +86,9 @@ const getNewCommits = async () => {
 
 
 // Запускается через setInterval, добавляет новые коммиты в очередь на сборку
-const newCommitsObserver = async () => {
+const newCommitsObserver = async (lastCommitHash) => {
   try {
-    const commits = await getNewCommits();
+    const commits = await getNewCommits(lastCommitHash);
 
     if (commits.length > 0) {
       for (let i = 0; i < commits.length; i++) {
@@ -113,25 +103,35 @@ const newCommitsObserver = async () => {
 
 
 const getAllCommits = async () => {
+  if (!process.conf.repoName) {
+    return {error: new Error('Надо пересохранить настройки')};
+  }
 
+  const path = repoPathBase + process.conf.repoName;
   let globalCommits = [];
 
-  await Git.Repository.open(repoPath).then(async function(repo) {
-      let currentBranch = await (await repo.getCurrentBranch()).shorthand();
-      var walker = Git.Revwalk.create(repo);
-      walker.pushGlob('refs/heads/*');
-      return walker.getCommitsUntil(c => true).then(function (commits) {
-          var cmts = commits.map(x => ({
-              commitHash:  x.sha(),
-              commitMessage: x.message(),
-              branchName: currentBranch,
-              authorName: x.author().name()
-          }));
-          globalCommits = globalCommits.concat(cmts);
-      });
-  });
+  try {
+    await Git.Repository.open(path).then(async function(repo) {
+        let currentBranch = await (await repo.getCurrentBranch()).shorthand();
+        var walker = Git.Revwalk.create(repo);
+        walker.pushGlob('refs/heads/*');
+        return walker.getCommitsUntil(c => true).then(function (commits) {
+            var cmts = commits.map(x => ({
+                commitHash:  x.sha(),
+                commitMessage: x.message(),
+                branchName: currentBranch,
+                authorName: x.author().name()
+            }));
+            globalCommits = globalCommits.concat(cmts);
+        });
+    });
+  
+    return Promise.resolve(globalCommits);  
+  } catch(error) {
+    console.error(error.message);
 
-  return Promise.resolve(globalCommits);  
+    return {error: error, message: error.message}
+  }
 };
 
 

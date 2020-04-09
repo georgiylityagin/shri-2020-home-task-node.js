@@ -50,32 +50,11 @@ exports.getSettings = async (req, res) => {
 // Сохранение настроек
 exports.postSettings = async (req, res) => {
 
-  process.conf.repoName = req.body.repoName;
-  process.conf.buildCommand = req.body.buildCommand;
-  process.conf.mainBranch = req.body.mainBranch;
-  process.conf.period = req.body.period;
+  const { repoName, buildCommand, mainBranch, period } = req.body;
 
+  // Сохраняем настройки
   try {
-    // Удаляем предыдущие настройки
-    await axiosInstance.delete('/conf');
-  } catch(error) {
-    console.error('Не удалось удалить предыдущие настройки');
-
-    res.status(500).json({
-      error: error,
-      message: 'Не удалось удалить предыдущие настройки',
-      stack: error.stack
-    });
-  }
-
-  try {
-    // Сохраняем настройки
-    await axiosInstance.post('/conf', {
-      repoName: req.body.repoName,
-      buildCommand: req.body.buildCommand,
-      mainBranch: req.body.mainBranch,
-      period: req.body.period
-    });
+    await axiosInstance.post('/conf', { repoName, buildCommand, mainBranch, period });
   } catch(error) {
     console.error('Не удалось сохранить новые настройки');
 
@@ -87,44 +66,52 @@ exports.postSettings = async (req, res) => {
   }
 
   // Клонируем репозиторий
+  const cloned = await Git.gitClone(repoName, mainBranch);
+
+  if (cloned.result === 'fail') {
+    console.error(cloned.message);
+
+    res.status(500).json({
+      error: 'Ошибка при клонировании репозитория',
+      message: cloned.message
+    });
+  }
+
+  
+  // Получаем последний коммит
+  const lastCommit = await Git.getLastCommit(repoName, mainBranch);
+
+  if (lastCommit.result === 'fail') {
+    console.error(lastCommit.message);
+
+    res.status(500).json({
+      error: 'Ошибка при клонировании репозитория',
+      message: lastCommit.message
+    });
+  }
+
+  // Добавляем последний коммит в очередь
   try {
-    await Git.gitClone();
+    await axiosInstance.post('/build/request', lastCommit);
   } catch (error) {
     console.error(error.message);
 
     res.status(500).json({
-      error: error,
-      message: 'Ошибка при клонировании репозитория',
-      stack: error.stack
+      error: 'Ошибка при добавлении последнего коммита в очередь',
+      message: error.message
     });
   }
 
-  try {
-    // Получаем последний коммит
-    const lastCommit = await Git.getLastCommit();
-    process.conf.lastCommitHash = lastCommit.commitHash;
+  // Если указан период, ставим setInterval
+  if (period > 0) {
+    clearInterval(process.newCommits);
 
-    // Добавляем последний коммит в очередь
-    await axiosInstance.post('/build/request', lastCommit);
-
-    // Если указан период, ставим setInterval
-    if (process.conf.period > 0) {
-      clearInterval(process.newCommits);
-      process.newCommits = setInterval(Git.newCommitsObserver, process.conf.period * 60000);
-    }
-
-    res.status(200).json({
-      result: 'success'
-    });
-  } catch (error) {
-    console.log('Ошибка при клонировании репозитория');
-
-    res.status(500).json({
-      error: error,
-      message: error.message,
-      stack: error.stack
-    });
+    process.newCommits = setInterval(Git.newCommitsObserver, period * 60000, lastCommit.commitHash);
   }
+
+  res.status(200).json({
+    result: 'success'
+  });
 }
 
 
