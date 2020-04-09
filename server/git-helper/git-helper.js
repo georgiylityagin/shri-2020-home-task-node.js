@@ -76,7 +76,7 @@ const getNewCommits = async (repoName, mainBranch, lastCommitHash) => {
         newCommits.unshift({
           commitMessage: commit.message(),
           commitHash: commit.sha(),
-          branchName: process.conf.mainBranch,
+          branchName: mainBranch,
           authorName: commit.author().name()
         });
       }
@@ -86,9 +86,11 @@ const getNewCommits = async (repoName, mainBranch, lastCommitHash) => {
 
 
 // Запускается через setInterval, добавляет новые коммиты в очередь на сборку
-const newCommitsObserver = async (lastCommitHash) => {
+const newCommitsObserver = async () => {
+  const { repoName, mainBranch, lastCommitHash } = process.conf;
+
   try {
-    const commits = await getNewCommits(lastCommitHash);
+    const commits = await getNewCommits(repoName, mainBranch, lastCommitHash);
 
     if (commits.length > 0) {
       for (let i = 0; i < commits.length; i++) {

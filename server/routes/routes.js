@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 process.conf = {};
 
-// const controllers = require('../controllers/controllers');
 const { getSettings, postSettings } = require('../controllers/settings');
 const { getBuilds, postCommitHash, getBuildId, getLogs } = require('../controllers/build');
 

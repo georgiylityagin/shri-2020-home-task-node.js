@@ -8,6 +8,7 @@ exports.getSettings = async (req, res) => {
   try {
     const settings = await axiosInstance.get('/conf');
     process.conf.repoName = settings.data.data.repoName;
+    process.conf.mainBranch = settings.data.data.mainBranch;
 
     res.status(200).json({
       data: settings.data.data
@@ -27,6 +28,7 @@ exports.postSettings = async (req, res) => {
 
   const { repoName, buildCommand, mainBranch, period } = req.body;
   process.conf.repoName = repoName;
+  process.conf.mainBranch = mainBranch;
 
   // Сохраняем настройки
   try {
@@ -55,6 +57,7 @@ exports.postSettings = async (req, res) => {
   
   // Получаем последний коммит
   const lastCommit = await Git.getLastCommit(repoName, mainBranch);
+  process.conf.lastCommitHash = lastCommit.commitHash;
 
   if (lastCommit.result === 'fail') {
     console.error(lastCommit.error.message);
@@ -81,7 +84,7 @@ exports.postSettings = async (req, res) => {
   if (period > 0) {
     clearInterval(process.newCommits);
 
-    process.newCommits = setInterval(Git.newCommitsObserver, period * 60000, lastCommit.commitHash);
+    process.newCommits = setInterval(Git.newCommitsObserver, period * 60000);
   }
 
   res.status(200).json({
