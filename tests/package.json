@@ -22,7 +22,11 @@
   },
   "homepage": "https://github.com/georgiylityagin/shri-2020-home-task-node.js#readme",
   "dependencies": {
+    "axios": "^0.19.2",
     "fs-extra": "^9.0.0",
     "nodegit": "^0.26.5"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.18.1"
   }
 }
