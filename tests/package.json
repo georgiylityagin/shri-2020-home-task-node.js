@@ -24,7 +24,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "fs-extra": "^9.0.0",
-    "nodegit": "^0.26.5"
+    "nodegit": "^0.26.5",
+    "sinon": "^9.0.2"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.18.1"

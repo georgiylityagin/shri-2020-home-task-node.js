@@ -1,10 +1,13 @@
 const axiosInstance = require('../../../server/controllers/axiosInstance');
+const Git = require('../../../server/git-helper/git-helper');
 const MockAdapter = require('axios-mock-adapter');
+const sinon = require('sinon');
 const { getSettings, postSettings } = require('../../../server/controllers/settings');
 
 const axiosMock = new MockAdapter(axiosInstance);
+process.conf = {};
 
-const mockRequest = (body) => {body};
+const mockRequest = (body) => ({body});
 
 const mockResponse = () => {
   const res = {};
@@ -15,7 +18,7 @@ const mockResponse = () => {
 
 describe('Сервер - получение настроек', () => {
 
-  test('при GET запросе к ручке /api/settings, сервер должен делать запрос к БД и возвращать полученные данные со статусом 200', async () => {
+  test('при GET запросе к ручке /api/settings, сервер должен получить из БД объект с текущими настройками и вернуть его со статусом 200', async () => {
     const confData = {
       "data": {
         "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -33,19 +36,44 @@ describe('Сервер - получение настроек', () => {
     expect(res.json).toHaveBeenCalledWith(confData);
     expect(res.status).toHaveBeenCalledWith(200);
   });
-
-  // test('если БД возвращает ошибку, сервер отвечает со статусом 504', async () => {
-  //   const surprise = new Error('trouble');
-  //   axiosMock.onGet('https://hw.shri.yandex/api/conf').reply(500, surprise);
-
-  //   const res = mockResponse();
-  //   await getSettings({}, res);
-
-  //   expect(res.status).toHaveBeenCalledWith(504);
-  // });
   
 });
 
 describe('Сервер - сохранение новых настроек', () => {
   
+  test('при POST запросе к ручке /api/settings, сервер должен сохранить в БД переданные настройки и вернуть объект с полем result: "success" и статусом 200', async () => {
+    reqBody = {
+      repoName: 'undefined',
+      buildCommand: 'npm run destroy',
+      mainBranch: 'master',
+      period: 10
+    };
+
+    lastCommitFake = {
+      commitMessage: 'message',
+      commitHash: 'sadfh235asdg',
+      branchName: 'master',
+      authorName: 'User'
+    };
+
+    axiosMock.onPost('https://hw.shri.yandex/api/conf', reqBody)
+      .reply(200, {});
+
+    axiosMock.onPost('/build/request', lastCommitFake)
+      .reply(200, {});
+
+    sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
+    sinon.stub(Git, 'getLastCommit').callsFake((repoName, mainBranch) => {
+      return lastCommitFake;
+    });
+    sinon.stub(Git, 'newCommitsObserver').callsFake(() => {});
+
+    const rec = mockRequest(reqBody);
+    const res = mockResponse();
+    await postSettings(rec, res);
+
+    expect(res.json).toHaveBeenCalledWith({result: 'success'});
+    expect(res.status).toHaveBeenCalledWith(200);
+  });
+
 });
