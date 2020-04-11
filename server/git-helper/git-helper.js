@@ -7,9 +7,11 @@ const repoPathBase = './tmp/';
 
 
 // Клонировать репозиторий
-const gitClone = async (repoName, mainBranch) => {
+const gitClone = async (repoName, branch) => {
   const path = repoPathBase + repoName;
   const exists = await fse.pathExists(path);
+
+  const mainBranch = branch || 'master';
 
   if (!exists) {
     // Клонируем
@@ -17,7 +19,7 @@ const gitClone = async (repoName, mainBranch) => {
       await Git.Clone(baseURL + repoName, path, {checkoutBranch: mainBranch});
       return {result: 'success', message: 'Репозиторий успешно клонирован'};
     } catch (error) {
-      return {result: 'fail', error};
+      return {result: 'fail', error, message: 'Репозитория с таким названием не существует или он приватный'};
     }
   } else {
     // Делаем git pull
@@ -104,12 +106,14 @@ const newCommitsObserver = async () => {
 };
 
 
-const getAllCommits = async () => {
-  if (!process.conf.repoName) {
+const getAllCommits = async (nameRepo) => {
+  if (!process.conf && !nameRepo) {
     return {error: new Error('Надо пересохранить настройки')};
   }
 
-  const path = repoPathBase + process.conf.repoName;
+  const repoName = nameRepo || process.conf.repoName;
+
+  const path = repoPathBase + repoName;
   let globalCommits = [];
 
   try {
@@ -140,6 +144,7 @@ const getAllCommits = async () => {
 module.exports = {
   gitClone,
   getLastCommit,
+  getNewCommits,
   newCommitsObserver,
   getAllCommits
 }
