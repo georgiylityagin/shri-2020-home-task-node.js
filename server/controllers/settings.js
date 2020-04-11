@@ -7,8 +7,10 @@ exports.getSettings = async (req, res) => {
 
   try {
     const settings = await axiosInstance.get('/conf');
-    process.conf.repoName = settings.data.data.repoName;
-    process.conf.mainBranch = settings.data.data.mainBranch;
+    if (process.conf) {
+      process.conf.repoName = settings.data.data.repoName;
+      process.conf.mainBranch = settings.data.data.mainBranch;
+    }
 
     res.status(200).json({
       data: settings.data.data
