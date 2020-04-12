@@ -4,6 +4,12 @@ const MockAdapter = require('axios-mock-adapter');
 const sinon = require('sinon');
 const { getSettings, postSettings } = require('../../../server/controllers/settings');
 
+sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
+sinon.stub(Git, 'getLastCommit').callsFake((repoName, mainBranch) => {
+  return lastCommitFake;
+});
+sinon.stub(Git, 'newCommitsObserver').callsFake(() => {});
+
 const axiosMock = new MockAdapter(axiosInstance);
 process.conf = {};
 
@@ -62,18 +68,72 @@ describe('Сервер - сохранение новых настроек', () =
     axiosMock.onPost('/build/request', lastCommitFake)
       .reply(200, {});
 
-    sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
-    sinon.stub(Git, 'getLastCommit').callsFake((repoName, mainBranch) => {
-      return lastCommitFake;
-    });
-    sinon.stub(Git, 'newCommitsObserver').callsFake(() => {});
-
     const rec = mockRequest(reqBody);
     const res = mockResponse();
     await postSettings(rec, res);
 
     expect(res.json).toHaveBeenCalledWith({result: 'success'});
     expect(res.status).toHaveBeenCalledWith(200);
+  });
+
+  test('после сохранения настроек в БД, сервер должен поставить последний коммит в очередь на сборку', async () => {
+    reqBody = {
+      repoName: 'undefined',
+      buildCommand: 'npm run destroy',
+      mainBranch: 'master',
+      period: 10
+    };
+
+    lastCommitFake = {
+      commitMessage: 'message',
+      commitHash: 'sadfh235asdg',
+      branchName: 'master',
+      authorName: 'User'
+    };
+
+    axiosMock.resetHistory();
+
+    axiosMock.onPost('/conf', reqBody)
+      .reply(200, {});
+
+    axiosMock.onPost('/build/request', lastCommitFake)
+      .reply(200, {});
+
+    const rec = mockRequest(reqBody);
+    const res = mockResponse();
+    await postSettings(rec, res);
+
+    expect(axiosMock.history.post.length).toBe(2);
+    expect(axiosMock.history.post[1].data).toBe(JSON.stringify(lastCommitFake));
+
+  });
+
+  test('если в настройках указан ненулевой период, должен запускаться setInterval ', async () => {
+    reqBody = {
+      repoName: 'undefined',
+      buildCommand: 'npm run destroy',
+      mainBranch: 'master',
+      period: 10
+    };
+
+    lastCommitFake = {
+      commitMessage: 'message',
+      commitHash: 'sadfh235asdg',
+      branchName: 'master',
+      authorName: 'User'
+    };
+
+    axiosMock.onPost('/conf', reqBody)
+      .reply(200, {});
+
+    axiosMock.onPost('/build/request', lastCommitFake)
+      .reply(200, {});
+
+    const rec = mockRequest(reqBody);
+    const res = mockResponse();
+    await postSettings(rec, res);
+
+    expect(process.newCommits).not.toBeUndefined();
   });
 
 });
