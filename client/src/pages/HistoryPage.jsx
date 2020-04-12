@@ -65,15 +65,15 @@ export const HistoryPage = ({
   }, [getBuildsList, showLimit.limit]);
 
   return (
-    <Page>
+    <Page id="historyPage">
       <Header isMobile={isMobile}>
         <Link to='/'>
-          <Title isMobile={isMobile} isRepoName={true}>
+          <Title id="reponame" isMobile={isMobile} isRepoName={true}>
             {repoName}
           </Title>
         </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
-          <Button size='s' onClick={handleTogglePopUp}>
+          <Button id='runBuild' size='s' onClick={handleTogglePopUp}>
             <TextWithIcon
               img='images/play_icon.svg'
               text='Run build'
@@ -81,7 +81,7 @@ export const HistoryPage = ({
             />
           </Button>
           <Link to='/settings'>
-            <Button size='s'>
+            <Button id='toSettings' size='s'>
               <TextWithIcon
                 img='images/settings_icon.svg'
                 isMobile={isMobile}
@@ -92,6 +92,7 @@ export const HistoryPage = ({
       </Header>
       <Content>
         <BuildList
+          id="buildList"
           data={buildList}
           limit={showLimit.limit}
           handleDetails={handleDetails}
@@ -104,6 +105,7 @@ export const HistoryPage = ({
         ) : null}
         {toggle ? (
           <PopUp
+            id="popUp"
             handleClickCancel={handleTogglePopUp}
             onChange={handleChange}
             onClickRunBuild={handleRunBuild}

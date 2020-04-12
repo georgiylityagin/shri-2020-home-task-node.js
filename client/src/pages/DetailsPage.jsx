@@ -37,15 +37,15 @@ export const DetailsPage = ({
   }, [getBuildDetails, id, history]);
 
   return (
-    <Page>
+    <Page id="detailsPage">
       <Header isMobile={isMobile}>
         <Link to="/">
-          <Title isMobile={isMobile} isRepoName={true}>
+          <Title id='reponame' isMobile={isMobile} isRepoName={true}>
             {repoName}
           </Title>
         </Link>
         <ButtonGroup isMobile={isMobile} headerButtons>
-          <Button size="s" onClick={handleRebuild}>
+          <Button id="rebuild" size="s" onClick={handleRebuild}>
             <TextWithIcon
               img="../images/rebuild_icon.svg"
               text="Rebuild"
@@ -53,7 +53,7 @@ export const DetailsPage = ({
             />
           </Button>
           <Link to="/settings">
-            <Button size="s">
+            <Button id='toSettings' size="s">
               <TextWithIcon
                 img="../images/settings_icon.svg"
                 isMobile={isMobile}

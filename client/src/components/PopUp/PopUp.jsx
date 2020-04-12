@@ -50,6 +50,7 @@ const PopUpMessage = styled.p`
 `;
 
 export const PopUp = ({
+  id,
   handleClickCancel,
   isMobile,
   onChange,
@@ -57,21 +58,21 @@ export const PopUp = ({
 }) => {
   return (
     <PopUpWrapper>
-      <PopUpStyled isMobile={isMobile}>
+      <PopUpStyled id={id} isMobile={isMobile}>
         <form onSubmit={onClickRunBuild}>
           <PopUpTitle>New build</PopUpTitle>
           <PopUpMessage>
             Enter the commit hash which you want to build.
           </PopUpMessage>
           <Input
-            id="branch"
+            id="commitHash"
             type="search"
             placeholder="Commit hash"
             onChange={onChange}
             valid={true}
           />
           <ButtonGroup>
-            <Button type="submit" color="accent">
+            <Button id="save" type="submit" color="accent">
               Save
             </Button>
             <Button type="button" color="white" onClick={handleClickCancel}>

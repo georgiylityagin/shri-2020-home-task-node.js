@@ -52,6 +52,7 @@ const StyledButton = styled.button`
 `;
 
 export const Button = ({
+  id,
   size,
   color,
   children,
@@ -62,6 +63,7 @@ export const Button = ({
 }) => {
   return (
     <StyledButton
+      id={id}
       type={type}
       size={size}
       color={color}

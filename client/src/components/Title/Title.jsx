@@ -13,9 +13,9 @@ const StyledTitle = styled.h1`
     props.isRepoName ? 'var(--text-color-default)' : 'var(--text-color-muted)'};
 `;
 
-export const Title = ({ isMobile, isRepoName, children }) => {
+export const Title = ({ id, isMobile, isRepoName, children }) => {
   return (
-    <StyledTitle isMobile={isMobile} isRepoName={isRepoName}>
+    <StyledTitle id={id} isMobile={isMobile} isRepoName={isRepoName}>
       {children}
     </StyledTitle>
   );

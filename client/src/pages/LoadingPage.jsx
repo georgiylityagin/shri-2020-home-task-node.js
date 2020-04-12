@@ -90,7 +90,7 @@ const LoadingPageStyled = styled.div`
 
 export const LoadingPage = () => {
   return (
-    <Page>
+    <Page id="loadingPage">
       <Content centeredV centeredH>
         <Wrapper>
           <LoadingPageStyled>

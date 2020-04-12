@@ -9,9 +9,9 @@ const BuildListStyled = styled.div`
   flex-direction: column;
 `;
 
-export const BuildList = ({ isMobile, data, handleDetails, limit }) => {
+export const BuildList = ({ id, isMobile, data, handleDetails, limit }) => {
   return (
-    <BuildListStyled>
+    <BuildListStyled id={id}>
       {data.map((buildItem) => (
         <BuildItem
           key={buildItem.id}

@@ -12,13 +12,13 @@ import { Title } from '../components/Title/Title';
 
 export const StartPage = ({ isMobile }) => {
   return (
-    <Page>
+    <Page id="startPage">
       <Header isMobile={isMobile}>
         <Link to="/">
           <Title isMobile={isMobile}>School CI server</Title>
         </Link>
         <Link to="/settings">
-          <Button size="s">
+          <Button size="s" id='toSettings2'>
             <TextWithIcon
               img="images/settings_icon.svg"
               text="Settings"

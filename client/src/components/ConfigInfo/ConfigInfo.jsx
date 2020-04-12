@@ -32,7 +32,7 @@ export const ConfigInfo = () => {
         Configure repository connection and synchronization settings
       </ConfigInfoText>
       <Link to="/settings">
-        <Button color="accent">Open settings</Button>
+        <Button color="accent" id='toSettings1'>Open settings</Button>
       </Link>
     </ConfigInfoWrapper>
   );

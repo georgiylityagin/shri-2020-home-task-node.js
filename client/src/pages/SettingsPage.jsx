@@ -135,7 +135,7 @@ export const SettingsPage = ({
   }, [getConfig, config, isConfig, periodValid, cloningWithError, disableAlert]);
 
   return (
-    <Page>
+    <Page id="settingsPage">
       <Header isMobile={isMobile}>
         <Link to='/'>
           <Title isMobile={isMobile}>School CI server</Title>
@@ -193,6 +193,7 @@ export const SettingsPage = ({
           />
           <ButtonGroup isMobile={isMobile}>
             <Button
+              id='save'
               type='submit'
               disabled={!formValid || isCloning}
               color='accent'
