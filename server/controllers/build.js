@@ -108,19 +108,19 @@ exports.getLogs = async (req, res) => {
       log = {};
       log.data = logCach.get(req.params.buildId);
 
-      console.info('Получили данные из кеша');
+      // console.info('Получили данные из кеша');
     } else {
       log = await axiosInstance.get(`/build/log?buildId=${req.params.buildId}`);
       try {
         logCach.set(req.params.buildId, log.data);
-        console.info('Записали данные в кеш');
+        // console.info('Записали данные в кеш');
       } catch (error) {
         if (error.errorcode === 'ECACHEFULL') {
-          console.info('Кэш переполнен');
+          // console.info('Кэш переполнен');
           logCach.flushAll();
-          console.info('Очистили кэш');
+          // console.info('Очистили кэш');
           logCach.set(req.params.buildId, log.data);
-          console.info('Записали данные в кеш');
+          // console.info('Записали данные в кеш');
         } else {
           console.error('Unknown error:', error);
         }
