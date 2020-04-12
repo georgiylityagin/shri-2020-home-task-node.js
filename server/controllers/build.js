@@ -1,5 +1,5 @@
 const Git = require('../git-helper/git-helper');
-const axiosInstance = require('./axiosInstance');
+const axiosInstance = require('../utils/axiosInstance');
 const nodeCach = require('node-cache');
 
 const logCach = new nodeCach({

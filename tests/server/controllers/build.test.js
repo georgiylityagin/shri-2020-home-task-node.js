@@ -1,4 +1,4 @@
-const axiosInstance = require('../../../server/controllers/axiosInstance');
+const axiosInstance = require('../../../server/utils/axiosInstance');
 const Git = require('../../../server/git-helper/git-helper');
 const MockAdapter = require('axios-mock-adapter');
 const sinon = require('sinon');

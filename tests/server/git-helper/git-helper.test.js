@@ -1,6 +1,6 @@
 const fse = require('fs-extra');
 const nodegit = require('nodegit');
-const { gitClone, getLastCommit, getNewCommits, getAllCommits } = require('../../server/git-helper/git-helper');
+const { gitClone, getLastCommit, getNewCommits, getAllCommits } = require('../../../server/git-helper/git-helper');
 
 describe('Работа с git', () => {
 

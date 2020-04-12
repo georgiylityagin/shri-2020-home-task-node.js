@@ -1,6 +1,6 @@
 const fse = require('fs-extra');
 const Git = require('nodegit');
-const axiosInstance = require('../controllers/axiosInstance');
+const axiosInstance = require('../utils/axiosInstance');
 
 const baseURL = 'https://github.com/';
 const repoPathBase = './tmp/';

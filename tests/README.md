@@ -4,6 +4,7 @@
 
 <span style="color:red">Чтобы заработали все тесты с git, необходимо предварительно склонировать репозиторий underscore в папку `tmp/jashkenas`: </span>
 ```
+mkdir tmp
 cd tmp
 mkdir jashkenas
 cd jashkenas

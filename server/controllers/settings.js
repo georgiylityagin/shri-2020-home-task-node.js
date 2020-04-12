@@ -1,5 +1,5 @@
 const Git = require('../git-helper/git-helper');
-const axiosInstance = require('./axiosInstance');
+const axiosInstance = require('../utils/axiosInstance');
 
 
 // Получение сохраненных настроек
