@@ -8,11 +8,17 @@ exports.getSettings = async (req, res) => {
   try {
     const settings = await axiosInstance.get('/conf');
 
-    process.conf.repoName = settings.data.data.repoName;
-    process.conf.mainBranch = settings.data.data.mainBranch;    
+    const sendData = settings.data
+    ? settings.data.data
+    : '';
+
+    if (sendData) {
+      process.conf.repoName = sendData.repoName;
+      process.conf.mainBranch = sendData.mainBranch;
+    }
 
     res.status(200).json({
-      data: settings.data.data
+      data: sendData
     });
   } catch (error) {
     console.error(error.message);
