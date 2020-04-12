@@ -1,8 +1,8 @@
-const axiosInstance = require('../../../server/utils/axiosInstance');
-const Git = require('../../../server/git-helper/git-helper');
+const axiosInstance = require('../../../../server/utils/axiosInstance');
+const Git = require('../../../../server/git-helper/git-helper');
 const MockAdapter = require('axios-mock-adapter');
 const sinon = require('sinon');
-const { getSettings, postSettings } = require('../../../server/controllers/settings');
+const { getSettings, postSettings } = require('../../../../server/controllers/settings');
 
 sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
 sinon.stub(Git, 'getLastCommit').callsFake((repoName, mainBranch) => {
