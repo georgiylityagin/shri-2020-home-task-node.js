@@ -1,3 +1,5 @@
 node_modules
 
+tests/hermione/hermione-html-report
+
 .env
