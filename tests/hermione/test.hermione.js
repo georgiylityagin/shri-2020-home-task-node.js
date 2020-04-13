@@ -3,11 +3,11 @@ const assert = require('assert');
 const axiosInstance = require('../../server/utils/axiosInstance');
 
 const testedConf = {
-  repoName: 'jashkenas/underscore',
+  repoName: 'georgiylityagin/repo-for-testing-CI',
   buildCommand: 'npm run build',
   mainBranch: 'master',
   period: '15',
-  commitHash: '985fce601cd38d0a793dff4eff19531b9d6bfe33'
+  commitHash: 'e6946e6c9ac66ec96e321debc093bae9308029fa'
 }
 
 
@@ -25,7 +25,7 @@ describe('Проверка работы стартовой страницы', fu
       .then((exists) => {
         assert.ok(exists, 'Стартовая страница не открылась');
       })
-      .assertView('startPage', 'body')
+      .assertView('startPage', 'body', { screenshotDelay: 10 })
   })
 
   it('Можно перейти со стартовой страницы к настройкам по кнопке "Open settings"', function() {
@@ -39,7 +39,7 @@ describe('Проверка работы стартовой страницы', fu
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке к настройкам');
       })
-      .assertView('settingsPage', 'body')
+      .assertView('settingsPage', 'body', { screenshotDelay: 10 })
   });
 
   it('Можно перейти со стартовой страницы к настройкам по кнопке "settings" в header', function() {
@@ -53,7 +53,7 @@ describe('Проверка работы стартовой страницы', fu
     .then((exists) => {
       assert.ok(exists, 'Не удалось перейти по ссылке к настройкам');
     })
-    .assertView('settingsPage', 'body')
+    .assertView('settingsPage', 'body', { screenshotDelay: 10 })
   });
 
 });
@@ -74,7 +74,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Страница настроек не открылась');
       })
-      .assertView('settingsPage', 'body')
+      .assertView('settingsPage', 'body', { screenshotDelay: 10 })
   })
 
   it('Eсли не заполнено поле repo-name, кнопка Save в состоянии disabled', function () {
@@ -91,7 +91,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Кнопка должна быть в состоянии disabled');
       })
-      .assertView('disabledBtn', '#save')
+      .assertView('disabledBtn', '#save', { screenshotDelay: 10 })
   })
 
   it('Eсли не заполнено поле build command, кнопка Save в состоянии disable', function () {
@@ -108,7 +108,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Кнопка должна быть в состоянии disabled');
       })
-      .assertView('disabledBtn', '#save')
+      .assertView('disabledBtn', '#save', { screenshotDelay: 10 })
   })
 
   it('Eсли период не является числом, кнопка Save в состоянии disable', function () {
@@ -128,7 +128,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Кнопка должна быть в состоянии disabled');
       })
-      .assertView('disabledBtn', '#save')
+      .assertView('disabledBtn', '#save', { screenshotDelay: 10 })
   })
 
   it('При попытке сохранить в настройках несуществующий репозиторий вылезет сообщение об ошибке', function() {
@@ -149,7 +149,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Сообщение об ошибке не появилось');
       })
-      .assertView('errorMessage', '#alert')
+      .assertView('errorMessage', '#alert', { screenshotDelay: 10 })
   })
 
   it('После сохранения настроек выполняется переход на страницу history', function() {
@@ -170,9 +170,7 @@ describe('Проверка работы страницы settings', function() {
       .then((exists) => {
         assert.ok(exists, 'Не произошло перехода на страницу history');
       })
-      .assertView('historyPage', 'body', {
-        ignoreElements: ['#buildList']
-      })
+      .assertView('historyPage', 'body', { screenshotDelay: 10 })
   })
 })
 
@@ -205,9 +203,7 @@ describe('Проверка работы страницы history', function() {
       .then((exists) => {
         assert.ok(exists, 'History Page не открылась');
       })
-      .assertView('historyPage', 'body', {
-        ignoreElements: ['#buildList']
-      })
+      .assertView('historyPage', 'body', { screenshotDelay: 10 })
   })
 
   it('Можно перейти со страницы history к настройкам по кнопке "settings" в header', function() {
@@ -219,7 +215,7 @@ describe('Проверка работы страницы history', function() {
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке к настройкам');
       })
-      .assertView('settingsPage', 'body')
+      .assertView('settingsPage', 'body', { screenshotDelay: 10 })
   })
 
   it('На странице history в качестве заголовка отображается название репозитория', function() {
@@ -242,7 +238,7 @@ describe('Проверка работы страницы history', function() {
       .then((exists) => {
         assert.ok(exists, 'Не открылось всплывающее окно');
       })
-      .assertView('popUp', '#popUp')
+      .assertView('popUp', '#popUp', { screenshotDelay: 10 })
   })
 
   it('После отправки коммита на сборку через форму во всплывающем окне откроется страница с деталями билда', function() {
@@ -259,7 +255,7 @@ describe('Проверка работы страницы history', function() {
       .then((exists) => {
         assert.ok(exists, 'Не произошёл переход на страницу нового билда');
       })
-      .assertView('detailsPage', '#detailsPage')
+      .assertView('detailsPage', '#detailsPage', { screenshotDelay: 10 })
   })
 
   it('По клику на карточку билда происходит переход на страницу с деталями билда', function() {
@@ -281,7 +277,7 @@ describe('Проверка работы страницы history', function() {
       .then((exists) => {
         assert.ok(exists, 'Не произошёл переход на страницу билда');
       })
-      .assertView('detailsPage', '#detailsPage')
+      .assertView('detailsPage', '#detailsPage', { screenshotDelay: 10 })
   })
 
 })
@@ -319,7 +315,7 @@ describe('Проверка работы страницы details', function() {
       .then((exists) => {
         assert.ok(exists, 'Ошибка с постановкой на сборку');
       })
-      .assertView('detailsPage', '#detailsPage')
+      .assertView('detailsPage', '#detailsPage', { screenshotDelay: 10 })
   })
 
   it('Можно перейти со страницы details к настройкам по кнопке "settings" в header', function() {
@@ -334,7 +330,7 @@ describe('Проверка работы страницы details', function() {
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке к настройкам');
       })
-      .assertView('settingsPage', '#settingsPage')
+      .assertView('settingsPage', '#settingsPage', { screenshotDelay: 10 })
   })
 
   it('Можно перейти со страницы details на страницу history по клику на название репозитория', function() {
@@ -349,7 +345,7 @@ describe('Проверка работы страницы details', function() {
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке на страницу history');
       })
-      .assertView('historyPage', '#historyPage')
+      .assertView('historyPage', '#historyPage', { screenshotDelay: 10 })
   })
 
 })
