@@ -10,6 +10,6 @@ const AlertStyled = styled.div`
   margin-bottom: var(--space-xl);
 `;
 
-export const Alert = ({ children }) => {
-  return <AlertStyled>{children}</AlertStyled>;
+export const Alert = ({ id, children }) => {
+  return <AlertStyled id={id}>{children}</AlertStyled>;
 };

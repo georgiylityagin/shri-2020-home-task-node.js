@@ -143,7 +143,7 @@ export const SettingsPage = ({
       </Header>
       <Content>
         <FormWrapper isMobile={isMobile} onSubmit={handleSubmit}>
-          {cloningWithError ? <Alert>Error with cloning repo</Alert> : null}
+          {cloningWithError ? <Alert id="alert">Error with cloning repo</Alert> : null}
           <SettingsHeader>Settings</SettingsHeader>
           <SettingsDescription>
             Configure repository connection and synchronization settings.
