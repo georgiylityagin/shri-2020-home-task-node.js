@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "hermione": "./node_modules/.bin/hermione hermione/test.hermione.js"
+    "hermione": "./node_modules/.bin/hermione --update-refs hermione/test.hermione.js",
+    "gui": "./node_modules/.bin/hermione gui hermione/test.hermione.js"
   },
   "repository": {
     "type": "git",
