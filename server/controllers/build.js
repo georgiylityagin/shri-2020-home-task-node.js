@@ -20,18 +20,22 @@ exports.getBuilds = async (req, res) => {
 
   try {
     buildList = await axiosInstance.get(`/build/list?offset=${offset}&limit=${limit}`);
-
-    res.status(200).json({
-      data: buildList.data.data
-    });
   } catch (error) {
-    console.error(error.message);
-    
-    res.status(504).json({
-      error: 'error',
-      message: 'Не удалось получить список сборок',
-    })
+    try {
+      buildList = await axiosInstance.get(`/build/list?offset=${offset}&limit=${limit}`);
+    } catch(error) {
+      console.error(error.message);
+      
+      return res.status(504).json({
+        error: 'error',
+        message: 'Не удалось получить список сборок',
+      });
+    }
   }
+
+  res.status(200).json({
+    data: buildList.data.data
+  });
 }
 
 // Добавление сборки в очередь
@@ -56,46 +60,60 @@ exports.postCommitHash = async (req, res) => {
       message: 'Не найден коммит с таким хэшем'
     })
   } else {
+    let response;
     try {
-      const response = await axiosInstance.post('/build/request', {
+      response = await axiosInstance.post('/build/request', {
         commitHash: req.params.commitHash,
         commitMessage: searchedCommit.commitMessage,
         branchName: searchedCommit.branchName,
         authorName: searchedCommit.authorName
       });
-  
-      res.status(200).json({
-        data: response.data.data
-      });
     } catch (error) {
-      console.log(error.message);
-  
-      res.status(504).json({
-        error: 'error',
-        message: 'Не удалось добавить данный коммит в очередь на сборку',
-      });
+      try {
+        response = await axiosInstance.post('/build/request', {
+          commitHash: req.params.commitHash,
+          commitMessage: searchedCommit.commitMessage,
+          branchName: searchedCommit.branchName,
+          authorName: searchedCommit.authorName
+        });
+      } catch(error) {
+        console.log(error.message);
+    
+        return res.status(504).json({
+          error: 'error',
+          message: 'Не удалось добавить данный коммит в очередь на сборку',
+        });
+      }
     }
+    res.status(200).json({
+      data: response.data.data
+    });
   }
-  }
+}
 
 
 // Получение информации о конкретной сборке
 exports.getBuildId = async (req, res) => {
+  let buildDetails;
 
   try {
-    const buildDetails = await axiosInstance.get(`/build/details?buildId=${req.params.buildId}`);
-
-    res.status(200).json({
-      data: buildDetails.data.data
-    });
+    buildDetails = await axiosInstance.get(`/build/details?buildId=${req.params.buildId}`);
   } catch (error) {
-    console.error(error.message);
-
-    res.status(404).json({
-      error: 'error',
-      message: 'Не удалось получить информацию о данной сборке',
-    })
+    try {
+      buildDetails = await axiosInstance.get(`/build/details?buildId=${req.params.buildId}`);
+    } catch(error) {
+      console.error(error.message);
+  
+      return res.status(404).json({
+        error: 'error',
+        message: 'Не удалось получить информацию о данной сборке',
+      })
+    }
   }
+
+  res.status(200).json({
+    data: buildDetails.data.data
+  });
 }
 
 // Получение логов билда

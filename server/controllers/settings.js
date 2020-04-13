@@ -4,30 +4,36 @@ const axiosInstance = require('../utils/axiosInstance');
 
 // Получение сохраненных настроек
 exports.getSettings = async (req, res) => {
+  let settings;
 
   try {
-    const settings = await axiosInstance.get('/conf');
-
-    const sendData = settings.data
-    ? settings.data.data
-    : '';
-
-    if (sendData) {
-      process.conf.repoName = sendData.repoName;
-      process.conf.mainBranch = sendData.mainBranch;
-    }
-
-    res.status(200).json({
-      data: sendData
-    });
+    settings = await axiosInstance.get('/conf');
   } catch (error) {
-    console.error(error.message);
-    
-    res.status(504).json({
-      error: 'error',
-      message: 'Не удалось получить сохраненный конфиг'
-    })
+    try {
+      settings = await axiosInstance.get('/conf');
+    } catch (error) {
+      console.error(error.message);
+
+      return res.status(504).json({
+        error: true,
+        message: 'Не удалось получить сохраненный конфиг',
+        reason: error.message
+      })
+    }
   }
+
+  if (Object.keys(settings.data).length === 0) {
+    return res.status(200).json({
+      data: false
+    });
+  }
+
+  process.conf.repoName = settings.data.data.repoName;
+  process.conf.mainBranch = settings.data.data.mainBranch;
+
+  res.status(200).json({
+    data: settings.data.data
+  });
 }
 
 // Сохранение настроек
@@ -41,12 +47,16 @@ exports.postSettings = async (req, res) => {
   try {
     await axiosInstance.post('/conf', { repoName, buildCommand, mainBranch, period });
   } catch(error) {
-    console.error('Не удалось сохранить новые настройки');
-
-    return res.status(500).json({
-      error: 'error',
-      message: 'Не удалось сохранить новые настройки'
-    });
+    try {
+      await axiosInstance.post('/conf', { repoName, buildCommand, mainBranch, period });
+    } catch (error) {
+      console.error('Не удалось сохранить новые настройки');
+  
+      return res.status(500).json({
+        error: 'error',
+        message: 'Не удалось сохранить новые настройки'
+      });
+    }
   }
 
   // Клонируем репозиторий
@@ -82,12 +92,16 @@ exports.postSettings = async (req, res) => {
   try {
     await axiosInstance.post('/build/request', lastCommit);
   } catch (error) {
-    console.error(error.message);
-
-    return res.status(500).json({
-      error: 'error',
-      message: 'Ошибка при добавлении последнего коммита в очередь'
-    });
+    try {
+      await axiosInstance.post('/build/request', lastCommit);
+    } catch (error) {
+      console.error(error.message);
+  
+      return res.status(500).json({
+        error: 'error',
+        message: 'Ошибка при добавлении последнего коммита в очередь'
+      });
+    }
   }
 
   // Если указан период, ставим setInterval
