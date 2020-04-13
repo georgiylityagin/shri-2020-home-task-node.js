@@ -124,6 +124,7 @@ describe('Проверка работы страницы settings', function() {
       .click('#period')
       .keys(['text'])
       .click('body')
+      .pause(100)
       .isExisting('#save[disabled]')
       .then((exists) => {
         assert.ok(exists, 'Кнопка должна быть в состоянии disabled');
@@ -166,6 +167,7 @@ describe('Проверка работы страницы settings', function() {
       .keys(['0'])
       .click('#save')
       .waitForExist('#historyPage')
+      .pause(500)
       .isExisting('#historyPage')
       .then((exists) => {
         assert.ok(exists, 'Не произошло перехода на страницу history');
@@ -191,8 +193,8 @@ describe('Проверка работы страницы history', function() {
       .click('#period')
       .keys(['0'])
       .click('#save')
+      .pause(500)
       .waitForExist('#historyPage');
-    await this.browser.pause(500);
   })
 
  
@@ -200,6 +202,8 @@ describe('Проверка работы страницы history', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(1000)
+      .isExisting('#historyPage')
       .then((exists) => {
         assert.ok(exists, 'History Page не открылась');
       })
@@ -222,6 +226,7 @@ describe('Проверка работы страницы history', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(1000)
       .getText('#reponame')
       .then((title) => {
         assert.equal(title, testedConf.repoName, 'Неправильный заголовок')
@@ -232,6 +237,7 @@ describe('Проверка работы страницы history', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(500)
       .click('#runBuild')
       .pause(100)
       .isExisting('#popUp')
@@ -245,11 +251,13 @@ describe('Проверка работы страницы history', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(500)
       .click('#runBuild')
       .pause(100)
       .click('#commitHash')
       .keys([testedConf.commitHash])
       .click('#save')
+      .waitForExist('#detailsPage')
       .pause(500)
       .isExisting('#detailsPage')
       .then((exists) => {
@@ -262,6 +270,7 @@ describe('Проверка работы страницы history', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(500)
       .click('#runBuild')
       .pause(100)
       .click('#commitHash')
@@ -270,7 +279,7 @@ describe('Проверка работы страницы history', function() {
       .waitForExist('#detailsPage')
       .click('#reponame')
       .waitForExist('#historyPage')
-      .pause(500)
+      .pause(1000)
       .click('#buildList:first-child')
       .waitForExist('#detailsPage')
       .isExisting('#detailsPage')
@@ -322,10 +331,13 @@ describe('Проверка работы страницы details', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(500)
       .click('#buildList:first-child')
       .waitForExist('#detailsPage')
+      .pause(500)
       .click('#toSettings')
       .waitForExist('#settingsPage')
+      .pause(500)
       .isExisting('#settingsPage')
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке к настройкам');
@@ -337,10 +349,13 @@ describe('Проверка работы страницы details', function() {
     return this.browser
       .url('/')
       .waitForExist('#historyPage')
+      .pause(500)
       .click('#buildList:first-child')
       .waitForExist('#detailsPage')
+      .pause(500)
       .click('#reponame')
       .waitForExist('#historyPage')
+      .pause(500)
       .isExisting('#historyPage')
       .then((exists) => {
         assert.ok(exists, 'Не удалось перейти по ссылке на страницу history');
