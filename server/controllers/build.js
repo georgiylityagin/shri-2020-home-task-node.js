@@ -28,7 +28,7 @@ exports.getBuilds = async (req, res) => {
     console.error(error.message);
     
     res.status(504).json({
-      error,
+      error: 'error',
       message: 'Не удалось получить список сборок',
     })
   }
@@ -71,7 +71,7 @@ exports.postCommitHash = async (req, res) => {
       console.log(error.message);
   
       res.status(504).json({
-        error,
+        error: 'error',
         message: 'Не удалось добавить данный коммит в очередь на сборку',
       });
     }
@@ -92,7 +92,7 @@ exports.getBuildId = async (req, res) => {
     console.error(error.message);
 
     res.status(404).json({
-      error,
+      error: 'error',
       message: 'Не удалось получить информацию о данной сборке',
     })
   }
@@ -134,7 +134,7 @@ exports.getLogs = async (req, res) => {
     console.error(error.message);
 
     res.status(404).json({
-      error,
+      error: 'error',
       message: 'Не удалось получить лог',
     })
   }

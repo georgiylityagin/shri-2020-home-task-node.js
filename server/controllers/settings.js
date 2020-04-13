@@ -24,7 +24,7 @@ exports.getSettings = async (req, res) => {
     console.error(error.message);
     
     res.status(504).json({
-      error,
+      error: 'error',
       message: 'Не удалось получить сохраненный конфиг'
     })
   }
@@ -43,8 +43,8 @@ exports.postSettings = async (req, res) => {
   } catch(error) {
     console.error('Не удалось сохранить новые настройки');
 
-    res.status(500).json({
-      error,
+    return res.status(500).json({
+      error: 'error',
       message: 'Не удалось сохранить новые настройки'
     });
   }
@@ -55,7 +55,7 @@ exports.postSettings = async (req, res) => {
   if (cloned.result === 'fail') {
     console.error(cloned.error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: cloned.error,
       message: 'Ошибка при клонировании репозитория'
     });
@@ -64,12 +64,15 @@ exports.postSettings = async (req, res) => {
   
   // Получаем последний коммит
   const lastCommit = await Git.getLastCommit(repoName, mainBranch);
-  process.conf.lastCommitHash = lastCommit.commitHash;
+
+  if (lastCommit.commitHash) {
+    process.conf.lastCommitHash = lastCommit.commitHash;
+  }
 
   if (lastCommit.result === 'fail') {
     console.error(lastCommit.error.message);
 
-    res.status(500).json({
+    return res.status(500).json({
       error: lastCommit.error,
       message: 'Ошибка при получении последнего коммита'
     });
@@ -81,8 +84,8 @@ exports.postSettings = async (req, res) => {
   } catch (error) {
     console.error(error.message);
 
-    res.status(500).json({
-      error,
+    return res.status(500).json({
+      error: 'error',
       message: 'Ошибка при добавлении последнего коммита в очередь'
     });
   }
