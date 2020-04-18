@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const {  } = require('../controllers/');
+const { notifyAgent, notifyBuildRes } = require('../controllers/agents');
 
-router.post('/notify-agent', );
-router.post('/notify-build-result', );
+router.post('/notify-agent', notifyAgent);
+router.post('/notify-build-result', notifyBuildRes);
 
 module.exports = router;
