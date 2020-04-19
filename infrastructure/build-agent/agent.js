@@ -16,7 +16,8 @@ app.listen(config.port, err => {
   console.log(`Build agent is listening on port ${config.port}`);
 
   axios.post(`http://${config.serverHost}:${config.serverPort}/notify-agent`, {
-    "port": config.port
+    port: config.port,
+    available: true
   })
     .then(() => {console.log('Agent is successfully registered')})
     .catch(err => console.log(err.message))

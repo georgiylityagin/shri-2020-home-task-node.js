@@ -41,11 +41,12 @@ exports.startBuild = async (req, res) => {
     const duration = Math.round((end - start) / 6e4);
 
     // Send results to build-server
-    axios.post(`http://${config.serverHost}:${config.serverPort}/notify_build_result`, {
+    axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
       buildId: id,
       success: true,
       buildLog: stderr + '\n' + stdout,
-      duration
+      duration,
+      port: config.port
     })
     .then(() => {console.log('Sent build results to the build-server')})
     .catch(err => {console.log('Error with sending results: ', err.message)})
@@ -56,11 +57,12 @@ exports.startBuild = async (req, res) => {
     const duration = Math.round((end - start) / 6e4);
 
     // Send results to build-server
-    axios.post(`http://${config.serverHost}:${config.serverPort}/notify_build_result`, {
+    axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
       buildId: id,
       success: false,
-      buildLog: err.message,
-      duration
+      buildLog: 'Error with build command', // err.message
+      duration,
+      port: config.port
     })
     .then(() => {console.log('Sent build results to the build-server')})
     .catch(err => {console.log('Error with sending results', err.message)})
