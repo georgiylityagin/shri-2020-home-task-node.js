@@ -15,6 +15,8 @@ const BuildNumberStyled = styled.div`
   ${(props) => props.status === 'Fail' && 'color: var(--text-color-danger);'}
   ${(props) =>
     props.status === 'Waiting' && 'color: var(--text-color-warning);'}
+  ${(props) =>
+    props.status === 'InProgress' && 'color: var(--text-color-warning);'}
 `;
 
 export const BuildNumber = ({ status, buildNumber, isMobile }) => {

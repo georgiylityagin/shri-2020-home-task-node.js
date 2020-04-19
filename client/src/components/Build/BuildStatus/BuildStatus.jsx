@@ -34,6 +34,13 @@ export const BuildStatus = ({ status, isMobile, isDetails }) => {
           isMobile={isMobile}
         />
       )}
+      {status === 'InProgress' && (
+        <Icon
+          src={`${prefix}images/clock_icon.svg`}
+          alt=""
+          isMobile={isMobile}
+        />
+      )}
     </>
   );
 };
