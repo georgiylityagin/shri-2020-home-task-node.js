@@ -14,7 +14,8 @@ exports.notifyAgent = (req, res) => {
 
   if (notInList) {
     process.conf.agents.push({port: body.port, host: req.hostname, available: body.available});
-    console.log('Actual list of agents: ', process.conf.agents);
+    console.log('Update actual list of agents:');
+    console.table(process.conf.agents);
   }
   
   res.status(200).send('OK');
@@ -39,7 +40,10 @@ exports.notifyBuildRes = async (req, res) => {
 
   if (!result) {
     res.status(501).send('Not Implemented');
+    console.log(`Fail trying to finish build ${buildId}\n`);
     return;
+  } else {
+    console.log(`Finish build ${buildId} with status: ${success ? 'success': 'failed'}\n`);
   }
 
   res.status(200).send('OK');

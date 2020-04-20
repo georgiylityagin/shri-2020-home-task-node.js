@@ -3,16 +3,9 @@ const axiosRetry = require('axios-retry');
 const axiosInstance = require('../utils/axios-instance');
 
 axiosRetry(axiosInstance, {
-  retries: 3,
+  retries: 5,
   retryDelay: () => 500
 });
-
-// axiosInstance.defaults.raxConfig = {
-//   retry: 5,
-//   instance: axiosInstance
-// };
-
-// rax.attach(axiosInstance);
 
 
 exports.getBuildList = () => {

@@ -13,7 +13,7 @@ app.listen(config.port, err => {
   if (err) {
     console.error(err)
   }
-  console.log(`Build server is listening on port ${config.port}`)
+  console.log(`Build server is listening on port ${config.port} \n`)
 
   onStart();
 });

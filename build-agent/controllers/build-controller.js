@@ -48,7 +48,7 @@ exports.startBuild = async (req, res) => {
       duration,
       port: config.port
     })
-    .then(() => {console.log('Sent build results to the build-server')})
+    .then(() => {console.log('Sent build results to the build-server\n')})
     .catch(err => {console.log('Error with sending results: ', err.message)})
   } catch (err) {
     console.error(err);
@@ -64,7 +64,7 @@ exports.startBuild = async (req, res) => {
       duration,
       port: config.port
     })
-    .then(() => {console.log('Sent build results to the build-server')})
+    .then(() => {console.log('Sent build results to the build-server\n')})
     .catch(err => {console.log('Error with sending results', err.message)})
   }
 
