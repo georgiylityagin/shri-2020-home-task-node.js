@@ -3,7 +3,7 @@ const axiosInstance = require('../utils/axiosInstance');
 const nodeCach = require('node-cache');
 
 const logCach = new nodeCach({
-  stdTTL: 60 * 5, // 5 минут
+  stdTTL: 30, // 30 секунд
   checkperiod: 60 * 60,
   maxKeys: 1000
 });
