@@ -1,3 +1,4 @@
+const { generateHash } = require('random-hash');
 const { exec } = require('child_process');
 const { promisify } = require('util');
 const path = require('path');
@@ -5,11 +6,14 @@ const fs = require('fs');
 const exists = promisify(fs.exists);
 
 const repoFolder = 'repos-tmp';
+const repoHash = generateHash({ length: 8 });
+process.conf = { repoHash };
+// process.conf.repoHash = repoHash;
 
 
 exports.gitClone = async (acc, repoName, mainBranch) => {
   const currentDir = path.resolve(__dirname);
-  const repoDir = `${currentDir}/${repoFolder}/${repoName}`;
+  const repoDir = `${currentDir}/${repoFolder}/${repoHash}`;
   const repoUrl = `https://github.com/${acc}/${repoName}.git`;
   const isExists = await exists(repoDir);
 
@@ -44,7 +48,7 @@ exports.gitClone = async (acc, repoName, mainBranch) => {
 
 exports.checkoutCommit = async (repoName, commitHash) => {
   const currentDir = path.resolve(__dirname);
-  const repoDir = `${currentDir}/${repoFolder}/${repoName}`;
+  const repoDir = `${currentDir}/${repoFolder}/${repoHash}`;
   const isExists = await exists(repoDir);
 
   return new Promise((resolve, reject) => {

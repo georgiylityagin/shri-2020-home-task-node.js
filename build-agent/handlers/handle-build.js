@@ -5,6 +5,7 @@ const fs = require('fs');
 const exists = promisify(fs.exists);
 
 const repoFolder = 'repos-tmp';
+const repoHash = process.conf.repoHash;
 
 exports.runBuildCommand = async (repoName, buildCommand) => {
   if (!isBuildCommandSafe(buildCommand)) {
@@ -12,7 +13,7 @@ exports.runBuildCommand = async (repoName, buildCommand) => {
   }
 
   const currentDir = path.resolve(__dirname);
-  const repoDir = `${currentDir}/${repoFolder}/${repoName}`;
+  const repoDir = `${currentDir}/${repoFolder}/${repoHash}`;
   const isExists = await exists(repoDir);
 
   return new Promise((resolve, reject) => {

@@ -1,4 +1,6 @@
 const axios = require('axios');
+const fse = require('fs-extra');
+const path = require('path');
 const config = require('../agent-conf.json');
 const { gitClone, checkoutCommit } = require('../handlers/handle-git');
 const { runBuildCommand } = require ('../handlers/handle-build');
@@ -67,5 +69,12 @@ exports.startBuild = async (req, res) => {
     .then(() => {console.log('Sent build results to the build-server\n')})
     .catch(err => {console.log('Error with sending results', err.message)})
   }
+
+  // Detete tmp folder with repo
+  const repoHash = process.conf.repoHash;
+  const repoPath = `${path.resolve(__dirname)}/../handlers/repos-tmp/${repoHash}`;
+
+  fse.remove(repoPath)
+    .catch(() => console.error('Error with delete repo folder\n'))
 
 };
