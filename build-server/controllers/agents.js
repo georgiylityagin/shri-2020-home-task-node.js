@@ -41,6 +41,11 @@ exports.notifyBuildRes = async (req, res) => {
   if (!result) {
     res.status(501).send('Not Implemented');
     console.log(`Fail trying to finish build ${buildId}\n`);
+
+    const index = process.conf.buildsList.findIndex(build => build.id === buildId);
+    if (index !== -1) {
+      process.conf.buildsList[index].status = 'Waiting';
+    }
     return;
   } else {
     console.log(`Finish build ${buildId} with status: ${success ? 'success': 'failed'}\n`);

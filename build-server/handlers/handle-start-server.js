@@ -72,28 +72,28 @@ async function handleBuildQueue() {
     availableAgents.forEach(agent => {
       const currentBuild = buildsQueue.shift();
       
-      dataBaseApi.startBuild({ buildId: currentBuild.id, dateTime: new Date()})
-        .then(() => {console.log(`Start build with id = ${currentBuild.id} \n`)})
-        .catch(() => console.error('Error with Shri API: /build/start'));
-
-      axios.post(`http://${agent.host}:${agent.port}/build`, {
-        id: currentBuild.id,
-        repoName: process.conf.repoName,
-        commitHash: currentBuild.commitHash,
-        buildCommand: process.conf.buildCommand,
-        mainBranch: currentBuild.branchName
-      })
-      .then(() => {
-        console.log(`Pass the build task to the agent on port ${agent.port} \n`)
-        // Обновить статус билда с Waiting на InProgress
-        const index = process.conf.buildsList.findIndex(build => build.id === currentBuild.id);
-        if (index !== -1) {
-          process.conf.buildsList[index].status = 'InProgress';
-        } else {
-          console.log('Не получилось изменить статус билда!!!!!!!!!!')
-        }
-      })
-      .catch(err => {console.error('Error with post build to the agent: ', err.toString())})
+      if (currentBuild) {
+        dataBaseApi.startBuild({ buildId: currentBuild.id, dateTime: new Date()})
+          .then(() => {console.log(`Start build with id = ${currentBuild.id} \n`)})
+          .catch(() => console.error('Error with Shri API: /build/start'));
+  
+        axios.post(`http://${agent.host}:${agent.port}/build`, {
+          id: currentBuild.id,
+          repoName: process.conf.repoName,
+          commitHash: currentBuild.commitHash,
+          buildCommand: process.conf.buildCommand,
+          mainBranch: currentBuild.branchName
+        })
+        .then(() => {
+          console.log(`Pass the build task to the agent on port ${agent.port} \n`)
+          // Обновить статус билда с Waiting на InProgress
+          const index = process.conf.buildsList.findIndex(build => build.id === currentBuild.id);
+          if (index !== -1) {
+            process.conf.buildsList[index].status = 'InProgress';
+          }
+        })
+        .catch(err => {console.error('Error with post build to the agent: ', err.toString())})
+      }
     });
   }
 }
