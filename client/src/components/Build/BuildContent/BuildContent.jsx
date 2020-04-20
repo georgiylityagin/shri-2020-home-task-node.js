@@ -17,7 +17,7 @@ export const BuildContent = ({ data, isMobile, isDetails }) => {
   return (
     <BuildContentStyled isMobile={isMobile} isDetails={isDetails}>
       <BuildDetails data={data} isMobile={isMobile} isDetails={isDetails} />
-      {data.start && data.duration ? (
+      {(data.start && data.duration !== undefined) ? (
         <BuildTimeInfo
           isMobile={isMobile}
           start={data.start}

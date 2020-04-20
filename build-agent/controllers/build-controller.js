@@ -38,7 +38,7 @@ exports.startBuild = async (req, res) => {
     const {stdout, stderr} = await runBuildCommand(repo, buildCommand);
     res.status(200).send('OK');
     end = Date.now();
-    const duration = Math.round((end - start) / 6e4);
+    const duration = Math.ceil((end - start) / 6e4);
 
     // Send results to build-server
     axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
@@ -54,13 +54,13 @@ exports.startBuild = async (req, res) => {
     console.error(err);
     res.status(500).send('Error with run build command');
     end = Date.now();
-    const duration = Math.round((end - start) / 6e4);
+    const duration = Math.ceil((end - start) / 6e4);
 
     // Send results to build-server
     axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
       buildId: id,
       success: false,
-      buildLog: 'Error with build command', // err.message
+      buildLog: err.message,
       duration,
       port: config.port
     })

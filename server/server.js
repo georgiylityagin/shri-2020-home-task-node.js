@@ -14,4 +14,6 @@ app.listen(3000, err => {
   if (err) {
     console.error(err)
   }
+
+  console.log('CI-server is listening on port 3000')
 });

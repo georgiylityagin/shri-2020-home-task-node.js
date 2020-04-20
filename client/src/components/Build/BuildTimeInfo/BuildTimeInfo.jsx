@@ -61,15 +61,17 @@ export const BuildTimeInfo = ({ isMobile, isDetails, start, duration }) => {
       <BuildTime isMobile={isMobile} isDetails={isDetails}>
         <img src={`${prefix}images/calendar_icon.svg`} alt="" />
         <div>
-          {format(new Date(start), 'd MMM HH:mm', { locale: ru }).replace(
+          {start !== undefined
+          ? format(new Date(start), 'd MMM HH:mm', { locale: ru }).replace(
             '.',
             ','
-          )}
+          ) : '..., ...'
+        }
         </div>
       </BuildTime>
       <BuildTime isMobile={isMobile} isDetails={isDetails}>
         <img src={`${prefix}images/stopwatch_icon.svg`} alt="" />
-        <div>{formatDuration(duration)}</div>
+        <div>{duration !== undefined ? formatDuration(duration) : '...'}</div>
       </BuildTime>
     </BuildTimeInfoStyled>
   );

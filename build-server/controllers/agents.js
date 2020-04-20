@@ -1,6 +1,5 @@
 const dataBaseApi = require('../helpers/db-api');
 
-// const agentsList = [];
 process.conf.agents = [];
 
 exports.notifyAgent = (req, res) => {
@@ -24,12 +23,6 @@ exports.notifyAgent = (req, res) => {
 exports.notifyBuildRes = async (req, res) => {
   const { body } = req;
   const { buildId, success, buildLog, duration, port } = body;
-
-  console.log(buildId);
-  console.log(success);
-  console.log(buildLog);
-  console.log(duration);
-  console.log(port);
 
   if ([buildId, success, buildLog, duration, port].includes(undefined)) {
     res.status(400).send('Wrong request body');

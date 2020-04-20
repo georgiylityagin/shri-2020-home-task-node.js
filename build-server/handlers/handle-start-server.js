@@ -52,7 +52,6 @@ exports.onStart = async () => {
       // Начинаем разгребать очередь
       availableAgents.forEach(agent => {
         const currentBuild = buildsQueue.shift();
-        console.log(currentBuild)
         
         dataBaseApi.startBuild({ buildId: currentBuild.id, dateTime: new Date()})
           .catch(err => console.error('Error with Shri API: /build/start'));
@@ -85,12 +84,3 @@ exports.onStart = async () => {
 function filterWaitingBuilds(builds) {
   return builds.filter(build => build.status === 'Waiting');
 }
-
-const testFn = async () => {
-  const buildsResponce = await dataBaseApi.getBuildList();
-  const buildsList =  buildsResponce.data.data;
-  console.log(buildsList);
-  console.log(filterWaitingBuilds(buildsList));
-}
-
-testFn();
