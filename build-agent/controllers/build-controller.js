@@ -1,10 +1,8 @@
-const axios = require('axios');
 const fse = require('fs-extra');
 const path = require('path');
-const config = require('../agent-conf.json');
 const { gitClone, checkoutCommit } = require('../handlers/handle-git');
 const { runBuildCommand } = require ('../handlers/handle-build');
-
+const { sendBuildResult, notifyServer } = require('../handlers/handle-server');
 
 exports.startBuild = async (req, res) => {
   const { body } = req;
@@ -14,6 +12,8 @@ exports.startBuild = async (req, res) => {
     res.status(400).send('Wrond request body');
     return;
   }
+
+  console.log('Start new build\n')
 
   let start, end;
   start = Date.now();
@@ -43,31 +43,24 @@ exports.startBuild = async (req, res) => {
     const duration = Math.ceil((end - start) / 6e4);
 
     // Send results to build-server
-    axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
+    sendBuildResult({
       buildId: id,
       success: true,
       buildLog: stderr + '\n' + stdout,
-      duration,
-      port: config.port
-    })
-    .then(() => {console.log('Sent build results to the build-server\n')})
-    .catch(err => {console.log('Error with sending results: ', err.message)})
+      duration
+    }, 3);
   } catch (err) {
-    console.error(err);
     res.status(500).send('Error with run build command');
     end = Date.now();
     const duration = Math.ceil((end - start) / 6e4);
 
     // Send results to build-server
-    axios.post(`http://${config.serverHost}:${config.serverPort}/notify-build-result`, {
+    sendBuildResult({
       buildId: id,
       success: false,
       buildLog: err.message,
-      duration,
-      port: config.port
-    })
-    .then(() => {console.log('Sent build results to the build-server\n')})
-    .catch(err => {console.log('Error with sending results', err.message)})
+      duration
+    }, 3);
   }
 
   // Detete tmp folder with repo
@@ -75,6 +68,7 @@ exports.startBuild = async (req, res) => {
   const repoPath = `${path.resolve(__dirname)}/../handlers/repos-tmp/${repoHash}`;
 
   fse.remove(repoPath)
-    .catch(() => console.error('Error with delete repo folder\n'))
+    .catch(() => console.error('Error with delete repo folder\n'));
 
+  notifyServer(process.conf.port);
 };

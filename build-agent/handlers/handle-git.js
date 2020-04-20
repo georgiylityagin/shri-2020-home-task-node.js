@@ -7,8 +7,7 @@ const exists = promisify(fs.exists);
 
 const repoFolder = 'repos-tmp';
 const repoHash = generateHash({ length: 8 });
-process.conf = { repoHash };
-// process.conf.repoHash = repoHash;
+process.conf.repoHash = repoHash;
 
 
 exports.gitClone = async (acc, repoName, mainBranch) => {

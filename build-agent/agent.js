@@ -1,7 +1,8 @@
 const express = require('express');
 const config = require('./agent-conf.json');
+process.conf = {};
 const router = require('./routes/routes');
-const axios = require('axios');
+const { notifyServer } = require('./handlers/handle-server');
 
 const app = express();
 
@@ -12,19 +13,15 @@ app.use('/', router);
 const launchAgent = (port) => {
   app.listen(port, () => {  
     console.log(`Build agent is listening on port ${port}\n`);
+    process.conf.port = port;
   
-    axios.post(`http://${config.serverHost}:${config.serverPort}/notify-agent`, {
-      port: port,
-      available: true
-    })
-      .then(() => {console.log('Agent is successfully registered\n')})
-      .catch(err => console.log(err.message))
+    notifyServer(port);
   }).on('error', (err) => {
     if(err.errno === 'EADDRINUSE') {
       console.log(`Port ${port} is already in use, trying with port ${port + 1}\n`);
       launchAgent(port + 1);
     } else {
-      console.error(err)
+      console.error(err);
     }
   })
 }

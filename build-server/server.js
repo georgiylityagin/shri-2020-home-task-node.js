@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('./server-conf.json');
-process.conf = {};
+process.conf = { agents: [] };
 const router = require('./routes/routes');
 const { onStart } = require('./handlers/handle-start-server');
 

@@ -1,4 +1,5 @@
 const axios = require('axios');
+const isReachable = require('is-reachable');
 const dataBaseApi = require('../helpers/db-api');
 
 exports.onStart = async () => {
@@ -18,21 +19,38 @@ exports.onStart = async () => {
   process.conf.buildsList = buildsList;
 
 
-  let timeoutId = setTimeout(async function handleChanges() {
+  let timeoutId = setTimeout(async function runAnotherCycle() {
+    console.log('start new cycle');
+
     await updateConfig();
 
     await updateBuildQueue();
 
     await handleBuildQueue();
 
-    timeoutId = setTimeout(handleChanges, 5000)
-  }, 5000);
+    timeoutId = setTimeout(runAnotherCycle, 1000)
+  }, 1000);
 }
 
 
 
 function filterWaitingBuilds(builds) {
-  return builds.filter(build => build.status === 'Waiting');
+  // Фильтрует билды со статусом 'Waiting' и 'InProgress'
+  // Оставляет только те 'InProgress', которые не обрабатываются в данный момент
+
+  let waitingList = builds.filter(build => {
+    return build.status === 'Waiting' || build.status === 'InProgress';
+  });
+
+  let workingOnBuilds = process.conf.agents.map(agent => {
+    return agent.workingOn;
+  });
+
+  workingOnBuilds = workingOnBuilds.filter(Boolean);
+
+  return waitingList.filter(build => {
+    return !workingOnBuilds.includes(build.id);
+  });
 }
 
 async function updateConfig() {
@@ -54,13 +72,14 @@ async function updateConfig() {
 
 async function updateBuildQueue() {
   const buildsResponce = await dataBaseApi.getBuildList();
-  const buildsList =  buildsResponce.data.data;
 
-  buildsList.reverse().forEach(build => {
-    if (process.conf.buildsList.every(item => item.id !== build.id)) {
-      process.conf.buildsList.push(build);
-    }
-  });
+  process.conf.buildsList =  buildsResponce.data.data;
+
+  // buildsList.reverse().forEach(build => {
+  //   if (process.conf.buildsList.every(item => item.id !== build.id)) {
+  //     process.conf.buildsList.push(build);
+  //   }
+  // });
 }
 
 async function handleBuildQueue() {
@@ -69,13 +88,28 @@ async function handleBuildQueue() {
 
   if (buildsQueue.length > 0 && availableAgents.length > 0) {
     // Начинаем разгребать очередь
-    availableAgents.forEach(agent => {
+    for (let agent of availableAgents) {
+      const isOnline = await isReachable(`http://${agent.host}:${agent.port}`);
+
+      if (!isOnline) {
+        const ind = process.conf.agents.findIndex(item => item.port === agent.port);
+        process.conf.agents[ind].available = false;
+        continue;
+      }
+
       const currentBuild = buildsQueue.shift();
       
       if (currentBuild) {
-        dataBaseApi.startBuild({ buildId: currentBuild.id, dateTime: new Date()})
-          .then(() => {console.log(`Start build with id = ${currentBuild.id} \n`)})
-          .catch(() => console.error('Error with Shri API: /build/start'));
+        if (currentBuild.status !== 'InProgress') {
+          dataBaseApi.startBuild({ buildId: currentBuild.id, dateTime: new Date()})
+            .then(() => {console.log(`Start build with id = ${currentBuild.id} \n`)})
+            .catch(() => console.error('Error with Shri API: /build/start'));
+        }
+
+        const agentInd = process.conf.agents.findIndex(item => item.port === agent.port);
+
+        process.conf.agents[agentInd].workingOn = currentBuild.id;
+        process.conf.agents[agentInd].available = false;
   
         axios.post(`http://${agent.host}:${agent.port}/build`, {
           id: currentBuild.id,
@@ -88,12 +122,12 @@ async function handleBuildQueue() {
           console.log(`Pass the build task to the agent on port ${agent.port} \n`)
           // Обновить статус билда с Waiting на InProgress
           const index = process.conf.buildsList.findIndex(build => build.id === currentBuild.id);
-          if (index !== -1) {
-            process.conf.buildsList[index].status = 'InProgress';
-          }
+          process.conf.buildsList[index].status = 'InProgress';
         })
-        .catch(err => {console.error('Error with post build to the agent: ', err.toString())})
+        .catch(err => {
+          console.error('Error with post build to the agent: ', err.toString());
+        });
       }
-    });
+    }
   }
 }

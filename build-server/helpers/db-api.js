@@ -3,8 +3,8 @@ const axiosRetry = require('axios-retry');
 const axiosInstance = require('../utils/axios-instance');
 
 axiosRetry(axiosInstance, {
-  retries: 5,
-  retryDelay: () => 500
+  retries: 3,
+  retryDelay: () => 100
 });
 
 
