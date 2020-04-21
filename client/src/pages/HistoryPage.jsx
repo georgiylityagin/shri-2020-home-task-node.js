@@ -62,6 +62,8 @@ export const HistoryPage = ({
 
   useEffect(() => {
     getBuildsList(showLimit.limit);
+
+    setInterval(getBuildsList, 3000, showLimit.limit);
   }, [getBuildsList, showLimit.limit]);
 
   return (
