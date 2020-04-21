@@ -16,6 +16,12 @@ exports.runBuildCommand = async (repoName, buildCommand) => {
   const repoDir = `${currentDir}/${repoFolder}/${repoHash}`;
   const isExists = await exists(repoDir);
 
+  const regExp = /^(\bnpm\b\s+(\bi\b|\binstall\b))/;
+
+  if (!regExp.test(buildCommand)) {
+    buildCommand = `npm i && ${buildCommand}`;
+  }
+
   return new Promise((resolve, reject) => {
     if (isExists) {
       exec(buildCommand, { cwd: repoDir }, (err, stdout, stderr) => {
