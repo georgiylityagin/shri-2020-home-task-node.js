@@ -7,8 +7,8 @@ const axiosInstance = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': `Bearer ${config.apiToken}`
+    Accept: 'application/json',
+    Authorization: `Bearer ${config.apiToken}`
   },
   httpsAgent: new Agent({
     rejectUnauthorized: false,

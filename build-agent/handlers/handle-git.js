@@ -9,7 +9,6 @@ const repoFolder = 'repos-tmp';
 const repoHash = generateHash({ length: 8 });
 process.conf.repoHash = repoHash;
 
-
 exports.gitClone = async (acc, repoName, mainBranch) => {
   const currentDir = path.resolve(__dirname);
   const repoDir = `${currentDir}/${repoFolder}/${repoHash}`;
@@ -23,24 +22,26 @@ exports.gitClone = async (acc, repoName, mainBranch) => {
           reject({
             err: 'Error with cloning repo',
             message: err.toString()
-          })
-        }
-        else {
-          resolve();
-        }
-      })
-    } else {
-      exec(`git checkout ${mainBranch} && git pull`, {cwd: repoDir}, (err) => {
-        if (err) {
-          reject({
-            err: 'Error with cloning repo',
-            message: err.toString()
-          })
-        }
-        else {
+          });
+        } else {
           resolve();
         }
       });
+    } else {
+      exec(
+        `git checkout ${mainBranch} && git pull`,
+        { cwd: repoDir },
+        (err) => {
+          if (err) {
+            reject({
+              err: 'Error with cloning repo',
+              message: err.toString()
+            });
+          } else {
+            resolve();
+          }
+        }
+      );
     }
   });
 };
@@ -52,18 +53,18 @@ exports.checkoutCommit = async (repoName, commitHash) => {
 
   return new Promise((resolve, reject) => {
     if (isExists) {
-      exec(`git checkout ${commitHash}`, {cwd: repoDir}, (err) => {
+      exec(`git checkout ${commitHash}`, { cwd: repoDir }, (err) => {
         if (err) {
           reject({
             err: 'Error with checkout commit',
             message: err.toString()
-          })
+          });
         } else {
           resolve();
         }
       });
     } else {
-      reject(new Error('No repo to checkout'))
+      reject(new Error('No repo to checkout'));
     }
   });
-}
+};

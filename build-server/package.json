@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix ./ && prettier --write ./",
     "start": "node server.js"
   },
   "author": "Georgiy",
@@ -14,5 +15,9 @@
     "axios-retry": "^3.1.5",
     "express": "^4.17.1",
     "is-reachable": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "prettier": "2.0.4"
   }
 }

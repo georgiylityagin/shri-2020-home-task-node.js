@@ -18,29 +18,27 @@ exports.runBuildCommand = async (repoName, buildCommand) => {
 
   return new Promise((resolve, reject) => {
     if (isExists) {
-      exec(buildCommand, {cwd: repoDir}, (err, stdout, stderr) => {
+      exec(buildCommand, { cwd: repoDir }, (err, stdout, stderr) => {
         if (err) {
           reject({
             err: 'Error with build command',
             message: err.toString()
           });
         } else {
-          resolve({stdout, stderr});
+          resolve({ stdout, stderr });
         }
-      })
+      });
     } else {
       reject(new Error('No repo to run build command'));
     }
   });
-}
-
+};
 
 function isBuildCommandSafe(buildCommand) {
   buildCommand = buildCommand.trim().replace('&&', ';');
 
   const startsWithNpm = /^\bnpm\b/;
-  const numOfCommands = buildCommand.split(';')
-    .filter(val => val !== '')
+  const numOfCommands = buildCommand.split(';').filter((val) => val !== '')
     .length;
 
   // Should stars with npm

@@ -8,7 +8,9 @@ exports.notifyAgent = (req, res) => {
     return;
   }
 
-  const index = process.conf.agents.findIndex(agent => agent.port === body.port);
+  const index = process.conf.agents.findIndex(
+    (agent) => agent.port === body.port
+  );
 
   if (index === -1) {
     process.conf.agents.push({
@@ -24,9 +26,9 @@ exports.notifyAgent = (req, res) => {
 
   console.log('Update actual list of agents:');
   console.table(process.conf.agents);
-  
+
   res.status(200).send('OK');
-}
+};
 
 exports.notifyBuildRes = async (req, res) => {
   const { body } = req;
@@ -36,8 +38,13 @@ exports.notifyBuildRes = async (req, res) => {
     res.status(400).send('Wrong request body');
     return;
   }
-  
-  const result = await dataBaseApi.finishBuild({ buildId, success, buildLog, duration });
+
+  const result = await dataBaseApi.finishBuild({
+    buildId,
+    success,
+    buildLog,
+    duration
+  });
 
   if (!result) {
     res.status(200).send('Not Implemented');
@@ -45,8 +52,10 @@ exports.notifyBuildRes = async (req, res) => {
 
     return;
   } else {
-    console.log(`Finish build ${buildId} with status: ${success ? 'success': 'failed'}\n`);
+    console.log(
+      `Finish build ${buildId} with status: ${success ? 'success' : 'failed'}\n`
+    );
   }
 
   res.status(200).send('OK');
-}
+};
