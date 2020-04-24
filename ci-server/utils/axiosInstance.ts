@@ -1,7 +1,7 @@
-const axios = require('axios');
-const { Agent } = require('https');
+import axios from 'axios';
+import { Agent } from 'https';
 
-const axiosInstance = axios.create({
+export default axios.create({
   baseURL: 'https://hw.shri.yandex/api',
   timeout: 10000,
   headers: {
@@ -14,5 +14,3 @@ const axiosInstance = axios.create({
     keepAlive: true
   })
 });
-
-module.exports = axiosInstance;
