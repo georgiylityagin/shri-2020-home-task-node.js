@@ -15,14 +15,17 @@ const logCach = new nodeCach({
   maxKeys: 1000
 });
 
-
+type GetBuildsQueryParam = {
+  offset: string,
+  limit: string
+};
 
 // Получение списка сборок
-export const getBuilds = async (req: Request, res: Response) => {
+export const getBuilds = async (req: Request<{},{},{},GetBuildsQueryParam>, res: Response) => {
 
   const { query } = req;
-  const offset = query.offset || 0;
-  const limit = query.limit || 25;
+  const offset = query.offset || '0';
+  const limit = query.limit || '25';
 
   try {
     let buildList: BuildDetails[] = (await axiosInstance.get(`/build/list?offset=${offset}&limit=${limit}`)).data.data;
