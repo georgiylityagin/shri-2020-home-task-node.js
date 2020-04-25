@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { ReactChild } from 'react';
 import styled from 'styled-components';
+
+type ContentProps = {
+  centeredV: boolean,
+  centeredH: boolean,
+  children: ReactChild
+}
 
 const ContentWrapper = styled.main`
   padding: 0 var(--content-mobile-indent);
   flex: 1;
-  display: ${(props) =>
+  display: ${(props: ContentProps) =>
     props.centeredV || props.centeredH ? 'flex' : 'block'};
   align-items: ${(props) => (props.centeredV ? 'center' : 'initial')};
   justify-content: ${(props) => (props.centeredH ? 'center' : 'initial')};
@@ -16,7 +22,7 @@ const Container = styled.div`
   margin: auto;
 `;
 
-export const Content = ({ centeredV, centeredH, children }) => {
+export const Content: React.FC<ContentProps> = ({ centeredV, centeredH, children }) => {
   return (
     <ContentWrapper centeredV={centeredV} centeredH={centeredH}>
       <Container>{children}</Container>

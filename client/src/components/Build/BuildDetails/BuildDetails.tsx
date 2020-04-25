@@ -7,10 +7,30 @@ import { BranchName } from '../BranchName/BranchName';
 import { CommitHash } from '../CommitHash/CommitHash';
 import { AuthorName } from '../AuthorName/AuthorName';
 
+import { status } from '../BuildStatus/BuildStatus';
+
+export type buildData = {
+  id: string,
+  status: status,
+  buildNumber: number,
+  commitMessage: string,
+  branchName: string,
+  commitHash: string,
+  authorName: string,
+  start: string,
+  duration: number
+}
+
+type BuildDetailsProps = {
+  data: buildData,
+  isMobile: boolean,
+  isDetails?: boolean
+}
+
 const BuildDetailsStyled = styled.div`
   display: flex;
   flex-wrap: wrap;
-  flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
+  flex-direction: ${(props: Partial<BuildDetailsProps>) => (props.isMobile ? 'column' : 'row')};
   flex-shrink: 1;
 `;
 
@@ -23,10 +43,10 @@ const MetaInfo = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  ${(props) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
+  ${(props: Partial<BuildDetailsProps>) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 `;
 
-export const BuildDetails = ({ data, isMobile, isDetails }) => {
+export const BuildDetails: React.FC<BuildDetailsProps> = ({ data, isMobile, isDetails }) => {
   return (
     <BuildDetailsStyled isMobile={isMobile}>
       <BuildNumber

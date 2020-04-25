@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type BranchNameProps = {
+  branchName: string,
+  isDetails?: boolean
+}
+
 const BranchNameStyled = styled.div`
   display: flex;
   align-items: center;
@@ -23,7 +28,7 @@ const BranchNameStyled = styled.div`
   }
 `;
 
-export const BranchName = ({ branchName, isDetails }) => {
+export const BranchName: React.FC<BranchNameProps> = ({ branchName, isDetails }) => {
   let prefix = isDetails ? '../' : '';
 
   return (

@@ -24,7 +24,7 @@ const ConfigInfoText = styled.div`
   margin-bottom: 24px;
 `;
 
-export const ConfigInfo = () => {
+export const ConfigInfo: React.FC<{}> = () => {
   return (
     <ConfigInfoWrapper>
       <ConfigInfoImage src="images/logo.svg" alt="" />

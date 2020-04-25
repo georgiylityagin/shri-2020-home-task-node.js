@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { ReactChildren } from 'react';
 import styled from 'styled-components';
+
+type HeaderProps = {
+  isMobile: boolean,
+  children: ReactChildren
+}
 
 const StyledHeader = styled.header`
   padding: 0 var(--content-mobile-indent);
@@ -9,7 +14,7 @@ const StyledHeader = styled.header`
 const HeaderContent = styled.div`
   max-width: var(--content-max-width);
   margin: auto;
-  padding: ${(props) =>
+  padding: ${(props: HeaderProps) =>
       props.isMobile ? 'var(--space-xs)' : 'var(--space-xxs)'}
     0;
   display: flex;
@@ -17,7 +22,7 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-export const Header = ({ isMobile, children }) => {
+export const Header: React.FC<HeaderProps> = ({ isMobile, children }) => {
   return (
     <StyledHeader>
       <HeaderContent isMobile={isMobile}>{children}</HeaderContent>

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type CommitMessageProps = {
+  commitMessage: string;
+}
+
 const CommitMessageStyled = styled.div`
   font-size: var(--font-size-m);
   line-height: var(--line-height-m);
@@ -8,6 +12,6 @@ const CommitMessageStyled = styled.div`
   margin-bottom: var(--space-xxxs);
 `;
 
-export const CommitMessage = ({ commitMessage }) => {
+export const CommitMessage: React.FC<CommitMessageProps> = ({ commitMessage }) => {
   return <CommitMessageStyled>{commitMessage}</CommitMessageStyled>;
 };

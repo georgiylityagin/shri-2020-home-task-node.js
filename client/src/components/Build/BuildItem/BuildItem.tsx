@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
 
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildContent } from '../BuildContent/BuildContent';
+import { buildData } from '../BuildDetails/BuildDetails';
+
+type BuildItemProps = {
+  data: buildData,
+  isMobile: boolean,
+  isDetails?: boolean,
+  handleDetails(event: MouseEvent<HTMLDivElement>): void
+}
 
 const BuildItemStyled = styled.div`
   display: flex;
@@ -19,16 +27,16 @@ const BuildItemStyled = styled.div`
   }
 
   &:hover {
-    ${(props) => !props.isDetails && 'cursor: pointer;'}
-    ${(props) =>
+    ${(props: Partial<BuildItemProps>) => !props.isDetails && 'cursor: pointer;'}
+    ${(props: Partial<BuildItemProps>) =>
       !props.isDetails &&
       'box-shadow: 0px 2px 8px rgba(67, 68, 69, 0.3), 0px 0px 1px rgba(67, 68, 69, 0.3);'}
   }
 
-  ${(props) => props.isMobile && 'padding: var(-space-xs) var(--space-m)'};
+  ${(props: Partial<BuildItemProps>) => props.isMobile && 'padding: var(-space-xs) var(--space-m)'};
 `;
 
-export const BuildItem = ({ data, isMobile, isDetails, handleDetails }) => {
+export const BuildItem: React.FC<BuildItemProps> = ({ data, isMobile, isDetails, handleDetails }) => {
   return (
     <BuildItemStyled id={data.id} isDetails={isDetails} onClick={handleDetails}>
       <BuildStatus

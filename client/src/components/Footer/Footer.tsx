@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type FooterProps = {
+  isMobile: boolean;
+}
+
 const StyledFooter = styled.footer`
   background-color: var(--bg-footer);
   padding: 0 var(--content-mobile-indent);
@@ -9,17 +13,17 @@ const StyledFooter = styled.footer`
 const FooterContent = styled.div`
   max-width: var(--content-max-width);
   margin: auto;
-  padding: ${(props) =>
+  padding: ${(props: FooterProps) =>
       props.isMobile ? 'var(--space-xs)' : 'var(--space-xxxs)'}
     0;
   display: flex;
-  flex-direction: ${(props) => (props.isMobile ? 'column' : 'row')};
+  flex-direction: ${(props: FooterProps) => (props.isMobile ? 'column' : 'row')};
   aling-items: center;
   justify-content: space-between;
 `;
 
 const FooterLinks = styled.div`
-  margin-bottom: ${(props) => (props.isMobile ? 'var(--space-xxxs)' : 0)};
+  margin-bottom: ${(props: FooterProps) => (props.isMobile ? 'var(--space-xxxs)' : 0)};
 `;
 
 const FooterLink = styled.a`
@@ -46,7 +50,7 @@ const FooterText = styled.div`
   letter-spacing: var(--letter-spacing-s);
 `;
 
-export const Footer = ({ isMobile }) => {
+export const Footer: React.FC<FooterProps> = ({ isMobile }) => {
   return (
     <StyledFooter>
       <FooterContent isMobile={isMobile}>

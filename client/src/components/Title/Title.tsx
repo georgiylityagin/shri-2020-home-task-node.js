@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { ReactChildren } from 'react';
 import styled from 'styled-components';
+
+type titleProps = {
+  id: string,
+  isMobile: boolean,
+  isRepoName: boolean,
+  children: ReactChildren
+};
 
 const StyledTitle = styled.h1`
   margin: 0;
-  font-size: ${(props) =>
+  font-size: ${(props: titleProps) =>
     props.isMobile ? 'var(--font-size-l)' : 'var(--font-size-xl)'};
   font-weight: 500;
   line-height: ${(props) =>
@@ -13,7 +20,7 @@ const StyledTitle = styled.h1`
     props.isRepoName ? 'var(--text-color-default)' : 'var(--text-color-muted)'};
 `;
 
-export const Title = ({ id, isMobile, isRepoName, children }) => {
+export const Title: React.FC<titleProps> = ({ id, isMobile, isRepoName, children }) => {
   return (
     <StyledTitle id={id} isMobile={isMobile} isRepoName={isRepoName}>
       {children}

@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type AuthorNameProps = {
+  authorName: string,
+  isMobile: boolean,
+  isDetails?: boolean
+}
+
 const AuthorNameStyled = styled.div`
   display: flex;
   align-items: center;
 
-  ${(props) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
+  ${(props: Partial<AuthorNameProps>) => props.isMobile && 'margin-bottom: var(--space-xxxs);'}
 
   & > img {
     margin-right: var(--space-xxxxs);
@@ -24,7 +30,7 @@ const AuthorNameStyled = styled.div`
   }
 `;
 
-export const AuthorName = ({ authorName, isMobile, isDetails }) => {
+export const AuthorName: React.FC<AuthorNameProps> = ({ authorName, isMobile, isDetails }) => {
   let prefix = isDetails ? '../' : '';
 
   return (

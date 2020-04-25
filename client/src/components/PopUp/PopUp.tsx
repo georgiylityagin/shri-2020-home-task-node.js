@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { FormEvent, ChangeEvent } from 'react';
 import styled from 'styled-components';
 
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import { ButtonGroup } from '../ButtonGroup/ButtonGroup';
+
+type PopUpProps = {
+  id: string,
+  isMobile: boolean,
+  handleClickCancel(): void,
+  onChange(event: ChangeEvent<HTMLInputElement>): void,
+  onClickRunBuild(event: FormEvent<Element>): void,
+}
 
 const PopUpWrapper = styled.div`
   position: fixed;
@@ -21,7 +29,7 @@ const PopUpWrapper = styled.div`
 `;
 
 const PopUpStyled = styled.div`
-  ${(props) => (props.isMobile ? 'width: 100%;' : 'min-width: 485px;')}
+  ${(props: Partial<Pick<PopUpProps, 'isMobile'>>) => (props.isMobile ? 'width: 100%;' : 'min-width: 485px;')}
   background-color: #fff;
   padding: var(--space-xl);
   border-radius: var(--border-radius-s);
@@ -49,7 +57,7 @@ const PopUpMessage = styled.p`
   margin-bottom: var(--space-xs);
 `;
 
-export const PopUp = ({
+export const PopUp: React.FC<PopUpProps> = ({
   id,
   handleClickCancel,
   isMobile,
@@ -75,7 +83,7 @@ export const PopUp = ({
             <Button id="save" type="submit" color="accent">
               Save
             </Button>
-            <Button type="button" color="white" onClick={handleClickCancel}>
+            <Button id="cancel" type="button" color="white" onClick={handleClickCancel}>
               Cancel
             </Button>
           </ButtonGroup>

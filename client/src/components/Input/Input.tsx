@@ -1,5 +1,20 @@
-import React from 'react';
+import React, { FocusEvent, ChangeEvent } from 'react';
 import styled from 'styled-components';
+
+type InputProps = {
+  id: string,
+  type: string,
+  placeholder: string,
+  value?: string,
+  labelText?: string,
+  required?: boolean,
+  inline?: boolean,
+  additionalLabel?: string,
+  onChange(event: ChangeEvent<HTMLInputElement>): void,
+  onBlur?(event: FocusEvent<HTMLInputElement>): void,
+  valid: boolean,
+}
+
 
 const InputWrapper = styled.div`
   width: 100%;
@@ -10,7 +25,7 @@ const InputWrapper = styled.div`
     margin-bottom: var(--space-xl);
   }
 
-  display: ${(props) => (props.inline ? 'flex' : 'block')};
+  display: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? 'flex' : 'block')};
   align-items: center;
 `;
 
@@ -19,8 +34,8 @@ const StyledLabel = styled.label`
   font-size: var(--font-size-s);
   line-height: var(--line-height-s);
   letter-spacing: var(--letter-spacing-s);
-  margin-bottom: ${(props) => (props.inline ? 0 : 'var(--space-xxxxs)')};
-  margin-right: ${(props) => (props.inline ? 'var(--space-xxxs)' : 0)};
+  margin-bottom: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? 0 : 'var(--space-xxxxs)')};
+  margin-right: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? 'var(--space-xxxs)' : 0)};
 `;
 
 const StyledInput = styled.input`
@@ -28,7 +43,7 @@ const StyledInput = styled.input`
   display: inline-block;
   width: 100%;
   border: 2px solid
-    ${(props) =>
+    ${(props: InputProps) =>
       props.valid === true
         ? 'var(--border-color)'
         : 'var(--border-color-invalid)'};
@@ -38,7 +53,7 @@ const StyledInput = styled.input`
   color: var(--text-color-default);
 
   &::placeholder {
-    color: ${(props) =>
+    color: ${(props: InputProps) =>
       props.valid === true
         ? 'var(--placeholder-text)'
         : 'var(--border-color-invalid)'};
@@ -48,12 +63,12 @@ const StyledInput = styled.input`
     border-color: var(--border-color-focus);
   }
 
-  max-width: ${(props) => (props.inline ? '26px' : '474px')};
-  text-align: ${(props) => (props.inline ? 'right' : 'left')};
-  margin-right: ${(props) => (props.inline ? 'var(--space-xxxs)' : 0)};
+  max-width: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? '26px' : '474px')};
+  text-align: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? 'right' : 'left')};
+  margin-right: ${(props: Partial<Pick<InputProps, 'inline'>>) => (props.inline ? 'var(--space-xxxs)' : 0)};
 `;
 
-export const Input = ({
+export const Input: React.FC<InputProps> = ({
   id,
   type,
   placeholder,

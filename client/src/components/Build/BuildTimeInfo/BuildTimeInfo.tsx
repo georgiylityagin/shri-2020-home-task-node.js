@@ -3,17 +3,24 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
+type BuildTimeInfoProps = {
+  isMobile: boolean,
+  isDetails?: boolean,
+  start: string,
+  duration: number
+}
+
 const BuildTimeInfoStyled = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 1;
-  ${(props) => (props.isMobile || props.isDetails) && 'flex-direction: row;'}
-  ${(props) =>
+  ${(props: Partial<BuildTimeInfoProps>) => (props.isMobile || props.isDetails) && 'flex-direction: row;'}
+  ${(props: Partial<BuildTimeInfoProps>) =>
     (props.isMobile || props.isDetails) &&
     'border-top: 1px solid var(--grey-50);'}
-  ${(props) =>
+  ${(props: Partial<BuildTimeInfoProps>) =>
     (props.isMobile || props.isDetails) && 'padding-top: var(--space-xxxs);'}
-  ${(props) =>
+  ${(props: Partial<BuildTimeInfoProps>) =>
     props.isDetails && !props.isMobile && 'margin-top: var(--space-xxxs);'}
 
   & > div:first-child {
@@ -37,7 +44,7 @@ const BuildTime = styled.div`
     font-size: var(--font-size-s);
     line-height: var(-line-height-xs);
     letter-spacing: var(--letter-spacing-s);
-    color: ${(props) =>
+    color: ${(props: Partial<BuildTimeInfoProps>) =>
       props.isDetails
         ? 'var(--text-color-default)'
         : 'var(--text-color-secondary)'};
@@ -45,7 +52,7 @@ const BuildTime = styled.div`
   }
 `;
 
-function formatDuration(duration) {
+function formatDuration(duration: number): string {
   const date = new Date(duration * 60000);
   const hours = date.getUTCHours();
   const minutes = date.getUTCMinutes();
@@ -53,7 +60,7 @@ function formatDuration(duration) {
   return `${hours ? hours + ' ч' : ''} ${minutes} мин`;
 }
 
-export const BuildTimeInfo = ({ isMobile, isDetails, start, duration }) => {
+export const BuildTimeInfo: React.FC<BuildTimeInfoProps> = ({ isMobile, isDetails, start, duration }) => {
   let prefix = isDetails ? '../' : '';
 
   return (

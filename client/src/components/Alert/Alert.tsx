@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { ReactChildren } from 'react';
 import styled from 'styled-components';
+
+type AlertProps = {
+  id: string,
+  children: ReactChildren
+}
 
 const AlertStyled = styled.div`
   padding: var(--space-xs) var(--space-xl);
@@ -10,6 +15,6 @@ const AlertStyled = styled.div`
   margin-bottom: var(--space-xl);
 `;
 
-export const Alert = ({ id, children }) => {
+export const Alert: React.FC<AlertProps> = ({ id, children }) => {
   return <AlertStyled id={id}>{children}</AlertStyled>;
 };

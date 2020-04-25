@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
+
+export type ButtonProps = {
+  id: string,
+  size?: 's' | 'm' | 'l',
+  color: string,
+  children: string,
+  type?: 'button' | 'submit' | 'reset',
+  disabled?: boolean,
+  onClick?(event: MouseEvent<HTMLButtonElement>): void,
+  isMobile?: boolean,
+}
 
 const StyledButton = styled.button`
   --btn-color: var(--btn-control);
@@ -21,7 +32,7 @@ const StyledButton = styled.button`
 
   display: inline-block;
   cursor: pointer;
-  padding: 0 ${(props) => (props.size === 's' ? '13px' : '18px')};
+  padding: 0 ${(props: ButtonProps) => (props.size === 's' ? '13px' : '18px')};
   background-color: var(--btn-color);
   border: 2px solid ${(props) =>
     props.color === 'white'
@@ -51,7 +62,7 @@ const StyledButton = styled.button`
   }
 `;
 
-export const Button = ({
+export const Button : React.FC<ButtonProps> = ({
   id,
   size,
   color,

@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { ReactChildren } from 'react';
 import styled from 'styled-components';
 import Convert from 'ansi-to-html';
+
+type LogProps = {
+  isMobile: boolean,
+  children: ReactChildren
+}
 
 const LogStyled = styled.pre`
   padding: var(--space-xxxs) var(--space-xs);
@@ -11,13 +16,13 @@ const LogStyled = styled.pre`
   font-size: var(--font-size-xs);
   line-height: var(--line-height-m);
 
-  ${(props) =>
+  ${(props: Partial<Pick<LogProps, 'isMobile'>>) =>
     props.isMobile && 'margin-left: calc(0px - var(--content-mobile-indent));'}
 `;
 
 const convert = new Convert({ fg: '#000', bg: '#000' });
 
-export const Log = ({ children, isMobile }) => {
+export const Log: React.FC<LogProps> = ({ children, isMobile }) => {
   return (
     <LogStyled
       isMobile={isMobile}
