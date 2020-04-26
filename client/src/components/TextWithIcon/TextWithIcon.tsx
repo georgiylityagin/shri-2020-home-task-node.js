@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 type TextWithIconProps = {
   img: string,
-  text: string,
+  text?: string,
   isMobile: boolean
 }
 

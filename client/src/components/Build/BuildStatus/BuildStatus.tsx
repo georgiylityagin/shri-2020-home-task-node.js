@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-export type status = 'Success' | 'Fail' | 'Waiting' | 'InProgress' | 'Canceled';
 
 type BuildStatusProps = {
   isMobile: boolean,
   isDetails?: boolean,
-  status: status
+  status?: string
 }
 
 const Icon = styled.img`

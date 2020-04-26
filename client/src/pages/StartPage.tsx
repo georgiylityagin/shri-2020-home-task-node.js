@@ -10,7 +10,11 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { ConfigInfo } from '../components/ConfigInfo/ConfigInfo';
 import { Title } from '../components/Title/Title';
 
-export const StartPage = ({ isMobile }) => {
+type StartPageProps = {
+  isMobile: boolean
+}
+
+export const StartPage: React.FC<StartPageProps> = ({ isMobile }) => {
   return (
     <Page id="startPage">
       <Header isMobile={isMobile}>
@@ -18,7 +22,7 @@ export const StartPage = ({ isMobile }) => {
           <Title isMobile={isMobile}>School CI server</Title>
         </Link>
         <Link to="/settings">
-          <Button size="s" id='toSettings2'>
+          <Button size='s' id='toSettings2'>
             <TextWithIcon
               img="images/settings_icon.svg"
               text="Settings"

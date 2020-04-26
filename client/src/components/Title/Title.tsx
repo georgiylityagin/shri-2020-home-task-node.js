@@ -1,11 +1,11 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type titleProps = {
-  id: string,
   isMobile: boolean,
-  isRepoName: boolean,
-  children: ReactChildren
+  children: string
+  isRepoName?: boolean,
+  id?: string,
 };
 
 const StyledTitle = styled.h1`

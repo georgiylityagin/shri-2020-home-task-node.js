@@ -7,22 +7,10 @@ import { BranchName } from '../BranchName/BranchName';
 import { CommitHash } from '../CommitHash/CommitHash';
 import { AuthorName } from '../AuthorName/AuthorName';
 
-import { status } from '../BuildStatus/BuildStatus';
-
-export type buildData = {
-  id: string,
-  status: status,
-  buildNumber: number,
-  commitMessage: string,
-  branchName: string,
-  commitHash: string,
-  authorName: string,
-  start: string,
-  duration: number
-}
+import { buildInfo } from '../../../redux/reducers/details-reducer';
 
 type BuildDetailsProps = {
-  data: buildData,
+  data: buildInfo,
   isMobile: boolean,
   isDetails?: boolean
 }

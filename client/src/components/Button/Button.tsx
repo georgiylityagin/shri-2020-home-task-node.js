@@ -1,11 +1,11 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, FunctionComponentElement } from 'react';
 import styled from 'styled-components';
 
 export type ButtonProps = {
   id: string,
   size?: 's' | 'm' | 'l',
-  color: string,
-  children: string,
+  color?: string,
+  children: string | FunctionComponentElement<any>,
   type?: 'button' | 'submit' | 'reset',
   disabled?: boolean,
   onClick?(event: MouseEvent<HTMLButtonElement>): void,

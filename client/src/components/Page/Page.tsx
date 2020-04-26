@@ -1,9 +1,9 @@
-import React, { ReactChildren } from 'react';
+import React, { FunctionComponentElement } from 'react';
 import styled from 'styled-components';
 
 type PageProps = {
   id: string,
-  children: ReactChildren
+  children: FunctionComponentElement<any> | FunctionComponentElement<any>[]
 }
 
 const PageStyled = styled.div`

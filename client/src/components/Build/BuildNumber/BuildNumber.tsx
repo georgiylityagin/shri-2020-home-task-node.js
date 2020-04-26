@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import {status} from '../BuildStatus/BuildStatus';
 
 type BuildNumberProps = {
-  status: status,
+  status?: string,
   isMobile: boolean,
-  buildNumber: number
+  buildNumber?: number
 }
 
 const BuildNumberStyled = styled.div`

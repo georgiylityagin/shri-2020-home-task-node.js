@@ -1,10 +1,10 @@
-import React, { ReactChild } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type ContentProps = {
-  centeredV: boolean,
-  centeredH: boolean,
-  children: ReactChild
+  centeredV?: boolean,
+  centeredH?: boolean,
+  children: any
 }
 
 const ContentWrapper = styled.main`

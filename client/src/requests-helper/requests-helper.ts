@@ -1,36 +1,39 @@
-const fetchData = async (url, options = {}) => {
+const fetchData = async (url: string, options = {}): Promise<Response> => {
   const baseUrl = 'http://127.0.0.1:3000/api/';
 
-  const timeout = new Promise(function(resolve, reject) { 
-    setTimeout(reject, 5000, new Error('Сервер долго не отвечает'));
-  });
-
   try {
-    const response = await Promise.race([fetch(baseUrl + url, options), timeout]);
+    const response: Response = await fetch(baseUrl + url, options);
     return await response.json();
   } catch (error) {
     throw error;
   }
 };
 
+type config = {
+  repoName: string;
+  buildCommand: string;
+  mainBranch: string;
+  period: number;
+}
+
 export const api = {
-  getConfig() {
+  getConfig(): Promise<Response> {
     return fetchData('settings');
   },
 
-  getBuildsList(offset = 0, limit = 100) {
+  getBuildsList(offset = 0, limit = 100): Promise<Response> {
     return fetchData(`builds?offset=${offset}&limit=${limit}`);
   },
 
-  getBuildDetails(buildId) {
+  getBuildDetails(buildId: string): Promise<Response> {
     return fetchData(`builds/${buildId}`);
   },
 
-  getBuildLogs(buildId) {
+  getBuildLogs(buildId: string): Promise<Response> {
     return fetchData(`builds/${buildId}/logs`);
   },
 
-  postConfig(config) {
+  postConfig(config: config): Promise<Response> {
     const bodyData = JSON.stringify(config);
 
     return fetchData('settings', {
@@ -43,7 +46,7 @@ export const api = {
     });
   },
 
-  postAddBuild(commitHash) {
+  postAddBuild(commitHash: string): Promise<Response> {
     return fetchData(`builds/${commitHash}`, {
       method: 'POST',
       headers: {

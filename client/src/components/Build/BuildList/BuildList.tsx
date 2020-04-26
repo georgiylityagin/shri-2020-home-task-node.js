@@ -2,12 +2,12 @@ import React, { MouseEvent } from 'react';
 import styled from 'styled-components';
 
 import { BuildItem } from '../BuildItem/BuildItem';
-import { buildData } from '../BuildDetails/BuildDetails';
+import { buildInfo } from '../../../redux/reducers/details-reducer';
 
 type BuildListProps = {
   id: string,
   isMobile: boolean,
-  data: buildData[],
+  data: buildInfo[],
   handleDetails(event: MouseEvent<HTMLDivElement>): void,
   limit: number
 }
@@ -21,7 +21,7 @@ const BuildListStyled = styled.div`
 export const BuildList: React.FC<BuildListProps> = ({ id, isMobile, data, handleDetails, limit }) => {
   return (
     <BuildListStyled id={id}>
-      {data.map((buildItem: buildData) => (
+      {data.map((buildItem: buildInfo) => (
         <BuildItem
           key={buildItem.id}
           data={buildItem}

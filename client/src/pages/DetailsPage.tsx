@@ -5,7 +5,12 @@ import {
   getBuildDetails,
   postBuildInQueue,
 } from '../redux/actions/details-actions';
-
+import {
+  repoName,
+  logs,
+  buildInfo
+} from '../redux/reducers/details-reducer';
+import { History } from 'history';
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
 import { Content } from '../components/Content/Content';
@@ -17,7 +22,16 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { BuildItem } from '../components/Build/BuildItem/BuildItem';
 import { Log } from '../components/Log/Log';
 
-export const DetailsPage = ({
+type DetailsPageProps = {
+  getBuildDetails(buildId: string | undefined, history: History): void,
+  postBuildInQueue(data: string | undefined, history: History): void,
+  buildInfo: buildInfo,
+  isMobile: boolean,
+  repoName: repoName,
+  logs: logs,
+}
+
+export const DetailsPage: React.FC<DetailsPageProps> = ({
   getBuildDetails,
   postBuildInQueue,
   buildInfo,
@@ -73,7 +87,7 @@ export const DetailsPage = ({
   );
 };
 
-const mapStateToProps = ({ details }) => ({
+const mapStateToProps = ({ details }: any) => ({
   repoName: details.repoName,
   buildInfo: details.buildInfo,
   logs: details.logs,

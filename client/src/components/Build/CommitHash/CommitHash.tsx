@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 type CommitHashProps = {
-  commitHash: string;
+  commitHash?: string;
 }
 
 const CommitHashStyled = styled.div`

@@ -10,7 +10,15 @@ import { ConnectedHistoryPage } from './pages/HistoryPage';
 import { ConnectedSettingsPage } from './pages/SettingsPage';
 import { ConnectedDetailsPage } from './pages/DetailsPage';
 
-export const App = ({ detectDevice, getConfig, isConfig, isLoading, isMobile }) => {
+type AppProps = {
+  detectDevice(width: number): void,
+  getConfig(): void,
+  isConfig: boolean,
+  isLoading: boolean,
+  isMobile: boolean
+}
+
+export const App: React.FC<AppProps> = ({ detectDevice, getConfig, isConfig, isLoading, isMobile }) => {
   const handlePageResize = useCallback(() => {
     detectDevice(window.innerWidth);
   }, [detectDevice]);
@@ -47,7 +55,7 @@ export const App = ({ detectDevice, getConfig, isConfig, isLoading, isMobile }) 
   );
 };
 
-const mapStateToProps = ({ adaptivity, settings }) => ({
+const mapStateToProps = ({ adaptivity, settings }: any) => ({
   isMobile: adaptivity.isMobile,
   isConfig: settings.isConfig,
   isLoading: settings.isLoading,

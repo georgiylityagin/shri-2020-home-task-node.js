@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 import { BuildStatus } from '../BuildStatus/BuildStatus';
 import { BuildContent } from '../BuildContent/BuildContent';
-import { buildData } from '../BuildDetails/BuildDetails';
+import { buildInfo } from '../../../redux/reducers/details-reducer';
 
 type BuildItemProps = {
-  data: buildData,
+  data: buildInfo,
   isMobile: boolean,
   isDetails?: boolean,
-  handleDetails(event: MouseEvent<HTMLDivElement>): void
+  handleDetails?(event: MouseEvent<HTMLDivElement>): void
 }
 
 const BuildItemStyled = styled.div`

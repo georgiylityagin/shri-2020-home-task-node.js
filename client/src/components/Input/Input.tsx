@@ -5,7 +5,7 @@ type InputProps = {
   id: string,
   type: string,
   placeholder: string,
-  value?: string,
+  value?: string | number,
   labelText?: string,
   required?: boolean,
   inline?: boolean,

@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, MouseEvent, ChangeEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
   getBuildsList,
   postNewBuildQueue
 } from '../redux/actions/history-actions';
-
+import {
+  RepoName,
+  BuildListType
+} from '../redux/reducers/history-reducer';
+import { History } from 'history';
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
 import { Content } from '../components/Content/Content';
@@ -17,7 +21,15 @@ import { TextWithIcon } from '../components/TextWithIcon/TextWithIcon';
 import { PopUp } from '../components/PopUp/PopUp';
 import { BuildList } from '../components/Build/BuildList/BuildList';
 
-export const HistoryPage = ({
+type HistoryPageProps = {
+  getBuildsList(limit: number): void,
+  postNewBuildQueue(data: string, history: History): void,
+  buildList: BuildListType,
+  repoName: RepoName,
+  isMobile: boolean
+}
+
+export const HistoryPage: React.FC<HistoryPageProps> = ({
   getBuildsList,
   postNewBuildQueue,
   buildList,
@@ -34,7 +46,7 @@ export const HistoryPage = ({
 
   let history = useHistory();
 
-  const handleChange = event => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setFormValue(state => ({ ...state, hash: value }));
   };
@@ -48,14 +60,14 @@ export const HistoryPage = ({
     setToggle(!toggle);
   };
 
-  const handleDetails = event => {
+  const handleDetails = (event:  MouseEvent<HTMLDivElement>) => {
     let buildId = event.currentTarget.id;
     localStorage.setItem('detailsId', buildId);
     history.push(`build/${buildId}`);
   };
 
-  const handleRunBuild = e => {
-    e.preventDefault();
+  const handleRunBuild = (event: FormEvent<Element>) => {
+    event.preventDefault();
 
     postNewBuildQueue(formValue.hash, history);
   };
@@ -101,7 +113,7 @@ export const HistoryPage = ({
           isMobile={isMobile}
         />
         {showLimit.limit < buildList.length ? (
-          <Button size='s' onClick={handleShowMore} isMobile={isMobile}>
+          <Button id='ShowMore' size='s' onClick={handleShowMore} isMobile={isMobile}>
             Show more
           </Button>
         ) : null}
@@ -120,7 +132,7 @@ export const HistoryPage = ({
   );
 };
 
-const mapStateToProps = ({ history }) => ({
+const mapStateToProps = ({ history }: any) => ({
   buildList: history.buildList,
   repoName: history.repoName,
   runNewBuild: history.runNewBuild

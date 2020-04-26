@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 type BranchNameProps = {
-  branchName: string,
+  branchName?: string,
   isDetails?: boolean
 }
 

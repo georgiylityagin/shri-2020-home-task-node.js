@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 type AuthorNameProps = {
-  authorName: string,
+  authorName?: string,
   isMobile: boolean,
   isDetails?: boolean
 }

@@ -1,14 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, ChangeEvent, FocusEvent, FormEvent, MouseEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   getConfig,
   addConfig,
   postConfig,
-  switchErrorWithCloning
+  switchErrorWithCloning,
+  settingsActionTypes
 } from '../redux/actions/settings-actions';
+import {
+  Config,
+  IsConfig,
+  IsCloning,
+  CloningWithError
+} from '../redux/reducers/settings-reducer';
+import { History } from 'history'
 import { connect } from 'react-redux';
-
 import { Page } from '../components/Page/Page';
 import { Header } from '../components/Header/Header';
 import { Content } from '../components/Content/Content';
@@ -19,9 +26,21 @@ import { Button } from '../components/Button/Button';
 import { ButtonGroup } from '../components/ButtonGroup/ButtonGroup';
 import { Alert } from '../components/Alert/Alert';
 
+type SettingsPageProps = {
+  getConfig(): void,
+  addConfig(config: Config): settingsActionTypes,
+  postConfig(data: Config, history: History): void,
+  switchErrorWithCloning(data: boolean): void,
+  config: Config,
+  isConfig: IsConfig,
+  isCloning: IsCloning,
+  cloningWithError: CloningWithError,
+  isMobile: boolean
+}
+
 const FormWrapper = styled.form`
   max-width: 474px;
-  margin: ${props => (props.isMobile ? 'auto' : 0)};
+  margin: ${(props: Partial<Pick<SettingsPageProps, 'isMobile'>>) => (props.isMobile ? 'auto' : 0)};
 `;
 
 const SettingsHeader = styled.h4`
@@ -39,7 +58,7 @@ const SettingsDescription = styled.div`
   margin-bottom: var(--space-xxl);
 `;
 
-export const SettingsPage = ({
+export const SettingsPage: React.FC<SettingsPageProps> = ({
   getConfig,
   addConfig,
   postConfig,
@@ -57,7 +76,7 @@ export const SettingsPage = ({
 
   let history = useHistory();
 
-  const handleInputChange = e => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     switch (e.target.id) {
       case 'repository':
         addConfig({ ...config, repoName: e.target.value });
@@ -76,7 +95,7 @@ export const SettingsPage = ({
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: FormEvent<HTMLElement>): void => {
     e.preventDefault();
 
     const settingsData = {
@@ -89,7 +108,7 @@ export const SettingsPage = ({
     postConfig(settingsData, history);
   };
 
-  const handleFocusOut = e => {
+  const handleFocusOut = (e: FocusEvent<HTMLInputElement>): void => {
     switch (e.target.id) {
       case 'repository':
         config.repoName 
@@ -117,7 +136,7 @@ export const SettingsPage = ({
     }, 5000);
   }, [switchErrorWithCloning]);
 
-  const handleRedirect = e => {
+  const handleRedirect = (e: MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     history.push('/');
   };
@@ -200,7 +219,7 @@ export const SettingsPage = ({
             >
               Save
             </Button>
-            <Button type='button' disabled={isCloning} onClick={handleRedirect}>
+            <Button id='cancel' type='button' disabled={isCloning} onClick={handleRedirect}>
               Cancel
             </Button>
           </ButtonGroup>
@@ -211,7 +230,7 @@ export const SettingsPage = ({
   );
 };
 
-const mapStateToProps = ({ settings }) => ({
+const mapStateToProps = ({ settings }: any) => ({
   config: settings.config,
   isConfig: settings.isConfig,
   isCloning: settings.isCloning,

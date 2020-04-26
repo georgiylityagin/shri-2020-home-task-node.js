@@ -1,9 +1,9 @@
-import React, { ReactChildren } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type AlertProps = {
   id: string,
-  children: ReactChildren
+  children: string
 }
 
 const AlertStyled = styled.div`

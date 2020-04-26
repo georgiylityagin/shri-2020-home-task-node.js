@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import { BuildDetails } from '../BuildDetails/BuildDetails';
 import { BuildTimeInfo } from '../BuildTimeInfo/BuildTimeInfo';
-import { buildData } from '../BuildDetails/BuildDetails';
+import { buildInfo } from '../../../redux/reducers/details-reducer';
 
 type BuildContentProps = {
-  data: buildData,
+  data: buildInfo,
   isMobile: boolean,
   isDetails?: boolean
 }
