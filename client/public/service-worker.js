@@ -33,6 +33,16 @@ self.addEventListener('install', (event) => {
   )
 })
 
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(keyList => {
+      return Promise.all(keyList.map(key => {
+        return caches.delete(key);
+      }));
+    })
+  );
+})
+
 self.addEventListener('fetch', (event) => {
   if (
     event.request.method !== 'GET' ||
