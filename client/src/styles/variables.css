@@ -1,0 +1,99 @@
+:root {
+  /* Палитра */
+  --black-100: #000000;
+
+  --red-50: #ffc0be;
+  --red-100: #ff6666;
+  --red-500: #ff3333;
+  --red-600: #e00000;
+
+  --green-500: #00b341;
+
+  --orange-100: #ffcc00; /*action button*/
+  --orange-200: #f2c200; /*hovered action button*/
+  --orange-300: #b38f00; /*action button outline*/
+  --orange-500: #ff9a00; /*warning id*/
+
+  --grey-10: #f2f2f2; /*Disabled button & log background*/
+  --grey-50: #f0f2f3; /*Footer background*/
+  --grey-100: #e6e6e6; /*Standart button & header button*/
+  --grey-200: #dbdbdb; /*Hovered standart button*/
+  --grey-300: #b3b3b3; /*Focused button outline & focused input outline*/
+  --grey-400: #d9d9d9; /*Input border*/
+  --grey-500: #cccccc; /*Placeholder text*/
+  --grey-1000: #7f8285; /*Muted text*/
+  --grey-1100: #595959; /*Text commit secondary & date-time*/
+
+  /* Размеры */
+  --font-size-xs: 10px;
+  --font-size-s: 13px;
+  --font-size-m: 15px;
+  --font-size-ml: 16px;
+  --font-size-l: 18px;
+  --font-size-xl: 24px;
+
+  --line-height-xxs: 15px;
+  --line-height-xs: 16px;
+  --line-height-s: 18px;
+  --line-height-m: 20px;
+  --line-height-l: 22px;
+  --line-height-xl: 28px;
+  --line-height-xxl: 30px;
+  --line-height-xxxl: 36px;
+
+  --space-xxxxxs: 4px;
+  --space-xxxxs: 6px;
+  --space-xxxs: 8px;
+  --space-xxs: 10px;
+  --space-xs: 12px;
+  --space-s: 13px;
+  --space-m: 16px;
+  --space-l: 18px;
+  --space-xl: 20px;
+  --space-xxl: 22px;
+  --space-xxxl: 24px;
+  --space-xxxxl: 30px;
+  --space-xxxxxl: 32px;
+
+  --letter-spacing-s: 0.06px;
+  --letter-spacing-m: 0.25px;
+
+  --border-radius-s: 4px;
+  --border-radius-m: 6px;
+
+  /* Текст */
+  --text-color-default: var(--black-100);
+  --text-color-secondary: var(--grey-1100);
+  --text-color-muted: var(--grey-1000);
+  --text-color-success: var(--green-500);
+  --text-color-warning: var(--orange-500);
+  --text-color-danger: var(--red-500);
+  --placeholder-text: var(--grey-500);
+
+  /* Кнопки */
+  --btn-control: var(--grey-100);
+  --btn-control-hovered: var(--grey-200);
+  --btn-control-outline: var(--grey-300);
+  --btn-action: var(--orange-100);
+  --btn-action-hovered: var(--orange-200);
+  --btn-action-outline: var(--orange-300);
+  --btn-disabled: var(--grey-10);
+
+  --btn-white: #fff;
+  --btn-white-hovered: var(--grey-100);
+  --btn-white-outline: var(--grey-200);
+
+  /* Footer */
+  --bg-footer: var(--grey-50);
+  --bg-log: var(--grey-10);
+
+  --bg-alert: var(--red-50);
+
+  /* Borders */
+  --border-color: var(--grey-400);
+  --border-color-focus: var(--grey-300);
+  --border-color-invalid: var(--red-50);
+
+  --content-max-width: 826px;
+  --content-mobile-indent: 16px;
+}

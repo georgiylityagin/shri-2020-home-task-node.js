@@ -1,0 +1,45 @@
+{
+  "name": "shri-2020-home-task-node",
+  "version": "1.0.0",
+  "description": "CI server",
+  "main": "index.js",
+  "scripts": {
+    "server": "node dist/server/server.js",
+    "build": "tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgiylityagin/shri-2020-home-task-node.js.git"
+  },
+  "keywords": [
+    "node.js",
+    "CI",
+    "server",
+    "express"
+  ],
+  "author": "Georgiy Lityagin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgiylityagin/shri-2020-home-task-node.js/issues"
+  },
+  "homepage": "https://github.com/georgiylityagin/shri-2020-home-task-node.js#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "axios-retry": "^3.1.8",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "node-cache": "^5.1.0",
+    "nodegit": "^0.26.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
+    "@types/fs-extra": "^8.1.0",
+    "@types/node": "^13.13.2",
+    "@types/nodegit": "^0.26.2",
+    "eslint": "^6.8.0",
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "build-agent",
+  "version": "1.0.0",
+  "description": "build agent",
+  "main": "agent.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix ./ && prettier --write ./",
+    "start": "node agent.js"
+  },
+  "author": "Georgiy",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "fs-extra": "^9.0.0",
+    "random-hash": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "prettier": "2.0.4"
+  }
+}

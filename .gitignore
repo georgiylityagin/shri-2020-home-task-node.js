@@ -1,3 +1,7 @@
 node_modules
 
+tests/hermione/hermione-html-report
+
+build-server/server-conf.json
+
 .env
