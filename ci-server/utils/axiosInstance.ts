@@ -10,6 +10,7 @@ export default axios.create({
     'Authorization': `Bearer ${process.env.TOKEN}`
   },
   httpsAgent: new Agent({
-    rejectUnauthorized: false
+    rejectUnauthorized: false,
+    keepAlive: true
   })
 });

@@ -13,8 +13,8 @@ app.use(cors());
 app.use('/api', router);
 
 app.listen(3000, err => {
-  if (err) {
-    console.error(err);
+  if (err && err.message) {
+    console.error(err.message);
   }
 
   console.log('CI-server is listening on port 3000');

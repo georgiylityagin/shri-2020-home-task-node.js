@@ -8,7 +8,12 @@ import {
 } from '../handlers/github-api';
 
 
-axiosRetry(axiosInstance, { retries: 4 });
+axiosRetry(axiosInstance, {
+  retries: 4,
+  retryDelay: (retryCount) => {
+    return 100 + (retryCount * 100);
+  }
+});
 
 // Получение сохраненных настроек
 export const getSettings = async (req: Request, res: Response): Promise<void> => {
