@@ -1,8 +1,8 @@
-const axiosInstance = require('../../../../server/utils/axiosInstance');
-const Git = require('../../../../server/git-helper/git-helper');
+const axiosInstance = require('../../../../ci-server/utils/axiosInstance');
+const Git = require('../../../../ci-server/handlers/github-api');
 const MockAdapter = require('axios-mock-adapter');
 const sinon = require('sinon');
-const { getBuilds, postCommitHash, getBuildId, getLogs } = require('../../../../server/controllers/build');
+const { getBuilds, postCommitHash, getBuildId, getLogs } = require('../../../../ci-server/controllers/build');
 
 const axiosMock = new MockAdapter(axiosInstance);
 
