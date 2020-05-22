@@ -1,7 +1,19 @@
 {
-  "header title": "School CI сервер",
-  "support footer link": "Поддержка",
-  "learning footer link": "Обучение",
-  "change lang footer link": "English version",
-  "author name": "Георгий Литягин"
+  "title": "School CI server",
+  "header title": "Учебный CI сервер",
+  "footer link support": "Поддержка",
+  "footer link leaning": "Обучение",
+  "footer link lang": "English version",
+  "owner": "Георгий Литягин",
+  "settings title": "Настройки",
+  "settings description": "Настройте соединение с репозиторием и задайте настройки синхронизации.",
+  "settings repository": "GitHub репозиторий",
+  "settings build command": "Команда сборки",
+  "settings main branch": "Главная ветка",
+  "settings synchronize period": [
+    "Синхронизация каждые",
+    "минут"
+  ],
+  "settings save button": "Сохранить",
+  "settings cancel button": "Закрыть"
 }
