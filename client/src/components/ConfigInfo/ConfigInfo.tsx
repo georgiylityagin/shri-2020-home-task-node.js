@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../Button/Button';
 
 const ConfigInfoWrapper = styled.div`
@@ -25,14 +26,19 @@ const ConfigInfoText = styled.div`
 `;
 
 export const ConfigInfo: React.FC<{}> = () => {
+  const { t } = useTranslation();
+
   return (
     <ConfigInfoWrapper>
       <ConfigInfoImage src="images/logo.svg" alt="" />
       <ConfigInfoText>
-        Configure repository connection and synchronization settings
+        {t('ConfigInfo description')}
       </ConfigInfoText>
       <Link to="/settings">
-        <Button color="accent" id='toSettings1'>Open settings</Button>
+      <Button
+        color="accent"
+        id='toSettings1'
+      >{t('ConfigInfo button settings')}</Button>
       </Link>
     </ConfigInfoWrapper>
   );

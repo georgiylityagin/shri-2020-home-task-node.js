@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import {
   getBuildDetails,
@@ -39,6 +40,8 @@ export const DetailsPage: React.FC<DetailsPageProps> = ({
   repoName,
   logs,
 }) => {
+  const { t } = useTranslation();
+
   let history = useHistory();
   let { id } = useParams();
 
@@ -62,7 +65,7 @@ export const DetailsPage: React.FC<DetailsPageProps> = ({
           <Button id="rebuild" size="s" onClick={handleRebuild}>
             <TextWithIcon
               img="../images/rebuild_icon.svg"
-              text="Rebuild"
+              text={t('header button run rebuild')}
               isMobile={isMobile}
             />
           </Button>

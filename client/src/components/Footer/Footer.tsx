@@ -52,7 +52,14 @@ const FooterText = styled.div`
 `;
 
 export const Footer: React.FC<FooterProps> = ({ isMobile }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const toggleLang = () => {
+    if (i18n.language === 'en') {
+      i18n.changeLanguage('ru');
+    } else {
+      i18n.changeLanguage('en');
+    }
+  }
 
   return (
     <StyledFooter>
@@ -60,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ isMobile }) => {
         <FooterLinks isMobile={isMobile}>
           <FooterLink>{t('footer link support')}</FooterLink>
           <FooterLink>{t('footer link leaning')}</FooterLink>
-          <FooterLink>{t('footer link lang')}</FooterLink>
+          <FooterLink onClick={toggleLang}>{t('footer link lang')}</FooterLink>
         </FooterLinks>
         <FooterText>&copy; 2020 {t('owner')}</FooterText>
       </FooterContent>

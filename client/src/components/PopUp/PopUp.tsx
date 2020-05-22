@@ -1,5 +1,6 @@
 import React, { FormEvent, ChangeEvent } from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
@@ -64,27 +65,29 @@ export const PopUp: React.FC<PopUpProps> = ({
   onChange,
   onClickRunBuild,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <PopUpWrapper>
       <PopUpStyled id={id} isMobile={isMobile}>
         <form onSubmit={onClickRunBuild}>
-          <PopUpTitle>New build</PopUpTitle>
+          <PopUpTitle>{t('popup title')}</PopUpTitle>
           <PopUpMessage>
-            Enter the commit hash which you want to build.
+            {t('popup message')}
           </PopUpMessage>
           <Input
             id="commitHash"
             type="search"
-            placeholder="Commit hash"
+            placeholder={t('popup input placeholder')}
             onChange={onChange}
             valid={true}
           />
           <ButtonGroup>
             <Button id="save" type="submit" color="accent">
-              Save
+              {t('popup button save')}
             </Button>
             <Button id="cancel" type="button" color="white" onClick={handleClickCancel}>
-              Cancel
+              {t('popup button cancel')}
             </Button>
           </ButtonGroup>
         </form>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent, MouseEvent, ChangeEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import {
   getBuildsList,
@@ -36,6 +37,8 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({
   repoName,
   isMobile
 }) => {
+  const { t } = useTranslation();
+
   const [toggle, setToggle] = useState(false);
   const [showLimit, setShowLimit] = useState({
     limit: isMobile ? 3 : 10
@@ -90,7 +93,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({
           <Button id='runBuild' size='s' onClick={handleTogglePopUp}>
             <TextWithIcon
               img='images/play_icon.svg'
-              text='Run build'
+              text={t('header button run build')}
               isMobile={isMobile}
             />
           </Button>
@@ -114,7 +117,7 @@ export const HistoryPage: React.FC<HistoryPageProps> = ({
         />
         {showLimit.limit < buildList.length ? (
           <Button id='ShowMore' size='s' onClick={handleShowMore} isMobile={isMobile}>
-            Show more
+            {t('history button show more')}
           </Button>
         ) : null}
         {toggle ? (

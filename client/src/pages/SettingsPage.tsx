@@ -172,7 +172,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Input
             id='repository'
             type='search'
-            labelText='GitHub repository'
+            labelText={t('settings repository')}
             placeholder='user-name/repo-name'
             value={config.repoName}
             required
@@ -183,7 +183,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Input
             id='build'
             type='search'
-            labelText='Build command'
+            labelText={t('settings build command')}
             placeholder='example: npm run build'
             value={config.buildCommand}
             required
@@ -194,7 +194,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Input
             id='branch'
             type='search'
-            labelText='Main branch'
+            labelText={t('settings main branch')}
             placeholder='master'
             value={config.mainBranch}
             onChange={handleInputChange}
@@ -203,11 +203,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Input
             id='period'
             type='text'
-            labelText='Synchronize every'
+            labelText={t('settings synchronize period')}
             value={config.period}
             placeholder='0'
             inline
-            additionalLabel='minutes'
+            additionalLabel={t('settings minutes')}
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={periodValid}
@@ -219,10 +219,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               disabled={!formValid || isCloning}
               color='accent'
             >
-              Save
+              {t('settings save button')}
             </Button>
             <Button id='cancel' type='button' disabled={isCloning} onClick={handleRedirect}>
-              Cancel
+              {t('settings cancel button')}
             </Button>
           </ButtonGroup>
         </FormWrapper>
