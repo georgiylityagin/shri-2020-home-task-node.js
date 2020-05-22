@@ -43,7 +43,12 @@ var axiosInstance_1 = __importDefault(require("../utils/axiosInstance"));
 var axios_retry_1 = __importDefault(require("axios-retry"));
 var node_cache_1 = __importDefault(require("node-cache"));
 var github_api_1 = require("../handlers/github-api");
-axios_retry_1.default(axiosInstance_1.default, { retries: 4 });
+axios_retry_1.default(axiosInstance_1.default, {
+    retries: 4,
+    retryDelay: function (retryCount) {
+        return 100 + (retryCount * 100);
+    }
+});
 var logCach = new node_cache_1.default({
     stdTTL: 5,
     checkperiod: 60 * 60,
@@ -56,8 +61,8 @@ exports.getBuilds = function (req, res) { return __awaiter(void 0, void 0, void 
         switch (_a.label) {
             case 0:
                 query = req.query;
-                offset = query.offset || 0;
-                limit = query.limit || 25;
+                offset = query.offset || '0';
+                limit = query.limit || '25';
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);

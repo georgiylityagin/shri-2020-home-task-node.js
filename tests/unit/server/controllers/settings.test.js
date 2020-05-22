@@ -1,14 +1,14 @@
-const axiosInstance = require('../../../../ci-server/utils/axiosInstance');
-const Git = require('../../../../ci-server/handlers/github-api');
+const axiosInstance = require('../../../../ci-server/dist/utils/axiosInstance');
+const Git = require('../../../../ci-server/dist/handlers/github-api');
 const MockAdapter = require('axios-mock-adapter');
 const sinon = require('sinon');
-const { getSettings, postSettings } = require('../../../../ci-server/controllers/settings');
+const { getSettings, postSettings } = require('../../../../ci-server/dist/controllers/settings');
 
-sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
+// sinon.stub(Git, 'gitClone').callsFake(() => ({result: 'success'}));
 sinon.stub(Git, 'getLastCommit').callsFake((repoName, mainBranch) => {
   return lastCommitFake;
 });
-sinon.stub(Git, 'newCommitsObserver').callsFake(() => {});
+// sinon.stub(Git, 'newCommitsObserver').callsFake(() => {});
 
 const axiosMock = new MockAdapter(axiosInstance);
 process.conf = {};

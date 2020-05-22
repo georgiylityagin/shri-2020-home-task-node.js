@@ -53,7 +53,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axiosInstance_1 = __importDefault(require("../utils/axiosInstance"));
 var axios_retry_1 = __importDefault(require("axios-retry"));
 var github_api_1 = require("../handlers/github-api");
-axios_retry_1.default(axiosInstance_1.default, { retries: 4 });
+axios_retry_1.default(axiosInstance_1.default, {
+    retries: 4,
+    retryDelay: function (retryCount) {
+        return 100 + (retryCount * 100);
+    }
+});
 // Получение сохраненных настроек
 exports.getSettings = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var settings, error_1;

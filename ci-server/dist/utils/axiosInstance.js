@@ -14,6 +14,7 @@ exports.default = axios_1.default.create({
         'Authorization': "Bearer " + process.env.TOKEN
     },
     httpsAgent: new https_1.Agent({
-        rejectUnauthorized: false
+        rejectUnauthorized: false,
+        keepAlive: true
     })
 });

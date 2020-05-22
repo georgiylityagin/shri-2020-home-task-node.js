@@ -14,8 +14,8 @@ app.use(body_parser_1.default.json());
 app.use(cors_1.default());
 app.use('/api', routes_1.default);
 app.listen(3000, function (err) {
-    if (err) {
-        console.error(err);
+    if (err && err.message) {
+        console.error(err.message);
     }
     console.log('CI-server is listening on port 3000');
 });
