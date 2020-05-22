@@ -1,0 +1,17 @@
+{
+  "header title": "School CI server",
+
+  "footer link support": "Support",
+  "footer link leaning": "Learning",
+  "footer link lang": "Русская версия",
+  "owner": "Georgiy Lityagin",
+
+  "settings title": "Settings",
+  "settings description": "Configure repository connection and synchronization settings.",
+  "settings repository": "GitHub repository",
+  "settings build command": "Build command",
+  "settings main branch": "Main branch",
+  "settings synchronize period": ["Synchronize every", "minutes"],
+  "settings save button": "Save",
+  "settings cancel button": "Cancel"
+}
