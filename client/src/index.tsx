@@ -5,6 +5,7 @@ import { store } from './redux/store';
 import { ConnectedApp } from './App';
 
 import './styles/index.css';
+import './i18n';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, ChangeEvent, FocusEvent, FormEvent, MouseEvent } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   getConfig,
@@ -69,6 +70,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   cloningWithError,
   isMobile
 }) => {
+  const { t } = useTranslation();
   const [repoNameValid, setRepoNameValid] = useState(true);
   const [buildCommandValid, setBuildCommandValid] = useState(true);
   const [periodValid, setPeriodValid] = useState(true);
@@ -157,15 +159,15 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
     <Page id="settingsPage">
       <Header isMobile={isMobile}>
         <Link to='/'>
-          <Title isMobile={isMobile}>School CI server</Title>
+        <Title isMobile={isMobile}>{t('header title')}</Title>
         </Link>
       </Header>
       <Content>
         <FormWrapper isMobile={isMobile} onSubmit={handleSubmit}>
           {cloningWithError ? <Alert id="alert">Error with cloning repo</Alert> : null}
-          <SettingsHeader>Settings</SettingsHeader>
+          <SettingsHeader>{t('settings title')}</SettingsHeader>
           <SettingsDescription>
-            Configure repository connection and synchronization settings.
+            {t('settings description')}
           </SettingsDescription>
           <Input
             id='repository'

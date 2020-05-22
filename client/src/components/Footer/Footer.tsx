@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 type FooterProps = {
   isMobile: boolean;
@@ -51,14 +52,17 @@ const FooterText = styled.div`
 `;
 
 export const Footer: React.FC<FooterProps> = ({ isMobile }) => {
+  const { t } = useTranslation();
+
   return (
     <StyledFooter>
       <FooterContent isMobile={isMobile}>
         <FooterLinks isMobile={isMobile}>
-          <FooterLink>Support</FooterLink>
-          <FooterLink>Learning</FooterLink>
+          <FooterLink>{t('footer link support')}</FooterLink>
+          <FooterLink>{t('footer link leaning')}</FooterLink>
+          <FooterLink>{t('footer link lang')}</FooterLink>
         </FooterLinks>
-        <FooterText>&copy; 2020 Georgiy Lityagin</FooterText>
+        <FooterText>&copy; 2020 {t('owner')}</FooterText>
       </FooterContent>
     </StyledFooter>
   );

@@ -1,3 +1,7 @@
 {
-  "title": "School CI server"
+  "header title": "School CI сервер",
+  "support footer link": "Поддержка",
+  "learning footer link": "Обучение",
+  "change lang footer link": "English version",
+  "author name": "Георгий Литягин"
 }
