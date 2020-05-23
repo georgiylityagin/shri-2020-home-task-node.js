@@ -203,11 +203,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <Input
             id='period'
             type='text'
-            labelText={t('settings synchronize period')}
+            labelText={t('synchronize_period.part1')}
             value={config.period}
             placeholder='0'
             inline
-            additionalLabel={t('settings minutes')}
+            additionalLabel={t('synchronize_period.part2')}
             onChange={handleInputChange}
             onBlur={handleFocusOut}
             valid={periodValid}

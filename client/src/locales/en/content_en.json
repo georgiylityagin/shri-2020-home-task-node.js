@@ -16,8 +16,10 @@
   "settings repository": "GitHub repository",
   "settings build command": "Build command",
   "settings main branch": "Main branch",
-  "settings synchronize period": "Synchronize every",
-  "settings minutes": "minutes",
+  "synchronize_period": {
+    "part1": "Synchronize every",
+    "part2": "minutes"
+  },
   "settings save button": "Save",
   "settings cancel button": "Cancel",
 
@@ -26,5 +28,8 @@
   "popup message": "Enter the commit hash which you want to build.",
   "popup input placeholder": "Commit hash",
   "popup button save": "Save",
-  "popup button cancel": "Cancel"
+  "popup button cancel": "Cancel",
+
+  "buildTime hours": "h",
+  "buildTime minutes": "m"
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
+import { ru, enUS } from 'date-fns/locale';
 
 type BuildTimeInfoProps = {
   isMobile: boolean,
@@ -52,16 +53,26 @@ const BuildTime = styled.div`
   }
 `;
 
-function formatDuration(duration: number): string {
-  const date = new Date(duration * 60000);
-  const hours = date.getUTCHours();
-  const minutes = date.getUTCMinutes();
-
-  return `${hours ? hours + ' ч' : ''} ${minutes} мин`;
-}
 
 export const BuildTimeInfo: React.FC<BuildTimeInfoProps> = ({ isMobile, isDetails, start, duration }) => {
+  const { t, i18n } = useTranslation();
   let prefix = isDetails ? '../' : '';
+
+  const formatDuration = (duration: number): string => {
+    const date = new Date(duration * 60000);
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+
+    const formatHours = hours ?
+      `${hours} ${t('buildTime hours')} ` :
+      '';
+    
+    const formatMinutes = `${minutes} ${t('buildTime minutes')}`;
+  
+    return formatHours + formatMinutes;
+  }
+
+
 
   return (
     <BuildTimeInfoStyled isMobile={isMobile} isDetails={isDetails}>
@@ -69,10 +80,8 @@ export const BuildTimeInfo: React.FC<BuildTimeInfoProps> = ({ isMobile, isDetail
         <img src={`${prefix}images/calendar_icon.svg`} alt="" />
         <div>
           {start !== undefined
-          ? format(new Date(start), 'd MMM HH:mm', { locale: ru }).replace(
-            '.',
-            ','
-          ) : '..., ...'
+          ? format(new Date(start), 'd MMM HH:mm', { locale: i18n.language === 'ru' ? ru : enUS }) 
+          : '..., ...'
         }
         </div>
       </BuildTime>
